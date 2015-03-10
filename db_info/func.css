@@ -1,0 +1,71 @@
+P {
+	FONT-SIZE: 10pt;  FONT-FAMILY: '宋体'; text-indent: 10
+}
+LI {
+	FONT-SIZE: 10pt; MARGIN: 5px 4%; FONT-FAMILY: '宋体'
+}
+P.doc {
+	FONT-SIZE: 10pt; MARGIN: 3px 3%; FONT-FAMILY: '宋体'
+}
+P.menu {
+	FONT-SIZE: 10pt; FONT-FAMILY: '宋体'
+}
+A {
+	FONT-SIZE: 10pt; COLOR: #5b5b5b; FONT-FAMILY: '宋体'; TEXT-DECORATION: underline
+}
+A:visited {
+	COLOR: #5b5b5b; 
+}
+A:active {
+	COLOR: red; 
+}
+A:hover {
+	COLOR: red; TEXT-DECORATION: underline
+}
+TD {
+	FONT-SIZE: 10pt; FONT-FAMILY: "宋体"
+}
+TD.title {
+	FONT-SIZE: 10pt; LINE-HEIGHT: 18pt; FONT-FAMILY: "宋体"; BACKGROUND-COLOR: #ffffcc
+}
+TD.doc {
+	FONT-SIZE: 10pt; TEXT-INDENT: 18pt; LINE-HEIGHT: 18pt; FONT-FAMILY: "宋体"; BACKGROUND-COLOR: #ffffee
+}
+
+BODY {
+	FONT-SIZE: 10.5pt 
+}
+INPUT {
+	FONT-SIZE: 10pt
+}
+SELECT {
+	FONT-SIZE: 10pt
+}
+TEXTAREA {
+	FONT-SIZE: 10pt
+}
+
+H1 {Font-family: 微软雅黑; font-size: 36pt; color: #000000; font-weight: bold}
+H2 {Font-family: 宋体; font-size: 24pt; color: #000000; font-weight: bold}
+H3 {Font-family: 隶书; font-size: 18pt; color: #808080; font-weight: bold}
+H4 {Font-size: 12px; Line-height: 120%; Background-color: #f4f4f8; TEXT-DECORATION: underline}
+
+.l1 {COLOR: #3366ff; LINE-HEIGHT: 170%}
+.p150 {LINE-HEIGHT: 150%}
+.cp {FONT-SIZE: 10pt; COLOR: red}
+.p9 {FONT-SIZE: 10pt}
+
+.title         {  font-size: 12pt;letter-spacing: 2; line-height: 17pt; color:#000000; FILTER: DropShadow(color=A0A0A0 ,OffX=4, OffY=4, Positive=1);  POSITION: relative; WIDTH: 100%; }
+.title:link    {  font-size: 12pt;letter-spacing: 2; line-height: 17pt; color:#000000; FILTER: DropShadow(color=A0A0A0 ,OffX=4, OffY=4, Positive=1);  POSITION: relative; WIDTH: 100%; }
+.title:visited {  font-size: 12pt;letter-spacing: 2; line-height: 17pt; color:#000000; FILTER: DropShadow(color=A0A0A0 ,OffX=4, OffY=4, Positive=1);  POSITION: relative; WIDTH: 100%; }
+.title:active  {  font-size: 12pt;letter-spacing: 2; line-height: 17pt; color:#000000; FILTER: DropShadow(color=A0A0A0 ,OffX=4, OffY=4, Positive=1);  POSITION: relative; WIDTH: 100%; }
+.title:hover   {  font-size: 12pt;letter-spacing: 2; line-height: 17pt; color:#FFFFFF; background:FF0000; FILTER: DropShadow(color=FFA0A0 ,OffX=4, OffY=4, Positive=1);  POSITION: relative; WIDTH: 100%;}
+
+.eng    { font-family :"Verdana", "Arial", "Helvetica", "sans-serif", ; font-size: 8pt; }
+
+.box { border: 1px solid #808080; padding: 8px; }
+.boxc { position: relative; left: 30px; width: 80%; border: 0px solid #808080; }
+
+.boxh { position: relative; left: 18px; width: 25%; color: #ffffff; border: 1px solid #808080; background-color: #808080; padding-left: 8px; padding-right: 8px; z-index: 1; }
+.boxb { position: relative; top: -7pt; border: 1px solid #808080; padding: 8px; padding-top: 11pt; }
+.boxb450 { width: 450; position: relative; top: -7pt; border: 1px solid #808080; padding: 8px; padding-top: 11pt; }
