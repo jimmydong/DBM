@@ -1,15 +1,15 @@
-srcdir = /root/xhprof-0.9.2/extension
-builddir = /root/xhprof-0.9.2/extension
-top_srcdir = /root/xhprof-0.9.2/extension
-top_builddir = /root/xhprof-0.9.2/extension
+srcdir = /root/INSTALL/xhprof-0.9.4/extension
+builddir = /root/INSTALL/xhprof-0.9.4/extension
+top_srcdir = /root/INSTALL/xhprof-0.9.4/extension
+top_builddir = /root/INSTALL/xhprof-0.9.4/extension
 EGREP = /bin/grep -E
 SED = /bin/sed
-CONFIGURE_COMMAND = './configure' '--with-php-config=/usr/local/php/bin/php-config' '--enable-xhprof'
-CONFIGURE_OPTIONS = '--with-php-config=/usr/local/php/bin/php-config' '--enable-xhprof'
+CONFIGURE_COMMAND = './configure' '--enable-xhprof' '--with-php-config=/usr/local/php-5.6.6/bin/php-config'
+CONFIGURE_OPTIONS = '--enable-xhprof' '--with-php-config=/usr/local/php-5.6.6/bin/php-config'
 SHLIB_SUFFIX_NAME = so
 SHLIB_DL_SUFFIX_NAME = so
 ZEND_EXT_TYPE = zend_extension
-RE2C = re2c
+RE2C = exit 0;
 AWK = gawk
 shared_objects_xhprof = xhprof.lo
 PHP_PECL_EXTENSION = xhprof
@@ -17,12 +17,12 @@ PHP_MODULES = $(phplibdir)/xhprof.la
 PHP_ZEND_EX =
 all_targets = $(PHP_MODULES) $(PHP_ZEND_EX)
 install_targets = install-modules install-headers
-prefix = /usr/local/php-5.3
+prefix = /usr/local/php-5.6.6
 exec_prefix = $(prefix)
 libdir = ${exec_prefix}/lib
-prefix = /usr/local/php-5.3
-phplibdir = /root/xhprof-0.9.2/extension/modules
-phpincludedir = /usr/local/php-5.3/include/php
+prefix = /usr/local/php-5.6.6
+phplibdir = /root/INSTALL/xhprof-0.9.4/extension/modules
+phpincludedir = /usr/local/php-5.6.6/include/php
 CC = cc
 CFLAGS = -g -O2
 CFLAGS_CLEAN = $(CFLAGS)
@@ -31,11 +31,11 @@ CPPFLAGS = -DHAVE_CONFIG_H
 CXX =
 CXXFLAGS =
 CXXFLAGS_CLEAN = $(CXXFLAGS)
-EXTENSION_DIR = /usr/local/php-5.3/lib/php/extensions/no-debug-non-zts-20090626
-PHP_EXECUTABLE = /usr/local/php-5.3/bin/php
+EXTENSION_DIR = /usr/local/php-5.6.6/lib/php/extensions/no-debug-zts-20131226
+PHP_EXECUTABLE = /usr/local/php-5.6.6/bin/php
 EXTRA_LDFLAGS =
 EXTRA_LIBS =
-INCLUDES = -I/usr/local/php-5.3/include/php -I/usr/local/php-5.3/include/php/main -I/usr/local/php-5.3/include/php/TSRM -I/usr/local/php-5.3/include/php/Zend -I/usr/local/php-5.3/include/php/ext -I/usr/local/php-5.3/include/php/ext/date/lib
+INCLUDES = -I/usr/local/php-5.6.6/include/php -I/usr/local/php-5.6.6/include/php/main -I/usr/local/php-5.6.6/include/php/TSRM -I/usr/local/php-5.6.6/include/php/Zend -I/usr/local/php-5.6.6/include/php/ext -I/usr/local/php-5.6.6/include/php/ext/date/lib
 LFLAGS =
 LDFLAGS =
 SHARED_LIBTOOL =
@@ -54,8 +54,10 @@ all: $(all_targets)
 	@echo "Build complete."
 	@echo "Don't forget to run 'make test'."
 	@echo
-	
+
 build-modules: $(PHP_MODULES) $(PHP_ZEND_EX)
+
+build-binaries: $(PHP_BINARIES)
 
 libphp$(PHP_MAJOR_VERSION).la: $(PHP_GLOBAL_OBJS) $(PHP_SAPI_OBJS)
 	$(LIBTOOL) --mode=link $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -rpath $(phptempdir) $(EXTRA_LDFLAGS) $(LDFLAGS) $(PHP_RPATHS) $(PHP_GLOBAL_OBJS) $(PHP_SAPI_OBJS) $(EXTRA_LIBS) $(ZEND_EXTRA_LIBS) -o $@
@@ -78,6 +80,8 @@ install-sapi: $(OVERALL_TARGET)
 		done; \
 	fi
 	@$(INSTALL_IT)
+
+install-binaries: build-binaries $(install_binary_targets)
 
 install-modules: build-modules
 	@test -d modules && \
@@ -123,10 +127,10 @@ PHP_TEST_SHARED_EXTENSIONS =  ` \
 			. $$i; $(top_srcdir)/build/shtool echo -n -- " -d $(ZEND_EXT_TYPE)=$(top_builddir)/modules/$$dlname"; \
 		done; \
 	fi`
-PHP_DEPRECATED_DIRECTIVES_REGEX = '^(define_syslog_variables|register_(globals|long_arrays)?|safe_mode|magic_quotes_(gpc|runtime|sybase)?|(zend_)?extension(_debug)?(_ts)?)[\t\ ]*='
+PHP_DEPRECATED_DIRECTIVES_REGEX = '^(magic_quotes_(gpc|runtime|sybase)?|(zend_)?extension(_debug)?(_ts)?)[\t\ ]*='
 
 test: all
-	-@if test ! -z "$(PHP_EXECUTABLE)" && test -x "$(PHP_EXECUTABLE)"; then \
+	@if test ! -z "$(PHP_EXECUTABLE)" && test -x "$(PHP_EXECUTABLE)"; then \
 		INI_FILE=`$(PHP_EXECUTABLE) -d 'display_errors=stderr' -r 'echo php_ini_loaded_file();' 2> /dev/null`; \
 		if test "$$INI_FILE"; then \
 			$(EGREP) -h -v $(PHP_DEPRECATED_DIRECTIVES_REGEX) "$$INI_FILE" > $(top_builddir)/tmp-php.ini; \
@@ -142,7 +146,9 @@ test: all
 		TEST_PHP_SRCDIR=$(top_srcdir) \
 		CC="$(CC)" \
 			$(PHP_EXECUTABLE) -n -c $(top_builddir)/tmp-php.ini $(PHP_TEST_SETTINGS) $(top_srcdir)/run-tests.php -n -c $(top_builddir)/tmp-php.ini -d extension_dir=$(top_builddir)/modules/ $(PHP_TEST_SHARED_EXTENSIONS) $(TESTS); \
+		TEST_RESULT_EXIT_CODE=$$?; \
 		rm $(top_builddir)/tmp-php.ini; \
+		exit $$TEST_RESULT_EXIT_CODE; \
 	else \
 		echo "ERROR: Cannot run tests without CLI sapi."; \
 	fi
@@ -153,16 +159,25 @@ clean:
 	find . -name \*.la -o -name \*.a | xargs rm -f 
 	find . -name \*.so | xargs rm -f
 	find . -name .libs -a -type d|xargs rm -rf
-	rm -f libphp$(PHP_MAJOR_VERSION).la $(SAPI_CLI_PATH) $(OVERALL_TARGET) modules/* libs/*
+	rm -f libphp$(PHP_MAJOR_VERSION).la $(SAPI_CLI_PATH) $(SAPI_CGI_PATH) $(SAPI_MILTER_PATH) $(SAPI_LITESPEED_PATH) $(SAPI_FPM_PATH) $(OVERALL_TARGET) modules/* libs/*
 
 distclean: clean
-	rm -f Makefile config.cache config.log config.status Makefile.objects Makefile.fragments libtool main/php_config.h stamp-h sapi/apache/libphp$(PHP_MAJOR_VERSION).module buildmk.stamp
+	rm -f Makefile config.cache config.log config.status Makefile.objects Makefile.fragments libtool main/php_config.h main/internal_functions_cli.c main/internal_functions.c stamp-h sapi/apache/libphp$(PHP_MAJOR_VERSION).module sapi/apache_hooks/libphp$(PHP_MAJOR_VERSION).module buildmk.stamp Zend/zend_dtrace_gen.h Zend/zend_dtrace_gen.h.bak Zend/zend_config.h TSRM/tsrm_config.h
+	rm -f php5.spec main/build-defs.h scripts/phpize
+	rm -f ext/date/lib/timelib_config.h ext/mbstring/oniguruma/config.h ext/mbstring/libmbfl/config.h ext/oci8/oci8_dtrace_gen.h ext/oci8/oci8_dtrace_gen.h.bak
+	rm -f scripts/man1/phpize.1 scripts/php-config scripts/man1/php-config.1 sapi/cli/php.1 sapi/cgi/php-cgi.1 ext/phar/phar.1 ext/phar/phar.phar.1
+	rm -f sapi/fpm/php-fpm.conf sapi/fpm/init.d.php-fpm sapi/fpm/php-fpm.service sapi/fpm/php-fpm.8 sapi/fpm/status.html
+	rm -f ext/iconv/php_have_bsd_iconv.h ext/iconv/php_have_glibc_iconv.h ext/iconv/php_have_ibm_iconv.h ext/iconv/php_have_iconv.h ext/iconv/php_have_libiconv.h ext/iconv/php_iconv_aliased_libiconv.h ext/iconv/php_iconv_supports_errno.h ext/iconv/php_php_iconv_h_path.h ext/iconv/php_php_iconv_impl.h
+	rm -f ext/phar/phar.phar ext/phar/phar.php
+	if test "$(srcdir)" != "$(builddir)"; then \
+	  rm -f ext/phar/phar/phar.inc; \
+	fi
 	$(EGREP) define'.*include/php' $(top_srcdir)/configure | $(SED) 's/.*>//'|xargs rm -f
 
 .PHONY: all clean install distclean test
 .NOEXPORT:
-xhprof.lo: /root/xhprof-0.9.2/extension/xhprof.c
-	$(LIBTOOL) --mode=compile $(CC)  -I. -I/root/xhprof-0.9.2/extension $(COMMON_FLAGS) $(CFLAGS_CLEAN) $(EXTRA_CFLAGS)  -c /root/xhprof-0.9.2/extension/xhprof.c -o xhprof.lo 
+xhprof.lo: /root/INSTALL/xhprof-0.9.4/extension/xhprof.c
+	$(LIBTOOL) --mode=compile $(CC)  -I. -I/root/INSTALL/xhprof-0.9.4/extension $(COMMON_FLAGS) $(CFLAGS_CLEAN) $(EXTRA_CFLAGS)  -c /root/INSTALL/xhprof-0.9.4/extension/xhprof.c -o xhprof.lo 
 $(phplibdir)/xhprof.la: ./xhprof.la
 	$(LIBTOOL) --mode=install cp ./xhprof.la $(phplibdir)
 

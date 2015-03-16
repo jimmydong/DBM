@@ -3,6 +3,6 @@
 # Created by configure
 
 './configure' \
-'--with-php-config=/usr/local/php/bin/php-config' \
 '--enable-xhprof' \
+'--with-php-config=/usr/local/php-5.6.6/bin/php-config' \
 "$@"

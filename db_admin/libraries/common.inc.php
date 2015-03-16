@@ -1,5 +1,7 @@
 <?php
 /* hack by jimmy : YEPF */
+define('YEPF_FORCE_CLOSE_ADDSLASHES', true);
+define('YEPF_IS_DEBUG', 'yoka-inc4');
 $YEPF_PATH_LIST = ["../htdocs/_YEPF3.0/global.inc.php","/WORK/HTML/YEPF3/global.inc.php","../htdocs/_YEPF3.0/global.inc.php"];
 foreach($YEPF_PATH_LIST as $filepath){
 	if(file_exists($filepath))include_once($filepath);	

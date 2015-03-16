@@ -32,4 +32,4 @@ dlopen=''
 dlpreopen=''
 
 # Directory that this library needs to be installed in:
-libdir='/root/xhprof-0.9.2/extension/modules'
+libdir='/root/INSTALL/xhprof-0.9.4/extension/modules'
