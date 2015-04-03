@@ -25,12 +25,17 @@ eval($tmp_str);
 
 $q=new DB_glb;
 showhead("Êý¾Ý¿âÄÚÈÝ");
-if($modify)$do_modify=0;
-else $do_modify=1;
+if($modify){
+	$do_modify=0;
+}else {
+	$do_modify=1;
+}
+if($do_modify){ $state = 'ä¯ÀÀ×´Ì¬';}
+else $state = '±à¼­×´Ì¬';
 print <<< end_of_print
 <h1>#{$serverid} [{$serverinfo[host]}:{$serverinfo[port]} {$serverinfo[ext_name]}] Êý¾Ý¿â£º{$database}</h1>
 <hr size=1>
-<p><a href=db_info.php?modify={$do_modify}&serverid={$serverid}&database={$database}&step={$step}>ÇÐ»»±à¼­Ä£Ê½</a>
+<p><a href=db_info.php?modify={$do_modify}&serverid={$serverid}&database={$database}&step={$step}>ÇÐ»»±à¼­Ä£Ê½</a>  µ±Ç°×´Ì¬£º[{$state}]
 <hr size=1>
 end_of_print;
 
@@ -43,4 +48,4 @@ include("db_info.inc.php");
 <p>
 <p>
 
-
+[ALTER TABLE `test` ADD `update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;]

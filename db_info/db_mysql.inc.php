@@ -73,9 +73,10 @@ class DB_Sql {
     /* establish connection, select database */
     if ( 0 == $this->Link_ID ) {
     
-      $this->Link_ID=mysql_pconnect($Host, $User, $Password);
+      //$this->Link_ID=mysql_pconnect($Host, $User, $Password);
+      $this->Link_ID=mysql_connect($Host, $User, $Password);
       if (!$this->Link_ID) {
-        $this->halt("pconnect($Host, $User, \$Password) failed.");
+        $this->halt("connect($Host, $User, \$Password) failed.");
         return 0;
       }
 
@@ -532,10 +533,10 @@ class DB_Sql {
        $charlistmatch    = "/,?'([^']*)'/";
        $numlistmatch    = "/,?(\d+)/";
        
-       $fieldsquery .= "DESCRIBE $tablename";
+       $fieldsquery .= "DESCRIBE `$tablename`";
        $result_fieldsquery = mysql_query($fieldsquery);
        $i=0;
-       while ($row_fieldsquery = mysql_fetch_assoc($result_fieldsquery)) {
+       if($result_fieldsquery)while ($row_fieldsquery = mysql_fetch_assoc($result_fieldsquery)) {
            //$name    = $row_fieldsquery['Field'];
 	   $name=$i++;
            $fields[$name] = array();
@@ -565,7 +566,9 @@ class DB_Sql {
                    }
                }
            }
-       }
+       }else{
+	var_dump($fieldsquery);
+	}
 //var_dump($fields);
        return $fields;
     }
