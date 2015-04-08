@@ -1055,7 +1055,7 @@ class PMA_NavigationTree
                     $retval .= "<a class='hover_show_full$linkClass' href='$link'";
                     $retval .= " title='$title'>";
                     /* hack by jimmy : 左侧显示 */
-                    \yoka\Debug::log($node->comment, $node->rows);
+                    //\yoka\Debug::log($node->comment, $node->rows);
                     $retval .= htmlspecialchars($node->real_name);
                     $retval .= "</a>";
                     if($node->comment || $node->rows){

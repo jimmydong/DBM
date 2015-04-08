@@ -6,6 +6,8 @@ $YEPF_PATH_LIST = ["../htdocs/_YEPF3.0/global.inc.php","/WORK/HTML/YEPF3/global.
 foreach($YEPF_PATH_LIST as $filepath){
 	if(file_exists($filepath))include_once($filepath);	
 }
+\yoka\DB::$debug = false;
+
 /**
  * Among other things, it contains the advanced authentication work.
  *
