@@ -1,14 +1,18 @@
 <?php
+/* vim: set expandtab sw=4 ts=4 sts=4: */
 /* hack by jimmy : YEPF */
-define('YEPF_FORCE_CLOSE_ADDSLASHES', true);
-define('YEPF_IS_DEBUG', 'yoka-inc4');
-$YEPF_PATH_LIST = ["../htdocs/_YEPF3.0/global.inc.php","/WORK/HTML/YEPF3/global.inc.php","../htdocs/_YEPF3.0/global.inc.php"];
-foreach($YEPF_PATH_LIST as $filepath){
-	if(file_exists($filepath))include_once($filepath);	
-}
-\yoka\DB::$debug = false;
-
+/*define('YEPF_FORCE_CLOSE_ADDSLASHES', true);
+ define('YEPF_IS_DEBUG', 'yoka-inc4');
+ $YEPF_PATH_LIST = ["../htdocs/_YEPF3.0/global.inc.php","/WORK/HTML/YEPF3/global.inc.php","../htdocs/_YEPF3.0/global.inc.php"];
+ foreach($YEPF_PATH_LIST as $filepath){
+ if(file_exists($filepath))include_once($filepath);
+ }
+ \yoka\DB::$debug = false;
+ */
 /**
+ * Misc stuff and REQUIRED by ALL the scripts.
+ * MUST be included by every script
+ *
  * Among other things, it contains the advanced authentication work.
  *
  * Order of sections for common.inc.php:
@@ -168,9 +172,6 @@ if (! defined('PMA_MINIMUM_COMMON')) {
 $PMA_PHP_SELF = PMA_getenv('PHP_SELF');
 $_PATH_INFO = PMA_getenv('PATH_INFO');
 if (! empty($_PATH_INFO) && ! empty($PMA_PHP_SELF)) {
-    /** @var PMA_String $pmaString */
-    $pmaString = $GLOBALS['PMA_String'];
-
     $path_info_pos = /*overload*/mb_strrpos($PMA_PHP_SELF, $_PATH_INFO);
     $pathLength = $path_info_pos + /*overload*/mb_strlen($_PATH_INFO);
     if ($pathLength === /*overload*/mb_strlen($PMA_PHP_SELF)) {
@@ -503,7 +504,9 @@ if ($token_mismatch) {
         /* Permit redirection with token-mismatch in url.php */
         'url',
         /* Permit session expiry flag */
-        'session_expired'
+        'session_expired',
+        /* JS loading */
+        'scripts', 'call_done'
     );
     /**
      * Allow changing themes in test/theme.php
@@ -881,9 +884,7 @@ if (! defined('PMA_MINIMUM_COMMON')) {
         }
 
         // Check IP-based Allow/Deny rules as soon as possible to reject the
-        // user based on mod_access in Apache:
-        // http://cvs.apache.org/viewcvs.cgi/httpd-2.0/modules/aaa/mod_access.c?rev=1.37&content-type=text/vnd.viewcvs-markup
-        // Look at: "static int check_dir_access(request_rec *r)"
+        // user based on mod_access in Apache
         if (isset($cfg['Server']['AllowDeny'])
             && isset($cfg['Server']['AllowDeny']['order'])
         ) {
@@ -991,6 +992,31 @@ if (! defined('PMA_MINIMUM_COMMON')) {
             $cfg['Server']['user'], $cfg['Server']['password'], false
         );
 
+        // Set timestamp for the session, if required.
+        if ($cfg['Server']['SessionTimeZone'] != '') {
+            $sql_query_tz = 'SET ' . PMA_Util::backquote('time_zone') . ' = '
+                . '\'' . PMA_Util::sqlAddSlashes($cfg['Server']['SessionTimeZone']) . '\'';
+
+            if(! $userlink->query($sql_query_tz)) {
+                $error_message_tz = sprintf(__('Unable to use timezone %1$s for server %2$d. '
+                    . 'Please check your configuration setting for '
+                    . '[em]$cfg[\'Servers\'][%3$d][\'SessionTimeZone\'][/em]. '
+                    . 'phpMyAdmin is currently using the default time zone of the database server.'),
+                    $cfg['Servers'][$GLOBALS['server']]['SessionTimeZone'],
+                    $GLOBALS['server'],
+                    $GLOBALS['server']
+                );
+
+                $GLOBALS['error_handler']->addError(
+                    $error_message_tz,
+                    E_USER_WARNING,
+                    '',
+                    '',
+                    false
+                );
+            }
+        }
+
         if (! $controllink) {
             $controllink = $userlink;
         }
@@ -1000,14 +1026,13 @@ if (! defined('PMA_MINIMUM_COMMON')) {
         /* Log success */
         PMA_logUser($cfg['Server']['user']);
 
-        /* hack by jimmy : 放开对低版本的支持
+        /* hack by jimmy : 低版本的支持则注释掉下面 */
         if (PMA_MYSQL_INT_VERSION < 50500) {
             PMA_fatalError(
                 __('You should upgrade to %s %s or later.'),
                 array('MySQL', '5.5.0')
             );
         }
-        */
 
         /**
          * Type handling object.
@@ -1169,6 +1194,14 @@ if (! defined('PMA_MINIMUM_COMMON')
         $cfgRelation = PMA_getRelationsParam();
         if (empty($cfgRelation['db'])) {
             PMA_fixPMATables($GLOBALS['db'], false);
+        }
+    }
+    $cfgRelation = PMA_getRelationsParam();
+    if (empty($cfgRelation['db'])) {
+        foreach ($GLOBALS['pma']->databases as $database) {
+            if ($database == 'phpmyadmin') {
+                PMA_fixPMATables($database, false);
+            }
         }
     }
 }

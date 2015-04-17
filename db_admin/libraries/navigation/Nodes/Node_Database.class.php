@@ -102,7 +102,6 @@ class Node_Database extends Node
      */
     private function _getTableOrViewCount($which, $searchClause, $singleItem)
     {
-        $retval = 0;
         $db     = $this->real_name;
         if ($which == 'tables') {
             $condition = '=';
@@ -188,7 +187,6 @@ class Node_Database extends Node
      */
     private function _getProcedureCount($searchClause, $singleItem)
     {
-        $retval = 0;
         $db     = $this->real_name;
         if (! $GLOBALS['cfg']['Server']['DisableIS']) {
             $db     = PMA_Util::sqlAddSlashes($db);
@@ -230,7 +228,6 @@ class Node_Database extends Node
      */
     private function _getFunctionCount($searchClause, $singleItem)
     {
-        $retval = 0;
         $db     = $this->real_name;
         if (! $GLOBALS['cfg']['Server']['DisableIS']) {
             $db     = PMA_Util::sqlAddSlashes($db);
@@ -272,7 +269,6 @@ class Node_Database extends Node
      */
     private function _getEventCount($searchClause, $singleItem)
     {
-        $retval = 0;
         $db     = $this->real_name;
         if (! $GLOBALS['cfg']['Server']['DisableIS']) {
             $db     = PMA_Util::sqlAddSlashes($db);
@@ -429,6 +425,7 @@ class Node_Database extends Node
             $retval = $GLOBALS['dbi']->fetchResult($query);
             /* hack by jimmy : innodb修正 */
             foreach($retval as $k=> $v)if(preg_match('/InnoDB free/',$v['comment']))$retval[$k]['comment'] = '';
+            
         } else {
             $query  = " SHOW FULL TABLES FROM ";
             $query .= PMA_Util::backquote($db);
@@ -655,6 +652,16 @@ class Node_Database extends Node
     public function setHiddenCount($count)
     {
         $this->_hiddenCount = $count;
+    }
+
+    /**
+     * Returns the number of hidden items in this database
+     *
+     * @return int hidden item count
+     */
+    public function getHiddenCount()
+    {
+        return $this->_hiddenCount;
     }
 }
 
