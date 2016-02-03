@@ -200,4 +200,4 @@ PMA_executeQueryAndSendQueryResponse(
     isset($complete_query) ? $complete_query : null
 );
 
-?>
+//xhprof();

@@ -58,13 +58,14 @@ function PMA_selectServer($not_only_options, $omit_fieldset)
             $selected = 0;
         }
         if (!empty($server['verbose'])) {
-            $label = $server['verbose'];
-        } else {
-            $label = $server['host'];
+            $label = $server['verbose'] . ' ';
+        }else $label = '';
+//hack by jimmy
+            $label .= $server['host'];
             if (!empty($server['port'])) {
                 $label .= ':' . $server['port'];
             }
-        }
+        
         if (! empty($server['only_db'])) {
             if (! is_array($server['only_db'])) {
                 $label .= ' - ' . $server['only_db'];

@@ -1,14 +1,25 @@
 <?php
 /* vim: set expandtab sw=4 ts=4 sts=4: */
 /* hack by jimmy : YEPF */
-/*define('YEPF_FORCE_CLOSE_ADDSLASHES', true);
+/* define('YEPF_FORCE_CLOSE_ADDSLASHES', true);
  define('YEPF_IS_DEBUG', 'yoka-inc4');
  $YEPF_PATH_LIST = ["../htdocs/_YEPF3.0/global.inc.php","/WORK/HTML/YEPF3/global.inc.php","../htdocs/_YEPF3.0/global.inc.php"];
  foreach($YEPF_PATH_LIST as $filepath){
  if(file_exists($filepath))include_once($filepath);
  }
  \yoka\DB::$debug = false;
- */
+ if (mt_rand(1, 1) == 1 && function_exists('xhprof_enable') ) {
+   xhprof_enable(XHPROF_FLAGS_CPU + XHPROF_FLAGS_MEMORY);
+   $xhprof_on = true;
+ }
+ function xhprof(){
+			include('/WORK/HTML/81/xhprof/xhprof_lib/utils/xhprof_lib.php');
+			include('/WORK/HTML/81/xhprof/xhprof_lib/utils/xhprof_runs.php');
+			$xhprof_data = xhprof_disable();
+			$xhprof_runs = new \XHProfRuns_Default();
+			$run_id = $xhprof_runs->save_run($xhprof_data, 'mobile');
+			\yoka\Debug::log('xhprof_id',$run_id,"http://db.iyishengyuan.com:81/xhprof/xhprof_html/index.php?run=$run_id&source=mobile");
+ }*/
 /**
  * Misc stuff and REQUIRED by ALL the scripts.
  * MUST be included by every script

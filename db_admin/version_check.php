@@ -14,7 +14,7 @@ require_once 'libraries/Util.class.php';
 // Always send the correct headers
 header('Content-type: application/json; charset=UTF-8');
 
-$version = PMA_Util::getLatestVersion();
+// hack by jimmy $version = PMA_Util::getLatestVersion();
 
 if (empty($version)) {
     echo json_encode(array());

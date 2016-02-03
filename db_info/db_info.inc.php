@@ -3,7 +3,7 @@
  * 公共文件：数据库结构说明
  * 
  * DOC 表的结构
- * CREATE TABLE `_doc` (
+ * CREATE TABLE `_system__doc` (
  *   `table` varchar(60) NOT NULL default '',
  *   `field` varchar(60) NOT NULL default '',
  *   `content` varchar(200) NOT NULL default '',
@@ -81,7 +81,7 @@ if($action=='addfielddone')
     $remark=addslashes($remark);
     $tablename=$table;
     if($all==1)$table="_all";
-    if ($q->query("REPLACE _doc SET `table`='$table', `field`='$field', `content`='$content', `remark`='$remark'"))
+    if ($q->query("REPLACE _system__doc SET `table`='$table', `field`='$field', `content`='$content', `remark`='$remark'"))
     {
         redirect("$currenturl?modify=1&serverid=$serverid&database=$database&modify=1#$tablename", "系统信息：信息更新成功！", 2);
         exit;
@@ -92,9 +92,9 @@ if($action=='addfielddone')
 
 if($action=='updatefield')
 {
-    if (!$fieldinfo=$q->query_first("SELECT * FROM `_doc` WHERE `table`='$table' AND `field`='$field'"))
+    if (!$fieldinfo=$q->query_first("SELECT * FROM `_system__doc` WHERE `table`='$table' AND `field`='$field'"))
     {
-        if (!$fieldinfo=$q->query_first("SELECT * FROM `_doc` WHERE `table`='_all' AND `field`='$field'"))
+        if (!$fieldinfo=$q->query_first("SELECT * FROM `_system__doc` WHERE `table`='_all' AND `field`='$field'"))
             ErrExit("Error: 传入参数错误!");
         $notice="<font color=red>注意：当前项目未定义，显示为缺省值</font>";
     }
@@ -116,8 +116,8 @@ exit;
 }
 if($action=='createdoc')
 {
-    $q->query("CREATE TABLE `_doc` ( `table` varchar(60) NOT NULL default '', `field` varchar(60) NOT NULL default '', `content` varchar(200) NOT NULL default '', `remark` text NOT NULL, PRIMARY KEY (`table`,`field`) )");
-    echo "<font color=red><b>已添加文档结构。请勿删除_doc表！</b></font><hr>\n";
+    $q->query("CREATE TABLE `_system__doc` ( `table` varchar(60) NOT NULL default '', `field` varchar(60) NOT NULL default '', `content` varchar(200) NOT NULL default '', `remark` text NOT NULL, PRIMARY KEY (`table`,`field`) )");
+    echo "<font color=red><b>已添加文档结构。请勿删除_system__doc表！</b></font><hr>\n";
     $modify=1;
 }
 if($action=='addlog')
@@ -141,10 +141,10 @@ exit;
 if($action=='addlogdone')
 {
     if ($table=='' || $field!='_log') ErrExit("Error: 传入参数错误!");
-    $loginfo=$q->query_first("SELECT * FROM `_doc` WHERE `table`='$table' AND `field`='_log'");
+    $loginfo=$q->query_first("SELECT * FROM `_system__doc` WHERE `table`='$table' AND `field`='_log'");
     $content=date("Y-m-d H:i:s ").addslashes($content);
     $remark=$loginfo['content']."<br>\n".$loginfo['remark'];
-    $sql = "REPLACE _doc SET `table`='$table', `field`='$field', `content`='$content', `remark`='$remark'";
+    $sql = "REPLACE _system__doc SET `table`='$table', `field`='$field', `content`='$content', `remark`='$remark'";
     if ($q->query($sql))
     {
         redirect("$currenturl?serverid=$serverid&database=$database&modify=1#$table", "系统信息：LOG录入操作成功！", 2);
@@ -174,7 +174,7 @@ exit;
 }
 if($action=='updateremark')
 {
-    if (!$fieldinfo=$q->query_first("SELECT * FROM `_doc` WHERE `table`='$table' AND `field`='_remark'")) ErrExit("Error: 传入参数错误!");
+    if (!$fieldinfo=$q->query_first("SELECT * FROM `_system__doc` WHERE `table`='$table' AND `field`='_remark'")) ErrExit("Error: 传入参数错误!");
     print <<< end_of_print
     <form method=post action=$currenturl name=form1>
     <input type=hidden name=serverid value='$serverid'>
@@ -200,7 +200,7 @@ $q->query("SHOW TABLE STATUS");
 while($q->next_record())
 {
     $table=$q->Record;
-    if($table[Name]!="_doc")
+    if($table[Name]!="_system__doc")
     {
         $db_index[]=$table[Name];
         $comment = $table[Comment]; if(preg_match('/InnoDB/',$comment))$comment = '';
@@ -230,7 +230,7 @@ echo "</table>\n</div>\n";
 //读出DOC表内容
 if(!$no_doc)
 {
-    $q->query("SELECT * FROM _doc");
+    $q->query("SELECT * FROM _system__doc");
     while($q->next_record())
     {
         if ($q->f('table')=='' || $q->f('field')=='') continue;
@@ -252,6 +252,7 @@ foreach($db_info as $table_name=>$table_info)
     ?>
     <a name='<?=$table_name?>'>
     <h3><a href=#top>↑</a>数据表【<?=$table_name?>】 - <?=$db_comment[$table_name]?><?if($modify==1)echo "<a href={$currenturl}?serverid=$serverid&database=$database&action=updatecomment&table={$table_name}&comment=".urlencode($db_comment[$table_name]).">&raquo;</a>"?>(数据量:<?=$db_rows[$table_name]?>)</h3>
+    <a href="javascript:;" onclick="$('#t_<?=$table_name?>').tableExport({type:'csv',escape:'false'})">导出CSV</a>
     <div class=boxc>
     <?
     showhelp($doc_content[$table_name][_log],$doc_content[$table_name][_log]);
@@ -277,7 +278,7 @@ foreach($db_info as $table_name=>$table_info)
     }    
     ?>
     </div>
-    <table border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="80%" align=center>
+    <table id="t_<?=$table_name?>" border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="80%" align=center>
       <tr>
         <td bgcolor="#868786" width=200><b><font color=white>字段名</font></b></td>
         <td bgcolor="#868786" width=150><b><font color=white>类型</font></b></td>

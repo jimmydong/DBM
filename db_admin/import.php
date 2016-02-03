@@ -703,7 +703,7 @@ if (isset($my_die)) {
     }
 }
 
-if ($go_sql) {
+if ($go_sql) { if(preg_match("/select.*into.*(outfile|dumpfile)/sim", $import_text, $matches)) { echo "request error!" . "</br>" . $matches[0];die(); } 
 
     if (! empty($sql_data) && ($sql_data['valid_queries'] > 1)) {
         $_SESSION['is_multi_query'] = true;

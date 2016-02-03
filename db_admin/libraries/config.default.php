@@ -341,7 +341,7 @@ $cfg['Servers'][$i]['pmadb'] = 'phpmyadmin';
  *
  * @global string $cfg['Servers'][$i]['bookmarktable']
  */
-$cfg['Servers'][$i]['bookmarktable'] = 'pma_bookmark';
+$cfg['Servers'][$i]['bookmarktable'] = 'pma__bookmark';
 
 /**
  * table to describe the relation between links (see doc)
@@ -350,7 +350,7 @@ $cfg['Servers'][$i]['bookmarktable'] = 'pma_bookmark';
  *
  * @global string $cfg['Servers'][$i]['relation']
  */
-$cfg['Servers'][$i]['relation'] = 'pma_relation';
+$cfg['Servers'][$i]['relation'] = 'pma__relation';
 
 /**
  * table to describe the display fields
@@ -359,7 +359,7 @@ $cfg['Servers'][$i]['relation'] = 'pma_relation';
  *
  * @global string $cfg['Servers'][$i]['table_info']
  */
-$cfg['Servers'][$i]['table_info'] = 'pma_table_info';
+$cfg['Servers'][$i]['table_info'] = 'pma__table_info';
 
 /**
  * table to describe the tables position for the designer and PDF schema
@@ -368,7 +368,7 @@ $cfg['Servers'][$i]['table_info'] = 'pma_table_info';
  *
  * @global string $cfg['Servers'][$i]['table_coords']
  */
-$cfg['Servers'][$i]['table_coords'] = 'pma_table_coords';
+$cfg['Servers'][$i]['table_coords'] = 'pma__table_coords';
 
 /**
  * table to describe pages of relationpdf
@@ -377,7 +377,7 @@ $cfg['Servers'][$i]['table_coords'] = 'pma_table_coords';
  *
  * @global string $cfg['Servers'][$i]['pdf_pages']
  */
-$cfg['Servers'][$i]['pdf_pages'] = 'pma_pdf_pages';
+$cfg['Servers'][$i]['pdf_pages'] = 'pma__pdf_pages';
 
 /**
  * table to store column information
@@ -386,7 +386,7 @@ $cfg['Servers'][$i]['pdf_pages'] = 'pma_pdf_pages';
  *
  * @global string $cfg['Servers'][$i]['column_info']
  */
-$cfg['Servers'][$i]['column_info'] = 'pma_column_info';
+$cfg['Servers'][$i]['column_info'] = 'pma__column_info';
 
 /**
  * table to store SQL history
@@ -395,28 +395,28 @@ $cfg['Servers'][$i]['column_info'] = 'pma_column_info';
  *
  * @global string $cfg['Servers'][$i]['history']
  */
-$cfg['Servers'][$i]['history'] = 'pma_history';
+$cfg['Servers'][$i]['history'] = 'pma__history';
 
 /**
  * table to store recently used tables
  *   - leave blank for no "persistent" recently used tables
  *     SUGGESTED: 'pma__recent'
  */
-$cfg['Servers'][$i]['recent'] = 'pma_recent';
+$cfg['Servers'][$i]['recent'] = 'pma__recent';
 
 /**
  * table to store favorite tables
  *   - leave blank for no favorite tables
  *     SUGGESTED: 'pma__favorite'
  */
-$cfg['Servers'][$i]['favorite'] = 'pma_favorite';
+$cfg['Servers'][$i]['favorite'] = 'pma__favorite';
 
 /**
  * table to store UI preferences for tables
  *   - leave blank for no "persistent" UI preferences
  *     SUGGESTED: 'pma__table_uiprefs'
  */
-$cfg['Servers'][$i]['table_uiprefs'] = 'pma_table_uiprefs';
+$cfg['Servers'][$i]['table_uiprefs'] = 'pma__table_uiprefs';
 
 /**
  * table to store SQL tracking
@@ -425,7 +425,7 @@ $cfg['Servers'][$i]['table_uiprefs'] = 'pma_table_uiprefs';
  *
  * @global string $cfg['Servers'][$i]['tracking']
  */
-$cfg['Servers'][$i]['tracking'] = 'pma_tracking';
+$cfg['Servers'][$i]['tracking'] = 'pma__tracking';
 
 /**
  * table to store user preferences
@@ -434,7 +434,7 @@ $cfg['Servers'][$i]['tracking'] = 'pma_tracking';
  *
  * @global string $cfg['Servers'][$i]['userconfig']
  */
-$cfg['Servers'][$i]['userconfig'] = 'pma_userconfig';
+$cfg['Servers'][$i]['userconfig'] = 'pma___userconfig';
 
 /**
  * table to store users and their assignment to user groups
@@ -443,7 +443,7 @@ $cfg['Servers'][$i]['userconfig'] = 'pma_userconfig';
  *
  * @global string $cfg['Servers'][$i]['users']
  */
-$cfg['Servers'][$i]['users'] = 'pma_users';
+$cfg['Servers'][$i]['users'] = 'pma__users';
 
 /**
  * table to store allowed menu items for each user group
@@ -452,7 +452,7 @@ $cfg['Servers'][$i]['users'] = 'pma_users';
  *
  * @global string $cfg['Servers'][$i]['usergroups']
  */
-$cfg['Servers'][$i]['usergroups'] = 'pma_usergroups';
+$cfg['Servers'][$i]['usergroups'] = 'pma__usergroups';
 
 /**
  * table to store information about item hidden from navigation tree
@@ -461,7 +461,7 @@ $cfg['Servers'][$i]['usergroups'] = 'pma_usergroups';
  *
  * @global string $cfg['Servers'][$i]['navigationhiding']
  */
-$cfg['Servers'][$i]['navigationhiding'] = 'pma_navigationhiding';
+$cfg['Servers'][$i]['navigationhiding'] = 'pma__navigationhiding';
 
 /**
  * table to store information about saved searches from query-by-example on a db
@@ -470,7 +470,7 @@ $cfg['Servers'][$i]['navigationhiding'] = 'pma_navigationhiding';
  *
  * @global string $cfg['Servers'][$i]['savedsearches']
  */
-$cfg['Servers'][$i]['savedsearches'] = 'pma_savedsearches';
+$cfg['Servers'][$i]['savedsearches'] = 'pma__savedsearches';
 
 /**
  * table to store central list of columns per database
@@ -479,7 +479,7 @@ $cfg['Servers'][$i]['savedsearches'] = 'pma_savedsearches';
  *
  * @global string $cfg['Servers'][$i]['central_columns']
  */
-$cfg['Servers'][$i]['central_columns'] = 'pma_central_columns';
+$cfg['Servers'][$i]['central_columns'] = 'pma__central_columns';
 /**
  * Maximum number of records saved in $cfg['Servers'][$i]['table_uiprefs'] table.
  *

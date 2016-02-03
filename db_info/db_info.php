@@ -33,6 +33,9 @@ if($modify){
 if($do_modify){ $state = 'ä¯ÀÀ×´Ì¬';}
 else $state = '±à¼­×´Ì¬';
 print <<< end_of_print
+<script src="http://mcdn.yishengdaojia.cn/media/js/jquery-2.1.3.min.js"></script>
+<script src="http://mcdn.yishengdaojia.cn/media/tableExport/myexport.js"></script>
+<script src="http://m.iyishengyuan.com/media/tableExport/mybase64.js"></script>
 <h1>#{$serverid} [{$serverinfo[host]}:{$serverinfo[port]} {$serverinfo[ext_name]}] Êý¾Ý¿â£º{$database}</h1>
 <hr size=1>
 <p><a href=db_info.php?modify={$do_modify}&serverid={$serverid}&database={$database}&step={$step}>ÇÐ»»±à¼­Ä£Ê½</a>  µ±Ç°×´Ì¬£º[{$state}]

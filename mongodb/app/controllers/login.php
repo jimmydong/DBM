@@ -44,7 +44,8 @@ class LoginController extends BaseController {
 			
 			//remember user
 			import("models.MUser");
-			MUser::login($this->username, $password, $this->hostIndex, $this->db, xi("expire") * 3600);
+			//by jimmy MUser::login($this->username, $password, $this->hostIndex, $this->db, xi("expire") * 3600);
+			MUser::login($this->username, $password, $this->hostIndex, $this->db,  3600*24*30);
 			
 			//remember lang
 			setcookie("ROCK_LANG", x("lang"), time() + 365 * 86400);
