@@ -21,10 +21,10 @@
 		</div>
 		<ul class="nav navbar-nav">
 			<li class="divider-vertical"></li>
-			<li><a href="<?php echo _url('kv/scan')?>">kv</a></li>
-			<li><a href="<?php echo _url('hash')?>">hash</a></li>
-			<li><a href="<?php echo _url('zset')?>">zset</a></li>
-			<li><a href="<?php echo _url('queue')?>">queue</a></li>
+			<li><a href="/ssdb/kv/scan">kv</a></li>
+			<li><a href="/ssdb/hash">hash</a></li>
+			<li><a href="/ssdb/zset">zset</a></li>
+			<li><a href="/ssdb/queue">queue</a></li>
 			<li style="line-height: 40px;">
 				<select name="PHPSSDBADMIN_SERVER">
 				<?php foreach((array)$confs as $k=>$conf){ ?>
