@@ -17,7 +17,7 @@
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 	<div class="container">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="<?php echo _url('')?>">PSA</a>
+			<a class="navbar-brand" href="/ssdb/">PSA</a>
 		</div>
 		<ul class="nav navbar-nav">
 			<li class="divider-vertical"></li>
