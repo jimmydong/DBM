@@ -6,4 +6,7 @@
 *.swp
 *_cpy_*
 *.log
+.project
+.buildpath
+.settings
 
