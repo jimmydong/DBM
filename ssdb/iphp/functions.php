@@ -31,7 +31,8 @@ function base_path(){
 		}
 		$uri = join('/', $ps);
 		
-		$basepath = dirname($_SERVER['SCRIPT_NAME']);
+		//hack by jimmy $basepath = dirname($_SERVER['SCRIPT_NAME']);
+		$basepath = '/ssdb';
 		$path = substr($uri, strlen($basepath));
 		$path = trim(trim($path), '/');
 	}
