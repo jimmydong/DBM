@@ -7,6 +7,7 @@
  * @version 2003.12.01
  */ 
 error_reporting(E_ALL ^ E_WARNING ^ E_NOTICE);
+if(function_exists('xdebug_disable')) xdebug_disable();
 class DB_Sql {
   
   /* public: connection parameters */
