@@ -6,7 +6,7 @@
  * @packet JDK
  * @version 2003.12.01
  */ 
-
+error_reporting(E_ALL ^ E_WARNING ^ E_NOTICE);
 class DB_Sql {
   
   /* public: connection parameters */
@@ -74,7 +74,7 @@ class DB_Sql {
     if ( 0 == $this->Link_ID ) {
     
       //$this->Link_ID=mysql_pconnect($Host, $User, $Password);
-      $this->Link_ID=@mysql_connect($Host, $User, $Password);
+      $this->Link_ID=mysql_connect($Host, $User, $Password);
       if (!$this->Link_ID) {
         $this->halt("connect($Host, $User, \$Password) failed.");
         return 0;
