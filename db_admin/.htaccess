@@ -1,4 +1,0 @@
-authtype basic  
-authname "Please input password"
-authuserfile conf/dbadmin
-require valid-user

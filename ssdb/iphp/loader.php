@@ -24,6 +24,8 @@ function __autoload($cls){
 #	}
 }
 
+spl_autoload_register('__autoload');
+
 function include_paths(){
 	static $paths = array();
 	if(!$paths){
