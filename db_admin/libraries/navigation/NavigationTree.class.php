@@ -1091,6 +1091,10 @@ class PMA_NavigationTree
                     $retval .= "&nbsp;<a class='hover_show_full' href='$link'>";
                     $retval .= htmlspecialchars($node->name);
                     $retval .= "</a>";
+                    /* hack by jimmy : 左侧显示 */
+                    if($node->comment || $node->rows){
+                    	$retval .= '  (' . $node->comment . ' ' . $node->rows . ')';
+                    }
                 } else {
                     $retval .= "<a class='hover_show_full$linkClass' href='$link'";
                     $retval .= " title='$title'>";
