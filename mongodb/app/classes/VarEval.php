@@ -106,6 +106,15 @@ class VarEval {
 	}
 
 	private function _runJson() {
+
+		// Hack by jimmy because db.eval is deprecated
+		if(preg_match('/ObjectId\("(.*)"\)/i',$this->_source,$reg)){
+			return array('_id'=>new \MongoId($reg[1]));
+		}
+
+		//
+		// From Mongo3.0 db.eval is deprecated
+		//
 		$timezone = @date_default_timezone_get();
 		date_default_timezone_set("UTC");
 		//$ret = $this->_db->execute('function () {
