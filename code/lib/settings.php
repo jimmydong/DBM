@@ -100,6 +100,7 @@ $demoMode = $ICEcoder['demoMode'];
 // Check if trial period has ended
 $tPeriod = 1296000-1;
 
+/* hack by jimmy
 if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && generateHash(strClean($ICEcoder['licenseEmail']),$ICEcoder['licenseCode'])!=$ICEcoder['licenseCode'] && $ICEcoder['configCreateDate'] > 0 && $ICEcoder['configCreateDate']+$tPeriod < time() && !isset($_GET['get']) && !isset($_POST['code'])) {
 	if (file_exists('lib/login.php')) {
 		// Go to get code screen in top level window
@@ -111,6 +112,7 @@ if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && generateHash(strCle
 	die('Redirecting to donate screen...');
 	exit;
 }
+*/
 $tRemaining = ($ICEcoder['configCreateDate']+$tPeriod)-time();
 if ($tRemaining > $tPeriod || $ICEcoder['configCreateDate'] == 0) {$tRemaining = $tPeriod;};
 $tRemainingPerc = number_format($tRemaining/$tPeriod,2);
