@@ -50,6 +50,8 @@ if [ "x$days" = "x" ] ; then
 	days="30"
 fi
 
+echo "Check Code in $svn_path"
+
 cd $svn_path && svn log --xml -r {`date -d "$days days ago" +%Y-%m-%d`}:{`date +%Y-%m-%d`} -v > $out_path/svn.log
 echo $out_path
 cd $out_path && java -jar ../statsvn-0.7.0/statsvn.jar -include "controller/**:_CUSTOM_CLASS/*:_TEMPLATE/**" svn.log $svn_path
