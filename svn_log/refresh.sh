@@ -46,6 +46,11 @@ do
 	esac
 done
 
+if [ "x$svn_path" = "x" ] ; then
+	echo "NO svn! please use -s [project]"
+	exit 1
+fi
+
 if [ "x$days" = "x" ] ; then
 	days="30"
 fi
