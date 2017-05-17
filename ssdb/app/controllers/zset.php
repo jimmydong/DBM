@@ -47,6 +47,7 @@ class ZsetController extends BaseController
 		$n = trim($_GET['n']);
 		$s = trim($_GET['s']);
 		$e = trim($_GET['e']);
+		$o = trim($_GET['o']);
 		$size = $ctx->size;
 		$dir = trim($_GET['dir']);
 		if($dir != 'prev'){
@@ -56,17 +57,31 @@ class ZsetController extends BaseController
 		$ctx->n = $n;
 		$ctx->s = $s;
 		$ctx->e = $e;
+		$ctx->o = $o;
 		$ctx->dir = $dir;
 		$ctx->size = $size;
-		if($dir == 'prev'){
-			$ctx->kvs = $this->ssdb->zrscan($n, $s, '', '', $size + 1);
-			$ctx->has_more = (count($ctx->kvs) == $size + 1);
-			$ctx->kvs = array_slice($ctx->kvs, 0, $size, true);
-			$ctx->kvs = array_reverse($ctx->kvs, true);
+		if($o == 'asc'){
+			if($dir == 'prev'){
+				$ctx->kvs = $this->ssdb->zrscan($n, $s, '', '', $size + 1);
+				$ctx->has_more = (count($ctx->kvs) == $size + 1);
+				$ctx->kvs = array_slice($ctx->kvs, 0, $size, true);
+				$ctx->kvs = array_reverse($ctx->kvs, true);
+			}else{
+				$ctx->kvs = $this->ssdb->zscan($n, $s, '', '', $size + 1);
+				$ctx->has_more = (count($ctx->kvs) == $size + 1);
+				$ctx->kvs = array_slice($ctx->kvs, 0, $size, true);
+			}
 		}else{
-			$ctx->kvs = $this->ssdb->zscan($n, $s, '', '', $size + 1);
-			$ctx->has_more = (count($ctx->kvs) == $size + 1);
-			$ctx->kvs = array_slice($ctx->kvs, 0, $size, true);
+			if($dir == 'prev'){
+				$ctx->kvs = $this->ssdb->zscan($n, $s, '', '', $size + 1);
+				$ctx->has_more = (count($ctx->kvs) == $size + 1);
+				$ctx->kvs = array_slice($ctx->kvs, 0, $size, true);
+				$ctx->kvs = array_reverse($ctx->kvs, true);
+			}else{
+				$ctx->kvs = $this->ssdb->zrscan($n, $s, '', '', $size + 1);
+				$ctx->has_more = (count($ctx->kvs) == $size + 1);
+				$ctx->kvs = array_slice($ctx->kvs, 0, $size, true);
+			}
 		}
 	}
 	
