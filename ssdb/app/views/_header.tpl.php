@@ -10,6 +10,7 @@
 	<script src="/ssdb/js/jquery-1.9.1.min.js"></script>
 	<script src="/ssdb/js/bootstrap.min.js"></script>
 	<script src="/ssdb/js/PagerView.js"></script>
+	<link rel="shortcut icon" href="/ssdb/favicon.ico" />
 </head>
 <body>
 

@@ -12,6 +12,11 @@
 	<input type="hidden" name="n" value="<?php echo htmlspecialchars($n)?>" />
 	Start:
 	<input type="text" name="s" value="<?php echo htmlspecialchars($s)?>" />
+	Order:
+	<select name="o">
+		<option value="desc" <?php echo $o=='desc'?'selected="selected"':''?>>DESC</option>
+		<option value="asc" <?php echo $o=='asc'?'selected="selected"':''?>>ASC</option>
+	</select>
 	Size:
 	<select name="size">
 		<option value="10" <?php echo $size==10?'selected="selected"':''?>>10</option>
@@ -122,7 +127,7 @@ function remove_selected(){
 	}else{
 		$ks = array_keys($kvs);
 		$start = $ks[0];
-		$url = _url('zset/zscan', array('dir'=>'prev', 'n'=>$n, 's'=>$start, 'e'=>'', 'size'=>$size));
+		$url = _url('zset/zscan', array('dir'=>'prev', 'n'=>$n, 's'=>$start, 'e'=>'', 'o'=>$o, 'size'=>$size));
 	?>
 		<a class="btn btn-sm btn-primary" href="<?php echo $url?>">
 			<i class="glyphicon glyphicon-chevron-left"></i> Prev
@@ -137,7 +142,7 @@ function remove_selected(){
 	}else{
 		$ks = array_keys($kvs);
 		$start = $ks[count($ks)-1];
-		$url = _url('zset/zscan', array('dir'=>'next', 'n'=>$n, 's'=>$start, 'e'=>'', 'size'=>$size));
+		$url = _url('zset/zscan', array('dir'=>'next', 'n'=>$n, 's'=>$start, 'e'=>'', 'o'=>$o, 'size'=>$size));
 	?>
 		<a class="btn btn-sm btn-primary" href="<?php echo $url?>">
 			Next <i class="glyphicon glyphicon-chevron-right"></i>

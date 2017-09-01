@@ -1,7 +1,7 @@
 <?
 /**
  * 公共文件：数据库结构说明
- * 
+ *
  * DOC 表的结构
  * CREATE TABLE `_system__doc` (
  *   `table` varchar(60) NOT NULL default '',
@@ -53,7 +53,7 @@ if($action=='updatecommentdone')
     else
         ErrExit("数据库操作失败！");
 }
-    
+
 if($action=='addfield')
 {
     if ($table=='' || $field=='') ErrExit("Error: 传入参数错误!");
@@ -88,6 +88,23 @@ if($action=='addfielddone')
     }
     else
         ErrExit("数据库操作失败！");
+}
+// add by bandry, 2017-08-14 批量修改
+if($action=='addfielddoneBatch')
+{
+    $data = $_POST['data'];
+    if ($table=='' || empty($data)) ErrExit("Error: 传入参数错误!");
+    $tablename = $table;
+    foreach ($data as $field => $info) {
+        $content=addslashes($info['des']);
+        $remark=addslashes($info['remark']);
+        if($all == 1) $table = "_all";
+        if ($q->query("REPLACE _system__doc SET `table`='$table', `field`='$field', `content`='$content', `remark`='$remark'")) {
+        } else {
+            ErrExit("数据库操作失败！");
+        }
+    }
+    redirect("$currenturl?modify=1&serverid=$serverid&database=$database&modify=1#$tablename", "系统信息：信息更新成功！", 2);
 }
 
 if($action=='updatefield')
@@ -215,7 +232,7 @@ while($q->next_record())
         $q2->query("SELECT * FROM {$table[Name]}");
         $tmp_info = $q2->get_fields();
         if ($tmp_info[0]['name']=='table' && $tmp_info[1]['name']=='field') $no_doc=false;
-    }        
+    }
 }
 if(count($db_index)==0) ErrExit("当前库中没有可显示的表结构");
 
@@ -260,31 +277,36 @@ foreach($db_info as $table_name=>$table_info)
     {
         echo "<a href={$currenturl}?serverid=$serverid&database=$database&action=addlog&table={$table_name}>newlog&raquo;</a><br>";
     }
-    
+
     if($doc_content[$table_name][_remark])
     {
         showhelp($doc_content[$table_name][_remark],$doc_remark[$table_name][_remark]);
-        if($modify==1) 
+        if($modify==1)
         {
             echo "<a href={$currenturl}?serverid=$serverid&database=$database&action=updateremark&table={$table_name}>newremark&raquo;</a>";
         }
     }
     else
     {
-        if($modify==1) 
+        if($modify==1)
         {
             echo "<a href={$currenturl}?serverid=$serverid&database=$database&action=addremark&table={$table_name}>addremark&raquo;</a>";
         }
-    }    
+    }
     ?>
     </div>
     <table id="t_<?=$table_name?>" border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="80%" align=center>
       <tr>
         <td bgcolor="#868786" width=200><b><font color=white>字段名</font></b></td>
         <td bgcolor="#868786" width=150><b><font color=white>类型</font></b></td>
-        <td bgcolor="#868786" width=200><b><font color=white>说明</font></b></td>
+        <td bgcolor="#868786" width=240><b><font color=white>说明</font></b></td>
         <td bgcolor="#868786" width=*><b><font color=white>详细</font></b></td>
       </tr>
+      <form action="" method="post">
+        <input type="hidden" name="action" value="addfielddoneBatch" />
+        <input type="hidden" name="table" value="<?php echo $table_name ?>" />
+        <input type=hidden name="serverid" value='<?php echo $serverid ?>' />
+        <input type=hidden name="database" value='<?php echo $database ?>' />
         <?
         foreach($table_info as $key=>$val)
         {
@@ -292,10 +314,11 @@ foreach($db_info as $table_name=>$table_info)
       <tr onmouseover="this.style.backgroundColor='#EDEDFD';" onmouseout="this.style.backgroundColor='#FFFFFF';">
         <td valign=top><font color=#666666><b><?showhelp($val[name],"<b>".$val[type].implode(' ',$val[args])."</b><br>null:".$val['null']."<br>key:<b>".$val[key]."</b><br>default:<b>".$val['default']."</b><br>".$val[extra]);?></b></font></td>
         <td valign=top><?=$val[type]?>(<?=$val[len]?>)</td>
-        <td valign=top><?
+        <td valign=middle><?
                 $showdoc=$doc_content[$table_name][$val[name]];
                 if($showdoc=='') $showdoc=$doc_content[_all][$val[name]];
                 $helpdoc=$doc_remark[$table_name][$val[name]];
+                $height = 22 * count(explode("\n", $helpdoc)) + 22;
                 if($helpdoc=='') $helpdoc=$doc_remark[_all][$val[name]];
                 if($modify==1) //编辑模式
                 {
@@ -308,19 +331,28 @@ foreach($db_info as $table_name=>$table_info)
                         echo "<a href={$currenturl}?serverid=$serverid&database=$database&action=updatefield&table={$table_name}&field={$val[name]}>&raquo;</a>";
                     }
                 }
-                echo $showdoc;
+                //echo $showdoc;
                 //showhelp($showdoc,$helpdoc,1);
-             ?></td>
-	<td><pre><?=$helpdoc?></pre></td>
+             ?>
+             <?php
+             echo <<<TABLETD
+                <input type="text" name="data[{$val[name]}][des]" value="{$showdoc}" style="width:200px;margin:3px auto;" />
+TABLETD;
+?>
+</td>
+	<td><textarea name="data[<?php echo $val[name] ?>][remark]" style="width:80%;height:<?php echo $height ?>;margin:5px;"><?=$helpdoc?></textarea></td>
       </tr>
             <?
         }
         ?>
+      <tr><td></td><td></td><td colspan="2"><input type="submit" value="保存说明" /></td></tr>
+        </form>
     </table>
     <br>
     <br>
     <?
-}    
+}
+
 /*----------------- function define -------------------*/
 function redirect($backurl,$message,$delay)
 {
