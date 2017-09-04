@@ -330,14 +330,15 @@ foreach($db_info as $table_name=>$table_info)
                     {
                         echo "<a href={$currenturl}?serverid=$serverid&database=$database&action=updatefield&table={$table_name}&field={$val[name]}>&raquo;</a>";
                     }
-                }
-                //echo $showdoc;
-                //showhelp($showdoc,$helpdoc,1);
-             ?>
-             <?php
              echo <<<TABLETD
                 <input type="text" name="data[{$val[name]}][des]" value="{$showdoc}" style="width:200px;margin:3px auto;" />
 TABLETD;
+                }else{
+                	echo $showdoc;
+                	showhelp($showdoc,$helpdoc,1);
+             	}	
+             ?>
+             <?php
 ?>
 </td>
 	<td><textarea name="data[<?php echo $val[name] ?>][remark]" style="width:80%;height:<?php echo $height ?>;margin:5px;"><?=$helpdoc?></textarea></td>
