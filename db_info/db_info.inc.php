@@ -330,24 +330,29 @@ foreach($db_info as $table_name=>$table_info)
                     {
                         echo "<a href={$currenturl}?serverid=$serverid&database=$database&action=updatefield&table={$table_name}&field={$val[name]}>&raquo;</a>";
                     }
-             echo <<<TABLETD
+             		echo <<<TABLETD
                 <input type="text" name="data[{$val[name]}][des]" value="{$showdoc}" style="width:200px;margin:3px auto;" />
 TABLETD;
                 }else{
                 	echo $showdoc;
                 	showhelp($showdoc,$helpdoc,1);
              	}	
+             	
              ?>
-             <?php
-?>
-</td>
-	<td><textarea name="data[<?php echo $val[name] ?>][remark]" style="width:80%;height:<?php echo $height ?>;margin:5px;"><?=$helpdoc?></textarea></td>
-      </tr>
-            <?
+		</td>
+			<?php 
+			if($modify == 1){
+			?>
+		<td><textarea name="data[<?php echo $val[name] ?>][remark]" style="width:80%;height:<?php echo $height ?>;margin:5px;"><?=$helpdoc?></textarea></td>
+	  </tr>
+      <tr><td></td><td></td><td colspan="2"><input type="submit" value="保存说明" /></td></tr>
+            <?php
+			}else{
+				echo "<td>$helpdoc</textarea></td></tr>";
+            }
         }
         ?>
-      <tr><td></td><td></td><td colspan="2"><input type="submit" value="保存说明" /></td></tr>
-        </form>
+    </form>
     </table>
     <br>
     <br>
