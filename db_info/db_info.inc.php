@@ -317,9 +317,8 @@ foreach($db_info as $table_name=>$table_info)
         <td valign=middle><?
                 $showdoc=$doc_content[$table_name][$val[name]];
                 if($showdoc=='') $showdoc=$doc_content[_all][$val[name]];
-                $helpdoc=$doc_remark[$table_name][$val[name]];
+                $helpdoc=$doc_remark[$table_name][$val[name]]?:$doc_remark[_all][$val[name]];
                 $height = 22 * count(explode("\n", $helpdoc)) + 22;
-                if($helpdoc=='') $helpdoc=$doc_remark[_all][$val[name]];
                 if($modify==1) //�༭ģʽ
                 {
                     if($showdoc=='')
@@ -334,7 +333,6 @@ foreach($db_info as $table_name=>$table_info)
                 <input type="text" name="data[{$val[name]}][des]" value="{$showdoc}" style="width:200px;margin:3px auto;" />
 TABLETD;
                 }else{
-                	echo $showdoc;
                 	showhelp($showdoc,$helpdoc,1);
              	}	
              	
