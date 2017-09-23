@@ -78,6 +78,7 @@ function showhelp($showdoc,$helpdoc,$markflag='')
 {
     $showdoc=text2html($showdoc);
     $helpdoc=text2string(text2html($helpdoc));
+    $helpdoc=addslashes($helpdoc);
     if($markflag==1)$markflag='¡ù';
     if (trim($helpdoc)=='') echo $showdoc;
     else print <<< end_of_print
