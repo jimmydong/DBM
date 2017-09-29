@@ -13,16 +13,11 @@ switch($_REQUEST['do']){
 		foreach($reg as $v){
 			$re[$v[1]] = $v[2];
 		}
-		$re = var_export($re, true);
+		$re = ['success'=>true, 'data'=>var_export($re, true)];
 		break;
 	default:
-		$re = '错误：没有转换指令';
+		$re = ['success'=>false, 'msg'=>'错误：没有转换指令'];
 		break;
 }
 
-print <<< end_of_print
-<pre>
-{$re}
-</pre>
-
-end_of_print;
+echo json_encode($re, JSON_UNESCAPED_UNICODE);
