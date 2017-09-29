@@ -53,7 +53,18 @@ include("db_info.inc.php");
 
 [ALTER TABLE `test` ADD `update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;]
 <br/>
-<form method=post action='trans.php' target=_blank>
-<input type=hidden name='do' value='toArray'/>
-转array： <input type=text size=60 name=code/><input type=submit value='提交'/>
-</form>
+
+<input type=hidden id="todo" name='todo' value='toArray'/>
+转array： <input type=text size=60 id=code name=code/><button onclick="submit()">提交</button>
+<script>
+function submit(){
+	$.post('trans.php',{todo:$('#do').val(), code:$('#code').val()}, function(re){
+		if(re.success){
+			$('#result').html(re.data);
+		}else{
+			alert(re.msg);
+		}
+	}, 'JSON'); 
+}
+</script>
+<div id="result"></div>
