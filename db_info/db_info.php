@@ -54,11 +54,10 @@ include("db_info.inc.php");
 [ALTER TABLE `test` ADD `update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;]
 <br/>
 
-<input type=hidden id="todo" name='todo' value='toArray'/>
 ×ªarray£º <input type=text size=60 id=code name=code/><button onclick="submit()">Ìá½»</button>
 <script>
 function submit(){
-	$.post('trans.php',{todo:$('#do').val(), code:$('#code').val()}, function(re){
+	$.post('trans.php',{'todo' : 'toArray', 'code' : $('#code').val()}, function(re){
 		if(re.success){
 			$('#result').html(re.data);
 		}else{

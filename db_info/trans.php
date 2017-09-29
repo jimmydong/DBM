@@ -5,7 +5,8 @@
  */
 include("db_info.ini.php");
 
-switch($_REQUEST['do']){
+$re = ['success'=>false, 'msg'=>'error'];
+switch($_REQUEST['todo']){
 	case 'toArray': //描述转数组。适用： 0：文本回复 1：图文回复 2：音乐回复 3：视频回复
 		$code = $_REQUEST['code'];
 		$code = str_replace('：',':',$code);
