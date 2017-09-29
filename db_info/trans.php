@@ -26,5 +26,5 @@ print <<< end_of_print
 <pre>
 {$re}
 </pre>
-
 end_of_print;
+echo str_replace(array(" ","¡¡","\t","\n","\r"), '', $re);
