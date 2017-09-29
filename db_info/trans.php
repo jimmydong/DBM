@@ -11,7 +11,7 @@ switch($_REQUEST['do']){
 		$code = str_replace('£º',':',$code);
 		$code = str_replace('¡¡',' ',$code);
 		$code = str_replace('  ',' ',$code);
-		preg_match_all('/([0-9]+)\s?(\:|=>)\s?([^\s]+)/', $code, $reg, PREG_SET_ORDER);
+		preg_match_all('/(-?[0-9]+)\s?(\:|=>)\s?([^\s]+)/', $code, $reg, PREG_SET_ORDER);
 		foreach($reg as $v){
 			$re[$v[1]] = $v[3];
 		}
