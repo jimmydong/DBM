@@ -27,4 +27,4 @@ print <<< end_of_print
 {$re}
 </pre>
 end_of_print;
-echo str_replace(array(" ","¡¡","\t","\n","\r"), '', $re);
+echo str_replace(',)',']',str_replace('array(','[',str_replace(array(" ","¡¡","\t","\n","\r"), '', $re)));
