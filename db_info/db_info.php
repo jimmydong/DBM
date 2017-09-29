@@ -54,6 +54,6 @@ include("db_info.inc.php");
 [ALTER TABLE `test` ADD `update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;]
 <br/>
 <form method=post action='trans.php' target=_blank>
-<input type=hidden name='do' value='toArray'/>
-转array： <input type=text size=60 name=code/><input type=submit value='提交'/>
+<input type=hidden name='do' value='toArray' />
+转array： <input type=text size=60 name='code' /><input type=submit value='提交'/>
 </form>
