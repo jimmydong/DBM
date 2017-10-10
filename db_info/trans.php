@@ -64,7 +64,7 @@ switch($_REQUEST['do']){
 				$out[] = "'{$k}' => ['title'=>'{$v['content']}'{$map}{$type}];";
 			}
 		}
-		$out = "public static \$define_slim = array(\n" . implode("\n", $out) . "\n);";
+		$out = "public static \$define_slim = array(\n	" . implode("\n	", $out) . "\n);";
 		break;
 	default:
 		$out = '错误：没有转换指令';

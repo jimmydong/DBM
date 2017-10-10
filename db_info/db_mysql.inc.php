@@ -488,11 +488,14 @@ class DB_Sql {
   	{
   		$thefield[$i]=mysql_field_name($this->Query_ID,$i);
   	}
-  	echo "</tr>";
   	$counter=0;
   	while($this->next_record() && $counter<$maxlines)
   	{
-  		$re[] = $this->Record[$thefield[$i]];
+		$tmp = [];
+	  	for ($i=0;$i<$collums;$i++){
+  			$tmp[$thefield[$i]] = $this->Record[$thefield[$i]];
+		}
+		$re[] = $tmp;
   	}
   	return $re;
   }
