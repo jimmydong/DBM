@@ -67,7 +67,7 @@ switch($_REQUEST['do']){
 		$out = "public static \$define_slim = array(\n" . implode("\n", $out) . "\n);";
 		break;
 	default:
-		$re = '错误：没有转换指令';
+		$out = '错误：没有转换指令';
 		break;
 }
 showhead();
