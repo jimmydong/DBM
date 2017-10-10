@@ -269,7 +269,8 @@ foreach($db_info as $table_name=>$table_info)
     ?>
     <a name='<?=$table_name?>'>
     <h3><a href=#top>↑</a>数据表【<?=$table_name?>】 - <?=$db_comment[$table_name]?><?if($modify==1)echo "<a href={$currenturl}?serverid=$serverid&database=$database&action=updatecomment&table={$table_name}&comment=".urlencode($db_comment[$table_name]).">&raquo;</a>"?>(数据量:<?=$db_rows[$table_name]?>)</h3>
-    <a href="javascript:;" onclick="$('#t_<?=$table_name?>').tableExport({type:'csv',escape:'false'})">导出CSV</a>
+    <a href="javascript:;" onclick="$('#t_<?=$table_name?>').tableExport({type:'csv',escape:'false'})">导出CSV</a> | 
+    <a href="trans.php?do=table&table=<?=$table_name?>" target=_blank>生成定义</a>
     <div class=boxc>
     <?
     showhelp($doc_content[$table_name][_log],$doc_content[$table_name][_log]);
