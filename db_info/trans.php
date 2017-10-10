@@ -4,6 +4,7 @@
  * 
  */
 include("db_info.ini.php");
+include("db_mysql.inc.php");
 $db = new DB_glb;
 
 switch($_REQUEST['do']){
