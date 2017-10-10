@@ -5,6 +5,9 @@
  */
 include("db_info.ini.php");
 include("db_mysql.inc.php");
+if(!$cfg['Servers'][$serverid])die("Can't find DB!");
+else $serverinfo=$cfg['Servers'][$serverid];
+if($database==''){$step='';$database='mysql';}
 $tmp_str = "
 class DB_glb extends DB_Sql {
 var \$Host     = '{$serverinfo[host]}:{$serverinfo[port]}';
@@ -64,7 +67,7 @@ switch($_REQUEST['do']){
 		$out = "public static \$define_slim = array(\n" . implode("\n", $out) . "\n);";
 		break;
 	default:
-		$re = '错误：没有转换指令';
+		$out = '错误：没有转换指令';
 		break;
 }
 showhead();
