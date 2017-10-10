@@ -5,6 +5,15 @@
  */
 include("db_info.ini.php");
 include("db_mysql.inc.php");
+$tmp_str = "
+class DB_glb extends DB_Sql {
+var \$Host     = '{$serverinfo[host]}:{$serverinfo[port]}';
+var \$Database = '{$database}';
+var \$User     = '{$serverinfo[user]}';
+var \$Password = '{$serverinfo[password]}';
+}
+";
+eval($tmp_str);
 $db = new DB_glb;
 
 switch($_REQUEST['do']){
