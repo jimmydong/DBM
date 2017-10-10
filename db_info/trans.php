@@ -5,6 +5,9 @@
  */
 include("db_info.ini.php");
 include("db_mysql.inc.php");
+if(!$cfg['Servers'][$serverid])die("Can't find DB!");
+else $serverinfo=$cfg['Servers'][$serverid];
+if($database==''){$step='';$database='mysql';}
 $tmp_str = "
 class DB_glb extends DB_Sql {
 var \$Host     = '{$serverinfo[host]}:{$serverinfo[port]}';
