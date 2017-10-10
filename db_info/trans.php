@@ -11,15 +11,15 @@ switch($_REQUEST['do']){
 		$out = trans($code);
 		break;
 	case 'table': //整个table生成 define_slim (用于配合 BaseModel::_slim)
-		$rows = $db->fetchAll("select * from _system__doc where `table` = '{$table}'");
+		$rows = $q->fetchAll("select * from _system__doc where `table` = '{$table}'");
 		foreach($rows as $row){
 			$info[strtolower($row['field'])] = $row;
 		}
-		$rows = $db->fetchAll("select * from _system__doc where `table` = '_all'");
+		$rows = $q->fetchAll("select * from _system__doc where `table` = '_all'");
 		foreach($rows as $row){
 			$all[strtolower($row['field'])] = $row;
 		}
-		$rows = $db->fetchAll("DESCRIBE `{$table}`");
+		$rows = $q->fetchAll("DESCRIBE `{$table}`");
 		foreach($rows as $row){
 			$field = strtolower($row['Field']);
 			if($info[$field]['content']){
