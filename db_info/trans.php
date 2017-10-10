@@ -4,6 +4,7 @@
  * 
  */
 include("db_info.ini.php");
+$db = new DB_glb;
 
 switch($_REQUEST['do']){
 	case 'toArray': //描述转数组。适用： 0：文本回复 1：图文回复 2：音乐回复 3：视频回复
@@ -11,15 +12,15 @@ switch($_REQUEST['do']){
 		$out = trans($code);
 		break;
 	case 'table': //整个table生成 define_slim (用于配合 BaseModel::_slim)
-		$rows = $q->fetchAll("select * from _system__doc where `table` = '{$table}'");
+		$rows = $db->fetchAll("select * from _system__doc where `table` = '{$table}'");
 		foreach($rows as $row){
 			$info[strtolower($row['field'])] = $row;
 		}
-		$rows = $q->fetchAll("select * from _system__doc where `table` = '_all'");
+		$rows = $db->fetchAll("select * from _system__doc where `table` = '_all'");
 		foreach($rows as $row){
 			$all[strtolower($row['field'])] = $row;
 		}
-		$rows = $q->fetchAll("DESCRIBE `{$table}`");
+		$rows = $db->fetchAll("DESCRIBE `{$table}`");
 		foreach($rows as $row){
 			$field = strtolower($row['Field']);
 			if($info[$field]['content']){
