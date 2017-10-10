@@ -5,20 +5,21 @@
  */
 include("db_info.ini.php");
 include("db_mysql.inc.php");
-if(!$cfg['Servers'][$serverid])die("Can't find DB!");
-else $serverinfo=$cfg['Servers'][$serverid];
-if($database==''){$step='';$database='mysql';}
-$tmp_str = "
-class DB_glb extends DB_Sql {
-var \$Host     = '{$serverinfo[host]}:{$serverinfo[port]}';
-var \$Database = '{$database}';
-var \$User     = '{$serverinfo[user]}';
-var \$Password = '{$serverinfo[password]}';
+if($serverid){
+	if(!$cfg['Servers'][$serverid])die("Can't find DB!");
+	else $serverinfo=$cfg['Servers'][$serverid];
+	if($database==''){$step='';$database='mysql';}
+	$tmp_str = "
+	class DB_glb extends DB_Sql {
+	var \$Host     = '{$serverinfo[host]}:{$serverinfo[port]}';
+	var \$Database = '{$database}';
+	var \$User     = '{$serverinfo[user]}';
+	var \$Password = '{$serverinfo[password]}';
+	}
+	";
+	eval($tmp_str);
+	$db = new DB_glb;
 }
-";
-eval($tmp_str);
-$db = new DB_glb;
-
 switch($_REQUEST['do']){
 	case 'toArray': //描述转数组。适用： 0：文本回复 1：图文回复 2：音乐回复 3：视频回复
 		$code = $_REQUEST['code'];
