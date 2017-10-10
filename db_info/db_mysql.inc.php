@@ -478,6 +478,25 @@ class DB_Sql {
     }
   }
   
+  function fetchAll($querystring,$maxlines=100) {
+  	// 返回全部数据为表格形式
+  	 
+  	$colorflag=0;
+  	$this->query($querystring);
+  	$collums=mysql_num_fields($this->Query_ID);
+  	for ($i=0;$i<$collums;$i++)
+  	{
+  		$thefield[$i]=mysql_field_name($this->Query_ID,$i);
+  	}
+  	echo "</tr>";
+  	$counter=0;
+  	while($this->next_record() && $counter<$maxlines)
+  	{
+  		$re[] = $this->Record[$thefield[$i]];
+  	}
+  	return $re;
+  }
+  
   function query_all($querystring,$maxlines=100) {
   	// 返回全部数据为表格形式
   	
