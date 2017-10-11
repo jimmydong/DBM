@@ -62,7 +62,7 @@ switch($_REQUEST['do']){
 						$map = ", 'map'=>" . $tmp;
 					}
 				}
-				$out[] = "'{$k}' => ['title'=>'{$v['content']}'{$map}{$type}];";
+				$out[] = "'{$k}' => ['title'=>'{$v['content']}'{$map}{$type}],";
 			}
 		}
 		$out = "public static \$define_slim = array(\n	" . implode("\n	", $out) . "\n);";
