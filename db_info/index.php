@@ -1,56 +1,134 @@
 <?
 /**
- * DB list by jimmy
+ * 公共文件：数据库结构说明
+ * DB info version 2
+ * 
+ * by jimmy.dong@gmail.com
+ * 
+ *
+ * DOC 表的结构
+ * CREATE TABLE `_system__doc` (
+ *   `table` varchar(60) NOT NULL default '',
+ *   `field` varchar(60) NOT NULL default '',
+ *   `content` varchar(200) NOT NULL default '',
+ *   `remark` text NOT NULL,
+ *   PRIMARY KEY  (`table`,`field`)
+ * ) TYPE=MyISAM COMMENT='数据表说明文档';
+ *
+ * DOC 表table字段保留字含义
+ *   _all - 全局缺省值
+ *
+ * DOC 表field字段保留字含义
+ *   _remark - 对表的特殊说明 content=简要说明 remark=详细说明
+ *   _log - 对表的修改说明 content=修改说明 remark=历史纪录
+ *
  *
  */
-include("db_info.ini.php");
-//var_dump($cfg['Servers']);
-print <<< end_of_print
+//环境配置
+define('IS_TEST', true);
+session_start();
+
+//自动加载
+$autoPath = dirname(__FILE__);$path = get_include_path();
+if (strpos($path.PATH_SEPARATOR, $autoPath.PATH_SEPARATOR) === false) set_include_path($path.PATH_SEPARATOR.$autoPath);
+spl_autoload_extensions('.class.php');
+spl_autoload_register('spl_autoload');
+
+//最小MVC
+$request = lib\Request::getInstance();
+try
+{
+	$mvc = new lib\App($request->_c, $request->_a);  
+	$mvc->run();
+}
+catch (\Exception $err)
+{
+    header("Content-type:text/html;charset=utf-8");
+	var_dump($err);	
+}
+
+
+/*-------------------------------------- funcitons -------------------------------------------*/
+function showhead($title="")
+{
+	if($title) $title="$title";
+	print <<< end_of_print
+<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Language" content="zh-cn">
-<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
-<title>CLUB SOHU - DB INFO SYSTEM</title>
+	<title>JDTK - $title</title>
+	<META HTTP-EQUIV="Expires" CONTENT="0">
+	<META HTTP-EQUIV="Last-Modified" CONTENT="0">
+	<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+	<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+	<meta http-equiv="Content-Type" content="text/html; charset=GBK">
+	<link rel="stylesheet" href="func.css" type="text/css">
+	<script language=javascript src="func.js"></script>
 </head>
-<body>
-<p>DB�ĵ�ϵͳ</p>
+<body bgcolor="#FFFFFF" text="#000000" topmargin="10" >
+	<p><a href=./>返回首页</a></p>
 end_of_print;
-?><?
-if(!$step || !$serverid){
-	echo "��һ���� ѡ�����ݿ��������<br><form name=form1 id=form1 method=post action=index.php><select name=serverid><option value=''>--select server--</option>";
-	foreach($cfg['Servers'] as $serverid=>$serverinfo){
-	if($serverinfo['echo']){
-	if($serverid!=1)echo $serverinfo['echo'];
+}
+function showhelp($showdoc,$helpdoc,$markflag='')
+{
+	$showdoc=text2html($showdoc);
+	$helpdoc=text2string(text2html($helpdoc));
+	$helpdoc=addslashes($helpdoc);
+	if($markflag==1)$markflag='※';
+	if (trim($helpdoc)=='') return $showdoc;
+	else return "<span onmouseover=\"show_help('$helpdoc',event);\" onmouseout=\"show_help('',event);\">$showdoc $markflag</span>";
+}
+function text2html($mytext)
+{
+	$mystring=htmlspecialchars($mytext, ENT_COMPAT, 'gb2312');
+	$mystring=str_replace(" ","&nbsp;",$mystring);
+	$mystring=nl2br($mystring);
+	return $mystring;
+}
+function text2string($mytext)
+{
+	$mystring=$mytext;
+	$s_return=chr(13).chr(10);
+	$mystring=str_replace($s_return,"\\n",$mystring);
+	return $mystring;
+}
+
+/**
+ * 调试函数，用以取代var_dump。
+ * 不同于var_dump：多个参数间使用 , 分隔，而不是空格
+ */
+function var_dump2(){
+	$varArray = func_get_args();
+	foreach($varArray as $var) var_dump($var);
+	$t = debug_backtrace(1);
+	$caller = $t[0]['file'].':'.$t[0]['line'];
+	echo " -- from $caller --";
+	exit;
+}
+
+function gbk2utf8($in){
+	if(is_string($in)){
+		$re = iconv('gbk','utf-8',$in);
+	}elseif(is_array($in)){
+		foreach($in as $k=>$v){
+			$k = iconv('gbk','utf-8',$k);
+			$re[$k] = gbk2utf8($v);
+		}
 	}else{
-	echo "<option value={$serverid} style='background-color: {$serverinfo[ext_color]};'>";
-	echo "{$serverid} {$serverinfo[host]}:{$serverinfo[port]} {$serverinfo[ext_name]}";
-	echo "</option>\n";
+		$re = null;
 	}
+	return $re;
+}
+function utf82gbk($in){
+	if(is_string($in)){
+		$re = iconv('utf-8','gbk',$in);
+	}elseif(is_array($in)){
+		foreach($in as $k=>$v){
+			$k = iconv('utf-8','gbk',$k);
+			$re[$k] = utf82gbk($v);
+		}
+	}else{
+		$re = null;
 	}
-	echo "<input type=hidden name=step value=1><input type=submit value=NEXT></form>";
-}else{
-	include("db_mysql.inc.php");
-	if(!$cfg['Servers'][$serverid])die("Can't find DB!");
-	else $serverinfo=$cfg['Servers'][$serverid];
-	$tmp_str = "
-	class DB_glb extends DB_Sql {
-	  var \$Host     = '{$serverinfo[host]}:{$serverinfo[port]}';
-	  var \$Database = 'mysql';
-	  var \$User     = '{$serverinfo[user]}';
-	  var \$Password = '{$serverinfo[password]}';
-	}
-	";
-	eval($tmp_str);
-	
-	$q=new DB_glb;
-	echo "�ڶ�����ѡ����Ҫ���������ݿ⣺<br><form name=form1 id=form1 method=post action=db_info.php>";
-	echo "<input type=hidden name=step value=1>";
-	echo "<input type=hidden name=serverid value=$serverid>";
-	echo "<select name=database><option value=''>--select database--</option>";
-	$q->query("SHOW DATABASES");
-	while($record=$q->next_record()){
-	if($record[Database]=='information_schema' || $record[Database]=='mysql')continue;
-	echo "<option value='{$record[Database]}'>{$record[Database]}</option>";
-	}
-	echo "<input type=submit value=NEXT></form>";
+	return $re;
 }

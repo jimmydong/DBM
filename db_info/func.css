@@ -1,17 +1,17 @@
 P {
-	FONT-SIZE: 10pt;  FONT-FAMILY: 'ËÎÌå'; text-indent: 10
+	FONT-SIZE: 10pt;  FONT-FAMILY: 'ï¿½ï¿½ï¿½ï¿½'; text-indent: 10
 }
 LI {
-	FONT-SIZE: 10pt; MARGIN: 5px 4%; FONT-FAMILY: 'ËÎÌå'
+	FONT-SIZE: 10pt; MARGIN: 5px 4%; FONT-FAMILY: 'ï¿½ï¿½ï¿½ï¿½'
 }
 P.doc {
-	FONT-SIZE: 10pt; MARGIN: 3px 3%; FONT-FAMILY: 'ËÎÌå'
+	FONT-SIZE: 10pt; MARGIN: 3px 3%; FONT-FAMILY: 'ï¿½ï¿½ï¿½ï¿½'
 }
 P.menu {
-	FONT-SIZE: 10pt; FONT-FAMILY: 'ËÎÌå'
+	FONT-SIZE: 10pt; FONT-FAMILY: 'ï¿½ï¿½ï¿½ï¿½'
 }
 A {
-	FONT-SIZE: 10pt; COLOR: #5b5b5b; FONT-FAMILY: 'ËÎÌå'; TEXT-DECORATION: underline
+	FONT-SIZE: 10pt; COLOR: #5b5b5b; FONT-FAMILY: 'ï¿½ï¿½ï¿½ï¿½'; TEXT-DECORATION: underline
 }
 A:visited {
 	COLOR: #5b5b5b; 
@@ -23,13 +23,13 @@ A:hover {
 	COLOR: red; TEXT-DECORATION: underline
 }
 TD {
-	FONT-SIZE: 10pt; FONT-FAMILY: "ËÎÌå"
+	FONT-SIZE: 10pt; FONT-FAMILY: "ï¿½ï¿½ï¿½ï¿½"
 }
 TD.title {
-	FONT-SIZE: 10pt; LINE-HEIGHT: 18pt; FONT-FAMILY: "ËÎÌå"; BACKGROUND-COLOR: #ffffcc
+	FONT-SIZE: 10pt; LINE-HEIGHT: 18pt; FONT-FAMILY: "ï¿½ï¿½ï¿½ï¿½"; BACKGROUND-COLOR: #ffffcc
 }
 TD.doc {
-	FONT-SIZE: 10pt; TEXT-INDENT: 18pt; LINE-HEIGHT: 18pt; FONT-FAMILY: "ËÎÌå"; BACKGROUND-COLOR: #ffffee
+	FONT-SIZE: 10pt; TEXT-INDENT: 18pt; LINE-HEIGHT: 18pt; FONT-FAMILY: "ï¿½ï¿½ï¿½ï¿½"; BACKGROUND-COLOR: #ffffee
 }
 
 BODY {
@@ -45,9 +45,9 @@ TEXTAREA {
 	FONT-SIZE: 10pt
 }
 
-H1 {Font-family: Î¢ÈíÑÅºÚ; font-size: 36pt; color: #000000; font-weight: bold}
-H2 {Font-family: ËÎÌå; font-size: 24pt; color: #000000; font-weight: bold}
-H3 {Font-family: Á¥Êé; font-size: 18pt; color: #808080; font-weight: bold}
+H1 {Font-family: Î¢ï¿½ï¿½ï¿½Åºï¿½; font-size: 36pt; color: #000000; font-weight: bold}
+H2 {Font-family: ï¿½ï¿½ï¿½ï¿½; font-size: 24pt; color: #000000; font-weight: bold}
+H3 {Font-family: ï¿½ï¿½ï¿½ï¿½; font-size: 18pt; color: #808080; font-weight: bold}
 H4 {Font-size: 12px; Line-height: 120%; Background-color: #f4f4f8; TEXT-DECORATION: underline}
 
 .l1 {COLOR: #3366ff; LINE-HEIGHT: 170%}
@@ -69,3 +69,7 @@ H4 {Font-size: 12px; Line-height: 120%; Background-color: #f4f4f8; TEXT-DECORATI
 .boxh { position: relative; left: 18px; width: 25%; color: #ffffff; border: 1px solid #808080; background-color: #808080; padding-left: 8px; padding-right: 8px; z-index: 1; }
 .boxb { position: relative; top: -7pt; border: 1px solid #808080; padding: 8px; padding-top: 11pt; }
 .boxb450 { width: 450; position: relative; top: -7pt; border: 1px solid #808080; padding: 8px; padding-top: 11pt; }
+
+.layui-layer-content{
+	margin: 20px;
+}
