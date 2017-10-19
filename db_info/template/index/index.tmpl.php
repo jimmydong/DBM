@@ -16,7 +16,7 @@ if(!$response->step){
 		}
 		}else{
 			echo "<option value={$serverid} style='background-color: {$serverinfo[ext_color]};'>";
-			echo "{$serverid} {$serverinfo[host]}:{$serverinfo[port]} {$serverinfo[ext_name]}";
+			echo "{$serverid} {$serverinfo[host]}:{$serverinfo[port]} {$serverinfo[verbose]}";
 			echo "</option>\n";
 		}
 	}
