@@ -130,20 +130,24 @@ $("#dialog_close").click(function(){
 	layer.closeAll();
 });
 $(".table_help").dblclick(function(){
-	$.post("./?_c=trans&_a=toArray",{ajax:1, code:$(this).text()},function(re){
-		if(re.success){
-				layer.open({
-				  type: 1,
-				  title: false,
-				  closeBtn: 1,
-				  shadeClose: true,
-				  area: ['400px','300px'],
-				  content: re.data
-				});
-		}else{
-			alert(re.msg);
-		}
-	},'JSON');
+	if($(this).text() == ''){
+		$(this).parent('.table_data').find(".table_doc").trigger('click');
+	}else{
+		$.post("./?_c=trans&_a=toArray",{ajax:1, code:$(this).text()},function(re){
+			if(re.success){
+					layer.open({
+					  type: 1,
+					  title: false,
+					  closeBtn: 1,
+					  shadeClose: true,
+					  area: ['400px','300px'],
+					  content: re.data
+					});
+			}else{
+				alert(re.msg);
+			}
+		},'JSON');
+	}
 });
 </script>
 
