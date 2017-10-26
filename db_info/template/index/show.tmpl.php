@@ -131,7 +131,7 @@ $("#dialog_close").click(function(){
 });
 $(".table_help").dblclick(function(){
 	if($(this).text() == ''){
-		$(this).parent('.table_data').find(".table_doc").trigger('click');
+		$(this).parent('.table_data').find(".table_doc").trigger('dblclick');
 	}else{
 		$.post("./?_c=trans&_a=toArray",{ajax:1, code:$(this).text()},function(re){
 			if(re.success){
