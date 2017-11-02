@@ -122,6 +122,7 @@ $(".table_doc").dblclick(function(){
 $(".table_comment").dblclick(function(){
 	obj = this;
 	$("#dialog_table_name2").val($(this).attr('data'));
+	$("#dialog_doc2").val($(this).html());
 	
 	layer.open({
 	  type: 1,
