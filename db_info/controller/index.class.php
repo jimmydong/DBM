@@ -173,13 +173,13 @@ class Index extends Base {
 		$serverinfo = self::init_db($serverid, $database);
 		
 		$q=new \DB_glb;
-		$q->query(iconv('utf-8','gbk',"CREATE TABLE `_system__doc` (
-					  `table` varchar(60) NOT NULL default '',
-					  `field` varchar(60) NOT NULL default '',
-					  `content` varchar(200) NOT NULL default '',
-					  `remark` text NOT NULL,
-					  PRIMARY KEY  (`table`,`field`)
-					) TYPE=MyISAM COMMENT='数据表说明文档';"
+		$q->query(iconv('utf-8', 'gbk', "CREATE TABLE IF NOT EXISTS `_system__doc` (
+			  `table` varchar(60) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+			  `field` varchar(60) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+			  `content` varchar(200) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+			  `remark` text COLLATE utf8_unicode_ci NOT NULL,
+			  PRIMARY KEY  (`table`,`field`)
+			) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='数据表说明文档';"
 		));
 		return $this->redirect("./?_a=show");
 	}
