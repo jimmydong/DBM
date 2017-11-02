@@ -86,26 +86,16 @@ class Index extends Base {
 		$re .= "</table>\n</div>\n";
 		
 		//读出DOC表内容
-		$modify = $request->modify;
-		if(!$no_doc)
-		{
-			$q->query("SELECT * FROM _system__doc");
-			while($q->next_record())
-			{
-				if ($q->f('table')=='' || $q->f('field')=='') continue;
-				$doc_content[$q->f('table')][$q->f('field')] = $q->f('content');
-				$doc_remark[$q->f('table')][$q->f('field')] = $q->f('remark');
-			}
+		if(! $q->query("SELECT * FROM _system__doc")){
+			$re .= "<div class=boxb>Warrning: <p>未找到内容介绍文档结构。<a href=?_c=index&_a=createdoc>创建文档结构</a></div>";
 		}
-		else
+		while($q->next_record())
 		{
-			if ($modify==1)
-			{
-				$re .= "<div class=boxb>Warrning: <p>未找到内容介绍文档结构，编辑模式禁止！<a href={$currenturl}?serverid=$serverid&database=$database&action=createdoc>创建文档结构</a></div>";
-				$modify = 0;
-			}
+			if ($q->f('table')=='' || $q->f('field')=='') continue;
+			$doc_content[$q->f('table')][$q->f('field')] = $q->f('content');
+			$doc_remark[$q->f('table')][$q->f('field')] = $q->f('remark');
 		}
-
+		
 		$response->db_info = $db_info;
 		$response->db_comment = $db_comment;
 		$response->db_rows = $db_rows;
@@ -174,6 +164,18 @@ class Index extends Base {
 			$response->table = $request->table;
 			$this->display($response);
 		}
+	}
+	public function createdoc($request, $response){
+		$q=new \DB_glb;
+		$q->query("CREATE TABLE `_system__doc` (
+					  `table` varchar(60) NOT NULL default '',
+					  `field` varchar(60) NOT NULL default '',
+					  `content` varchar(200) NOT NULL default '',
+					  `remark` text NOT NULL,
+					  PRIMARY KEY  (`table`,`field`)
+					) TYPE=MyISAM COMMENT='数据表说明文档';"
+		);
+		return $this->redirect("./?_a=show");
 	}
 	
 }
