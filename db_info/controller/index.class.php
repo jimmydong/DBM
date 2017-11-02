@@ -173,14 +173,14 @@ class Index extends Base {
 		$serverinfo = self::init_db($serverid, $database);
 		
 		$q=new \DB_glb;
-		$q->query("CREATE TABLE `_system__doc` (
+		$q->query(iconv('utf-8','gbk',"CREATE TABLE `_system__doc` (
 					  `table` varchar(60) NOT NULL default '',
 					  `field` varchar(60) NOT NULL default '',
 					  `content` varchar(200) NOT NULL default '',
 					  `remark` text NOT NULL,
 					  PRIMARY KEY  (`table`,`field`)
 					) TYPE=MyISAM COMMENT='数据表说明文档';"
-		);
+		));
 		return $this->redirect("./?_a=show");
 	}
 	
