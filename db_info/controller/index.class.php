@@ -85,7 +85,7 @@ class Index extends Base {
 		}
 		$re .= "</table>\n</div>\n";
 		
-		$q->query("SELECT table_name FROM information_schema.TABLES WHERE table_name ='_system__doc'");
+		$q->query("SELECT table_name FROM information_schema.TABLES WHERE table_schema='{$database}' and table_name ='_system__doc'");
 		if(! $q->next_record()){
 			$re .= "<div class=boxb>Warrning: <p>未找到内容介绍文档结构。<a href=?_c=index&_a=createdoc>创建文档结构</a></div>";
 		}else{
