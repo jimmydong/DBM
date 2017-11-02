@@ -30,9 +30,10 @@ foreach($response->db_info as $table_name=>$table_info)
     	$remark = '';
         $remark .= "<a href=./php?_a=remark&table={$table_name}>addremark&raquo;</a>";
     }
+	if($db_comment[$table_name] == '')$db_comment[$table_name] = '&gt;&gt;';
 	print <<< end_of_print
     <a name='{$table_name}'>
-    <h3><a href=#top>↑</a>数据表【{$table_name}】 - {$db_comment[$table_name]}(数据量:{$response->db_rows[$table_name]})</h3>
+    <h3><a href=#top>↑</a>数据表【{$table_name}】 <span class="table_comment" data="{$table_name}">- {$db_comment[$table_name]}</span>(数据量:{$response->db_rows[$table_name]})</h3>
     <a href="javascript:;" onclick="$('#t_{$table_name}').tableExport({type:'csv',escape:'false'})">导出CSV</a> | 
     <a href="./?_c=trans&_a=table&table={$table_name}" target=_blank>生成定义</a>
     <div class=boxc>
@@ -81,7 +82,13 @@ print <<< end_of_print
 	<textarea id="dialog_help" rows=10 cols=48></textarea><br/>
 	<button id="dialog_close">确定</button>
 </div>
-	
+<div id="dialog2" style="margin: 20px;display: none">
+	<input id="dialog_table_name2" type=hidden>
+	说明：<input id="dialog_doc2" size=36><br/>
+	<button id="dialog_close2">确定</button>
+</div>
+
+
 
 <script>
 $(function(){
@@ -112,6 +119,20 @@ $(".table_doc").dblclick(function(){
 	});
 		
 });
+$(".table_comment").dblclick(function(){
+	obj = this;
+	$("#dialog_table_name2").val($(this).attr('data'));
+	
+	layer.open({
+	  type: 1,
+	  title: false,
+	  closeBtn: 1,
+	  shadeClose: true,
+	  area: ['460px','320px'],
+	  content: $("#dialog2")
+	});
+		
+});
 $("#dialog_close").click(function(){
 	$.post("./?_a=edit",{
 		table_name:$("#dialog_table_name").val(),
@@ -123,6 +144,19 @@ $("#dialog_close").click(function(){
 		if(re.success){
 			$(obj).html($("#dialog_doc").val());
 			$(obj).parent('.table_data').find(".table_help").html($("#dialog_help").val());
+		}else{
+			alert(re.msg);
+		}
+	},'JSON');
+	layer.closeAll();
+});
+$("#dialog_close2").click(function(){
+	$.post("./?_a=comment",{
+		table_name:$("#dialog_table_name2").val(),
+		doc:$("#dialog_doc2").val()
+	},function(re){
+		if(re.success){
+			$(obj).html($("#dialog_doc2").val());
 		}else{
 			alert(re.msg);
 		}
