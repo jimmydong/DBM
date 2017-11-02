@@ -183,5 +183,16 @@ class Index extends Base {
 		));
 		return $this->redirect("./?_a=show");
 	}
-	
+	public function comment($request, $response){
+		$table_name = $request->table_name;
+		$doc = $request->doc;
+		
+		if(! $table_name || ! $doc) return $this->json_fail('请填写内容');
+		
+		$database = $_SESSION['database'];
+		$serverinfo = self::init_db($serverid, $database);
+		$q=new \DB_glb;
+		$q->query("alter table `{$table_name}` comment '{$doc}'");
+		return $this->json_ok();
+	}
 }
