@@ -33,7 +33,7 @@ foreach($response->db_info as $table_name=>$table_info)
 	if($db_comment[$table_name] == '')$db_comment[$table_name] = '&gt;&gt;';
 	print <<< end_of_print
     <a name='{$table_name}'>
-    <h3><a href=#top>↑</a>数据表【{$table_name}】 <span class="table_comment" data="{$table_name}">- {$db_comment[$table_name]}</span>(数据量:{$response->db_rows[$table_name]})</h3>
+    <h3><a href=#top>↑</a>数据表【{$table_name}】 - <span class="table_comment" data="{$table_name}">{$db_comment[$table_name]}</span>(数据量:{$response->db_rows[$table_name]})</h3>
     <a href="javascript:;" onclick="$('#t_{$table_name}').tableExport({type:'csv',escape:'false'})">导出CSV</a> | 
     <a href="./?_c=trans&_a=table&table={$table_name}" target=_blank>生成定义</a>
     <div class=boxc>
