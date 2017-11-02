@@ -169,6 +169,9 @@ class Index extends Base {
 		}
 	}
 	public function createdoc($request, $response){
+		$database = $_SESSION['database'];
+		$serverinfo = self::init_db($serverid, $database);
+		
 		$q=new \DB_glb;
 		$q->query("CREATE TABLE `_system__doc` (
 					  `table` varchar(60) NOT NULL default '',
