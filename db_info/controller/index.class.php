@@ -130,25 +130,6 @@ class Index extends Base {
 			return $this->json_fail("数据库操作失败！");
 		}
 	}
-	public function comment($request, $response){
-		if($request->step){
-			$table = $request->table;
-			if ($table=='') return $this->json_fail("Error: 传入参数错误!");
-			$comment=addslashes(utf82gbk($request->comment));
-			
-			self::init_db();
-			$q=new \DB_glb;
-			
-			if ($q->query("ALTER TABLE `$table` COMMENT = '$comment'")){
-				$this->redirect("./?_a=show");
-			}else{
-				die("数据库操作失败！");
-			}
-		}else{
-			$response->table = $request->table;
-			$this->display($response);
-		}
-	}
 	public function log($request, $response){
 		if($request->step){
 			$table = $request->table;
