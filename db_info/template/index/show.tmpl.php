@@ -114,8 +114,8 @@ $(".table_doc").dblclick(function(){
 	$("#dialog_help").val($(this).parent('.table_data').find(".table_help").text());
 	$("#dialog_table_name").val($(this).parent('.table_data').attr('d_table'));
 	$("#dialog_table_column").val($(this).parent('.table_data').find(".table_column").text());
-	if($(this).parent('.table_data').attr('d_all') == 1)$("#dialog_all").attr("checked", "checked");
-	else $("#dialog_all").attr("checked", false);
+	if($(this).parent('.table_data').attr('d_all') == 1)$("#dialog_all").prop("checked", "checked");
+	else $("#dialog_all").prop("checked", false);
 	
 	layer.open({
 	  type: 1,
@@ -148,7 +148,7 @@ $("#dialog_close").click(function(){
 		table_column:$("#dialog_table_column").val(),
 		doc:$("#dialog_doc").val(),
 		help:$("#dialog_help").val(),
-		all:$("#dialog_all:checked").val()
+		all:$("#dialog_all").prop("checked")
 	},function(re){
 		if(re.success){
 			$(obj).html($("#dialog_doc").val());
