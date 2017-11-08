@@ -114,7 +114,6 @@ class Index extends Base {
 		$field = $request->table_column;
 		if($request->all==1)$table="_all";
 		$sql = "REPLACE _system__doc SET `table`='$table', `field`='$field', `content`='$content', `remark`='$remark'";
-		\yoka\Debug::log('sql', $sql);
 		if ($q->query($sql))
 		{
 			return $this->json_ok('ok');
