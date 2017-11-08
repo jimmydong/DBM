@@ -1,17 +1,17 @@
 P {
-	FONT-SIZE: 10pt;  FONT-FAMILY: '����'; text-indent: 10
+	FONT-SIZE: 10pt;  FONT-FAMILY: '微软雅黑'; text-indent: 10
 }
 LI {
-	FONT-SIZE: 10pt; MARGIN: 5px 4%; FONT-FAMILY: '����'
+	FONT-SIZE: 10pt; MARGIN: 5px 4%; FONT-FAMILY: '微软雅黑'
 }
 P.doc {
-	FONT-SIZE: 10pt; MARGIN: 3px 3%; FONT-FAMILY: '����'
+	FONT-SIZE: 10pt; MARGIN: 3px 3%; FONT-FAMILY: '微软雅黑'
 }
 P.menu {
-	FONT-SIZE: 10pt; FONT-FAMILY: '����'
+	FONT-SIZE: 10pt; FONT-FAMILY: '微软雅黑'
 }
 A {
-	FONT-SIZE: 10pt; COLOR: #5b5b5b; FONT-FAMILY: '����'; TEXT-DECORATION: underline
+	FONT-SIZE: 10pt; COLOR: #5b5b5b; FONT-FAMILY: '微软雅黑'; TEXT-DECORATION: underline
 }
 A:visited {
 	COLOR: #5b5b5b; 
@@ -23,13 +23,13 @@ A:hover {
 	COLOR: red; TEXT-DECORATION: underline
 }
 TD {
-	FONT-SIZE: 10pt; FONT-FAMILY: "����"
+	FONT-SIZE: 10pt; FONT-FAMILY: "微软雅黑"
 }
 TD.title {
-	FONT-SIZE: 10pt; LINE-HEIGHT: 18pt; FONT-FAMILY: "����"; BACKGROUND-COLOR: #ffffcc
+	FONT-SIZE: 10pt; LINE-HEIGHT: 18pt; FONT-FAMILY: "微软雅黑"; BACKGROUND-COLOR: #ffffcc
 }
 TD.doc {
-	FONT-SIZE: 10pt; TEXT-INDENT: 18pt; LINE-HEIGHT: 18pt; FONT-FAMILY: "����"; BACKGROUND-COLOR: #ffffee
+	FONT-SIZE: 10pt; TEXT-INDENT: 18pt; LINE-HEIGHT: 18pt; FONT-FAMILY: "微软雅黑"; BACKGROUND-COLOR: #ffffee
 }
 
 BODY {
@@ -45,9 +45,9 @@ TEXTAREA {
 	FONT-SIZE: 10pt
 }
 
-H1 {Font-family: ΢���ź�; font-size: 36pt; color: #000000; font-weight: bold}
-H2 {Font-family: ����; font-size: 24pt; color: #000000; font-weight: bold}
-H3 {Font-family: ����; font-size: 18pt; color: #808080; font-weight: bold}
+H1 {Font-family: 微软雅黑; font-size: 36pt; color: #000000; font-weight: bold}
+H2 {Font-family: 微软雅黑; font-size: 24pt; color: #000000; font-weight: bold}
+H3 {Font-family: 微软雅黑; font-size: 18pt; color: #808080; font-weight: bold}
 H4 {Font-size: 12px; Line-height: 120%; Background-color: #f4f4f8; TEXT-DECORATION: underline}
 
 .l1 {COLOR: #3366ff; LINE-HEIGHT: 170%}
