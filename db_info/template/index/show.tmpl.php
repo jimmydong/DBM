@@ -50,12 +50,18 @@ end_of_print;
         foreach($table_info as $key=>$val)
         {
         	$showdoc=$doc_content[$table_name][$val[name]];
-        	if($showdoc=='') $showdoc=$doc_content[_all][$val[name]];
+        	if($showdoc==''){
+        		//使用通用注释
+        		$showdoc=$doc_content[_all][$val[name]];
+        		$use_all = 1;
+        	}else{
+        		$use_all = 0;
+        	}
         	$helpdoc=$doc_remark[$table_name][$val[name]]?:$doc_remark[_all][$val[name]];
         	$height = 22 * count(explode("\n", $helpdoc)) + 22;
        		$type = showhelp("{$val[type]}({$val[len]})","<b>".$val[type].implode(' ',$val[args])."</b><br>null:".$val['null']."<br>key:<b>".$val[key]."</b><br>default:<b>".$val['default']."</b><br>".$val[extra]);
        		print <<< end_of_print
-    <tr class="table_data" d_table="{$table_name}" d_column="{$val['name']}" onmouseover="this.style.backgroundColor='#EDEDFD';" onmouseout="this.style.backgroundColor='#FFFFFF';">
+    <tr class="table_data" d_table="{$table_name}" d_column="{$val['name']}" d_all="{$use_all}" onmouseover="this.style.backgroundColor='#EDEDFD';" onmouseout="this.style.backgroundColor='#FFFFFF';">
         <td class="table_column" valign=middle><font color=#666666><b>{$val['name']}</b></font></td>
         <td valign=middle>{$type}</td>
         <td class="table_doc" valign=middle>{$showdoc}</td>
@@ -108,6 +114,8 @@ $(".table_doc").dblclick(function(){
 	$("#dialog_help").val($(this).parent('.table_data').find(".table_help").text());
 	$("#dialog_table_name").val($(this).parent('.table_data').attr('d_table'));
 	$("#dialog_table_column").val($(this).parent('.table_data').find(".table_column").text());
+	if($(this).parent('.table_data').attr('d_all') == 1)$("#dialog_all").attr("checked", "checked");
+	else $("#dialog_all").attr("checked", false);
 	
 	layer.open({
 	  type: 1,

@@ -51,26 +51,18 @@ class Index extends Base {
 		$q=new \DB_glb;
 		$q2=new \DB_glb;
 		//获取数据库结构信息
-		$no_doc=true;
 		$q->query("SHOW TABLE STATUS");
 		while($q->next_record())
 		{
 		    $table = gbk2utf8($q->Record);
 		    if($table[Name]!="_system__doc")
 		    {
+		    	//获取表字段信息
 		        $db_index[]=$table[Name];
 		        $comment = $table[Comment]; if(preg_match('/InnoDB/',$comment))$comment = '';
 		        $db_comment[$table[Name]] = $comment;
 		        $db_rows[$table[Name]] = $table[Rows];
-		        //$q2->query("SELECT * FROM {$table[Name]} LIMIT 1");
-		        //$db_info[$table[Name]] = $q2->get_fields();
 		        $db_info[$table[Name]] = $q2->get_fullfields($table[Name]);
-		    }
-		    else
-		    {
-		        $q2->query("SELECT * FROM {$table[Name]}");
-		        $tmp_info = $q2->get_fields();
-		        if ($tmp_info[0]['name']=='table' && $tmp_info[1]['name']=='field') $no_doc=false;
 		    }
 		}
 		if(count($db_index)==0) {
@@ -122,6 +114,7 @@ class Index extends Base {
 		$field = $request->table_column;
 		if($request->all==1)$table="_all";
 		$sql = "REPLACE _system__doc SET `table`='$table', `field`='$field', `content`='$content', `remark`='$remark'";
+		\yoka\Debug::log('sql', $sql);
 		if ($q->query($sql))
 		{
 			return $this->json_ok('ok');
