@@ -50,7 +50,7 @@ end_of_print;
         foreach($table_info as $key=>$val)
         {
         	$showdoc=$doc_content[$table_name][$val[name]];
-        	if($showdoc==''){
+        	if($showdoc=='' && $doc_content[_all][$val[name]]){
         		//使用通用注释
         		$showdoc=$doc_content[_all][$val[name]];
         		$use_all = 1;
