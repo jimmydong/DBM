@@ -39,7 +39,7 @@ foreach($response->db_info as $table_name=>$table_info)
     <div class=boxc>
     {$log} {$remark}
     </div>
-    <table id="t_{$table_name}" border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="80%" align=center>
+    <table class="table" id="t_{$table_name}" border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="80%" align=center>
       <tr>
         <td bgcolor="#868786" width=200><b><font color=white>字段名</font></b></td>
         <td bgcolor="#868786" width=150><b><font color=white>类型</font></b></td>
