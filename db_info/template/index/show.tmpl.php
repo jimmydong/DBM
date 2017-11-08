@@ -148,7 +148,7 @@ $("#dialog_close").click(function(){
 		table_column:$("#dialog_table_column").val(),
 		doc:$("#dialog_doc").val(),
 		help:$("#dialog_help").val(),
-		all:$("#dialog_all").prop("checked")
+		all:$("#dialog_all").prop("checked")?1:0
 	},function(re){
 		if(re.success){
 			$(obj).html($("#dialog_doc").val());
