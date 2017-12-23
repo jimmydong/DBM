@@ -195,5 +195,4 @@ $(".table_help").dblclick(function(){
 	}
 });
 </script>
-
 end_of_print;
