@@ -80,3 +80,7 @@ H4 {Font-size: 12px; Line-height: 120%; Background-color: #f4f4f8; TEXT-DECORATI
 .table td {
 	padding: 1px;
 }
+
+.all:before {
+	content: "* ";
+}

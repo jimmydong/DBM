@@ -52,9 +52,11 @@ end_of_print;
         	$showdoc=$doc_content[$table_name][$val[name]];
         	if($showdoc=='' && $doc_content[_all][$val[name]]){
         		//使用通用注释
-        		$showdoc= '* ' . $doc_content[_all][$val[name]];
+        		$all_class = 'all';
+        		$showdoc= $doc_content[_all][$val[name]];
         		$use_all = 1;
         	}else{
+        		$all_class = '';
         		$use_all = 0;
         	}
         	$helpdoc=$doc_remark[$table_name][$val[name]]?:$doc_remark[_all][$val[name]];
@@ -64,7 +66,7 @@ end_of_print;
     <tr class="table_data" d_table="{$table_name}" d_column="{$val['name']}" d_all="{$use_all}" onmouseover="this.style.backgroundColor='#EDEDFD';" onmouseout="this.style.backgroundColor='#FFFFFF';">
         <td class="table_column" valign=middle><font color=#666666><b>{$val['name']}</b></font></td>
         <td valign=middle>{$type}</td>
-        <td class="table_doc" valign=middle>{$showdoc}</td>
+        <td class="table_doc {$all_class}" valign=middle>{$showdoc}</td>
 		<td class="table_help">{$helpdoc}</td>
 	</tr>
 end_of_print;
