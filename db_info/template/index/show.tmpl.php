@@ -116,8 +116,9 @@ $(".table_doc").dblclick(function(){
 	$("#dialog_help").val($(this).parent('.table_data').find(".table_help").text());
 	$("#dialog_table_name").val($(this).parent('.table_data').attr('d_table'));
 	$("#dialog_table_column").val($(this).parent('.table_data').find(".table_column").text());
-	if($(this).parent('.table_data').attr('d_all') == 1)$("#dialog_all").prop("checked", "checked");
-	else $("#dialog_all").prop("checked", false);
+	//防止误操作，全部为“非默认”
+	//if($(this).parent('.table_data').attr('d_all') == 1)$("#dialog_all").prop("checked", "checked");
+	//else $("#dialog_all").prop("checked", false);
 	
 	layer.open({
 	  type: 1,
