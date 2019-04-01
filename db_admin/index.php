@@ -16,6 +16,10 @@ require_once 'libraries/common.inc.php';
  */
 require_once 'libraries/display_git_revision.lib.php';
 
+
+//hack by jimmy
+error_reporting(E_ALL & ~E_NOTICE);
+
 /**
  * pass variables to child pages
  */
