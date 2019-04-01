@@ -30,8 +30,8 @@ function PMA_getFormsParameters(
     if ($action == 'tbl_create.php') {
         $form_params['reload'] = 1;
     } elseif ($action == 'tbl_addfield.php') {
-        $form_params['field_where'] = $_REQUEST['field_where'];
-        $form_params['after_field'] = $_REQUEST['after_field'];
+        $form_params['field_where'] = $_REQUEST['field_where']?:'';
+        $form_params['after_field'] = $_REQUEST['after_field']?:'';
         $form_params['table'] = $table;
     } else {
         $form_params['table'] = $table;
@@ -42,7 +42,7 @@ function PMA_getFormsParameters(
     }
 
     if (isset($_REQUEST['field_where'])) {
-        $form_params['orig_field_where'] = $_REQUEST['field_where'];
+        $form_params['orig_field_where'] = $_REQUEST['field_where']?:'';
     }
 
     if (isset($_REQUEST['after_field'])) {
