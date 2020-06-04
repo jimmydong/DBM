@@ -272,6 +272,7 @@ class Index extends Base {
 // 	        }
 	        
 			return $this->json_ok($msg, ['db_info'=>$db_info]);
+			
 		}		
 	}
 }
