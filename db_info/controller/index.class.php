@@ -69,7 +69,7 @@ class Index extends Base {
 			$response->re = "当前库中没有可显示的表结构";
 			return $this->display($response);
 		}
-		$re = "<a name=top></a><div class=boxh>表索引</div>\n<div class=boxb>\n<table border=0>\n";
+		$re = "<a name=top></a><div id='index' class=boxh>表索引(点击折叠)</div>\n<div class=boxb>\n<table border=0>\n";
 		asort($db_index);
 		foreach($db_index as $tablename)
 		{
@@ -167,5 +167,111 @@ class Index extends Base {
 		$q=new \DB_glb;
 		$q->query("alter table `{$table_name}` comment '{$doc}'");
 		return $this->json_ok();
+	}
+	public function doc($request, $response){
+		if($serverid = $request->serverid){
+			$_SESSION['serverid'] = $serverid;
+		}else{
+			$serverid = $_SESSION['serverid'];
+		}
+		if($database = $request->database){
+			$_SESSION['database'] = $database;
+		}else{
+			$database = $_SESSION['database'];
+		}
+		
+		$serverinfo = self::init_db($serverid, $database);
+		$response->h1 = "#{$serverid} [{$serverinfo[host]}:{$serverinfo[port]} {$serverinfo[ext_name]}] 数据库：{$database}";
+	
+		$this->display($response);
+	}
+	public function ajax($request, $response){
+		if($serverid = $request->serverid){
+			$_SESSION['serverid'] = $serverid;
+		}else{
+			$serverid = $_SESSION['serverid'];
+		}
+		if($database = $request->database){
+			$_SESSION['database'] = $database;
+		}else{
+			$database = $_SESSION['database'];
+		}
+	
+		$serverinfo = self::init_db($serverid, $database);
+		
+		$q=new \DB_glb;
+		$q2=new \DB_glb;
+		//获取数据库结构信息
+		$q->query("SHOW TABLE STATUS");
+		$db_info = [];
+		while($q->next_record())
+		{
+			$table = gbk2utf8($q->Record);
+			if($table['Name']!="_system__doc")
+			{
+				//获取表字段信息
+				$comment = $table[Comment]; if(preg_match('/InnoDB/',$comment))$comment = '';
+				$db_info[$table[Name]] = [
+						'comment' => $comment,
+						'rows'	=> $table['Rows'],
+						'list' => $q2->get_fullfields($table['Name'])
+				];
+			}
+		}
+		if(count($db_info) == 0) {
+			return $this->json_fail("当前库中没有可显示的表结构");
+		}
+		asort($db_info);
+	
+		$msg = '';
+		$q->query("SELECT table_name FROM information_schema.TABLES WHERE table_schema='{$database}' and table_name ='_system__doc'");
+		if(! $q->next_record()){
+			$msg = "未找到内容介绍文档结构。<a href=?_c=index&_a=createdoc>创建文档结构</a>";
+		}else{
+			//读出DOC表内容
+			$q->query("SELECT * FROM _system__doc");
+			while($q->next_record())
+			{
+				if ($q->f('table')=='' || $q->f('field')=='') continue;
+				$db_info[$q->f('table')]['content'][$q->f('field')] = $q->f('content');
+				$db_info[$q->f('table')]['remark'][$q->f('field')] = $q->f('remark');
+			}
+		}
+		foreach($db_info as $table_name=>$table_info)
+		{
+			$log = showhelp($doc_content[$table_name][_log],$doc_content[$table_name][_log]);
+			$log .= "<a href=./php?_a=log&table={$table_name}>newlog&raquo;</a><br>";
+		
+			if($doc_content[$table_name][_remark])
+			{
+				$remark = showhelp($doc_content[$table_name][_remark],$doc_remark[$table_name][_remark]);
+				$remark .= "<a href=./php?_a=remark&table={$table_name}>newremark&raquo;</a>";
+			}
+			else
+			{
+				$remark = '';
+				$remark .= "<a href=./php?_a=remark&table={$table_name}>addremark&raquo;</a>";
+			}
+			if($db_comment[$table_name] == '')$db_comment[$table_name] = '&gt;&gt;';
+		
+// 		    foreach($table_info as $key=>$val)
+// 	        {
+// 	        	$showdoc=$doc_content[$table_name][$val[name]];
+// 	        	if($showdoc=='' && $doc_content[_all][$val[name]]){
+// 	        		//使用通用注释
+// 	        		$all_class = 'all';
+// 	        		$showdoc= $doc_content[_all][$val[name]];
+// 	        		$use_all = 1;
+// 	        	}else{
+// 	        		$all_class = '';
+// 	        		$use_all = 0;
+// 	        	}
+// 	        	$helpdoc=$doc_remark[$table_name][$val[name]]?:$doc_remark[_all][$val[name]];
+// 	        	$height = 22 * count(explode("\n", $helpdoc)) + 22;
+// 	       		$type = showhelp("{$val[type]}({$val[len]})","<b>".$val[type].implode(' ',$val[args])."</b><br>null:".$val['null']."<br>key:<b>".$val[key]."</b><br>default:<b>".$val['default']."</b><br>".$val[extra]);
+// 	        }
+	        
+			return $this->json_ok($msg, ['db_info'=>$db_info]);
+		}		
 	}
 }
