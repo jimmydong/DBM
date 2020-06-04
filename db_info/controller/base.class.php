@@ -105,12 +105,14 @@ class Base extends \lib\Controller {
 	
 	public function json_ok($msg = 'OK', $data = ''){
 		if (!$data) $data = new \stdClass();
+		header('content-type: application/json;charset=utf-8');
 		echo json_encode(array('success'=>true, 'msg'=>$msg, 'data'=>$data), JSON_UNESCAPED_UNICODE);
 		exit;
 	}
 
 	public function json_fail($msg = 'Fail', $data = ''){
 		if (!$data) $data = new \stdClass();
+		header('content-type: application/json;charset=utf-8');
 		echo json_encode(array('success'=>false, 'msg'=>$msg, 'data'=>$data), JSON_UNESCAPED_UNICODE);
 		exit;
 	}
