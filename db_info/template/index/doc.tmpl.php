@@ -39,7 +39,7 @@ showhead("数据库文档 - vue版", "utf-8");
 	      <tr v-for="(col, k) in table.list" key="k" class="table_data" onmouseover="this.style.backgroundColor='#EDEDFD';" onmouseout="this.style.backgroundColor='#FFFFFF';">
 	        <td class="table_column" valign=middle><font color=#666666><b>{{col.name}}</b></font></td>
 	        <td valign=middle>{{col.type}}</td>
-	        <td class="table_doc " valign=middle @dblclick="edit(tableName, col.name)">{{content(tableName, col.name)}}</td>
+	        <td class="table_doc " valign=middle :class="isAll(tableName, col.name)" @dblclick="edit(tableName, col.name)">{{content(tableName, col.name)}}</td>
 			<td class="table_help" @dblclick="edit(tableName, col.name)">{{remark(tableName, col.name)}}</td>
 		  </tr>    
 		</table>
@@ -69,6 +69,15 @@ var vm = new Vue({
 		form: {}
 	},
 	computed: {
+		isAll(tableName, colName){
+			try{
+				if(this.db_info[tableName].list[colName].content) return = '';
+			}catch(e){}
+			try{
+				if(this.db_all[tableName][colName].content) return 'all';
+			}catch(e){}
+			return ''
+		},
 		content(tableName, colName){
 			try{
 				return this.db_info[tableName].list[colName].content
