@@ -45,6 +45,17 @@ showhead("数据库文档 - vue版");
 		</table>
 		<br><br>
 	</div>
+
+	<div id="dialog" style="margin: 20px;display: none">
+		说明：<input size=36 :val="form.content"> <input type=checkbox :val="form.all">默认<br/>
+		详细：<br/>
+		<textarea rows=10 cols=48>{{form.remark}}</textarea><br/>
+		<button @click="editClose">确定</button>
+	</div>
+	<div id="dialog2" style="margin: 20px;display: none">
+		说明：<input id="dialog_doc2" size=36><br/>
+		<button @click="close">确定</button>
+	</div>
 </div>
 
 <hr size=1>
@@ -52,16 +63,6 @@ showhead("数据库文档 - vue版");
 [ALTER TABLE `test` ADD `update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;]
 <br/>
 
-<div id="dialog" style="margin: 20px;display: none">
-	说明：<input size=36 :val="form.content"> <input type=checkbox :val="form.all">默认<br/>
-	详细：<br/>
-	<textarea rows=10 cols=48>{{form.remark}}</textarea><br/>
-	<button @click="editClose">确定</button>
-</div>
-<div id="dialog2" style="margin: 20px;display: none">
-	说明：<input id="dialog_doc2" size=36><br/>
-	<button @click="close">确定</button>
-</div>
 </body>
 <script>
 var vm = new Vue({
