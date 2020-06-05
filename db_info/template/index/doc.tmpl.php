@@ -108,6 +108,24 @@ var vm = new Vue({
 	created: function(){
 	},
 	methods: {
+		content(tableName, colName){
+			try{
+				return this.db_info[tableName].list[colName].content
+			}catch(){}
+			try{
+				return this.db_all[tableName][colName].content
+			}catch(){}
+			return ''
+		},
+		remark(tableName, colName){
+			try{
+				return this.db_info[tableName].list[colName].remark
+			}catch(e){}
+			try{
+				return this.db_all[tableName][colName].remark
+			}catch(e){}
+			return ''
+		},
 		goAnchor: function(name){
 			var anchor = this.$el.querySelector('#'+name)
 			document.documentElement.scrollTop = 1000
