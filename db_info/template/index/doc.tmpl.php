@@ -71,7 +71,7 @@ var vm = new Vue({
 	computed: {
 		isAll(tableName, colName){
 			try{
-				if(this.db_info[tableName].list[colName].content) return = '';
+				if(this.db_info[tableName].list[colName].content) return '';
 			}catch(e){}
 			try{
 				if(this.db_all[tableName][colName].content) return 'all';
