@@ -95,7 +95,10 @@ var vm = new Vue({
 	methods: {
 		isAll(tableName, colName){
 			try{
-				if(this.db_info[tableName].list[colName].content) return '';
+				if(this.db_info[tableName].list[colName].content){
+					consol.log(tableName + ':' + colName + ' not all');
+					return '';
+				}
 			}catch(e){}
 			try{
 				if(this.db_all[tableName][colName].content) {
@@ -103,6 +106,7 @@ var vm = new Vue({
 					return 'all';
 				}
 			}catch(e){}
+			consol.log(tableName + ':' + colName + ' is null');
 			return ''
 		},
 		content(tableName, colName){
