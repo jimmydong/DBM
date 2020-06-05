@@ -98,7 +98,9 @@ var vm = new Vue({
 				if(this.db_info[tableName].list[colName].content) return '';
 			}catch(e){}
 			try{
-				if(this.db_all[tableName][colName].content) return 'all';
+				if(this.db_all[tableName][colName].content) {
+					consol.log(tableName + ':' + colName + ' is all');
+					return 'all';
 			}catch(e){}
 			return ''
 		},
