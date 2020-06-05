@@ -68,9 +68,7 @@ function showhead($title="", $charset="GBK")
 <body bgcolor="#FFFFFF" text="#000000" topmargin="10" >
 	<p><a href=./>返回首页</a></p>
 end_of_print;
-	if($charset == 'utf-8'){
-		$re = iconv('GBK', 'utf-8', $re);
-	}
+
 	echo $re;
 }
 function showhelp($showdoc,$helpdoc,$markflag='')
