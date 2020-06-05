@@ -76,10 +76,10 @@ var vm = new Vue({
 		content(tableName, colName){
 			try{
 				return this.db_info[tableName].list[colName].content
-			}catch(){}
+			}catch(e){}
 			try{
 				return this.db_all[tableName][colName].content
-			}catch(){}
+			}catch(e){}
 			return ''
 		},
 		remark(tableName, colName){
@@ -112,10 +112,10 @@ var vm = new Vue({
 		content(tableName, colName){
 			try{
 				return this.db_info[tableName].list[colName].content
-			}catch(){}
+			}catch(e){}
 			try{
 				return this.db_all[tableName][colName].content
-			}catch(){}
+			}catch(e){}
 			return ''
 		},
 		remark(tableName, colName){
