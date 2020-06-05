@@ -233,7 +233,7 @@ class Index extends Base {
 			{
 				if ($q->f('table')=='' || $q->f('field')=='') continue;
 				if ($q->f('table')=='_all'){
-					$db_all[$q->f('table')][$q->f('field')] = [
+					$db_all[$q->f('field')] = [
 							'content'	=> $q->f('content'),
 							'remark'	=> $q->f('remark')
 					];
