@@ -69,7 +69,7 @@ class Index extends Base {
 			$response->re = "当前库中没有可显示的表结构";
 			return $this->display($response);
 		}
-		$re = "<a name=top></a><div id='index' class=boxh>表索引(点击折叠)</div>\n<div class=boxb>\n<table border=0>\n";
+		$re = "<a name=top></a><div id='index' class=boxh>表索引</div>\n<div class=boxb>\n<table border=0>\n";
 		asort($db_index);
 		foreach($db_index as $tablename)
 		{
@@ -101,17 +101,15 @@ class Index extends Base {
 		$this->display($response);
 	}
 	public function edit($request, $response){
-		$table = $request->table_name;
-		$column = $request->table_column;
-		if($table == '' || $column == '') return $this->json_fail('参数不正确');
+		$table = $request->table_name?:$requset->tableName;
+		$field = $request->table_column?:$request->colName;
+		if($table == '' || $field == '') return $this->json_fail('参数不正确');
 		
 		self::init_db();
 		$q=new \DB_glb;
 		
-		$content = addslashes(utf82gbk($request->doc));
-		$remark = addslashes(utf82gbk($request->help));
-		$table = $request->table_name;
-		$field = $request->table_column;
+		$content = addslashes(utf82gbk($request->doc?:$request->content));
+		$remark = addslashes(utf82gbk($request->help?:$request->remark));
 		if($request->all==1)$table="_all";
 		$sql = "REPLACE _system__doc SET `table`='$table', `field`='$field', `content`='$content', `remark`='$remark'";
 		if ($q->query($sql))
@@ -224,6 +222,7 @@ class Index extends Base {
 		asort($db_info);
 	
 		$msg = '';
+		$db_all = [];
 		$q->query("SELECT table_name FROM information_schema.TABLES WHERE table_schema='{$database}' and table_name ='_system__doc'");
 		if(! $q->next_record()){
 			$msg = "未找到内容介绍文档结构。<a href=?_c=index&_a=createdoc>创建文档结构</a>";
@@ -233,8 +232,15 @@ class Index extends Base {
 			while($q->next_record())
 			{
 				if ($q->f('table')=='' || $q->f('field')=='') continue;
-				$db_info[$q->f('table')]['content'][$q->f('field')] = $q->f('content');
-				$db_info[$q->f('table')]['remark'][$q->f('field')] = $q->f('remark');
+				if ($q->f('table')=='_all'){
+					$db_all[$q->f('table')][$q->f('field')] = [
+							'content'	=> $q->f('content'),
+							'remark'	=> $q->f('remark')
+					];
+				}else{
+					$db_info[$q->f('table')]['content'][$q->f('field')] = $q->f('content');
+					$db_info[$q->f('table')]['remark'][$q->f('field')] = $q->f('remark');
+				}
 			}
 		}
 		foreach($db_info as $table_name=>$table_info)
@@ -271,7 +277,7 @@ class Index extends Base {
 // 	       		$type = showhelp("{$val[type]}({$val[len]})","<b>".$val[type].implode(' ',$val[args])."</b><br>null:".$val['null']."<br>key:<b>".$val[key]."</b><br>default:<b>".$val['default']."</b><br>".$val[extra]);
 // 	        }
 	        
-			return $this->json_ok($msg, ['db_info'=>$db_info]);
+			return $this->json_ok($msg, ['db_info'=>$db_info, 'db_all'=>$db_all]);
 			
 		}		
 	}

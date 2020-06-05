@@ -11,57 +11,41 @@ showhead("数据库文档 - vue版");
 <hr size=1>
 <p>使用说明： 双击“说明”进行修改，双击“详细”生成映射</p>
 
-<template id="app">
+<div id="app">
 	<hr size=1>
 	<a name=top></a><div class=boxh>表索引</div>
 	<div class=boxb>
 	<table border=0>
-	<tr>
-		<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;· <a href=#163_city_order>163_city_order</a> </td>
-		<td> <i>...</i></td>
+	<tr v-for="(table, tableName) in db_info" key="tableName">
+		<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;· <a href="javascript:void(0)" @click="goAnchor(tableName)">{{tableName}}</a> </td>
+		<td> <i>...{{table.comment}}</i></td>
 	</tr>
 	</table>
 	</div>
 	
 	<div v-if="err_msg" class=boxb>{{err_msg}}</div>    
 	
-	<div>	
-		<a name='163_city_order'>
-	    <h3><a href=#top>↑</a>数据表【163_city_order】 - <span class="table_comment" data="163_city_order">&gt;&gt;</span>(数据量:2)</h3>
-	    <a href="javascript:;" onclick="$('#t_163_city_order').tableExport({type:'csv',escape:'false'})">导出CSV</a> | 
-	    <a href="./?_c=trans&_a=table&table=163_city_order" target=_blank>生成定义</a>
-	    <div class=boxc>
-	    <a href=./php?_a=log&table=163_city_order>newlog&raquo;</a><br> <a href=./php?_a=remark&table=163_city_order>addremark&raquo;</a>
-	    </div>
-	    <table class="table" id="t_163_city_order" border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="80%" align=center>
+	<div v-for="(table, tableName) in db_info" key="tableName">	
+		<div :id="tableName"></div>
+	    <h3><a href=#top>↑</a>数据表【{{tableName}}】 - <span class="table_comment" data="">&gt;&gt;{{table.comment}}</span>(数据量:{{table.rows}})</h3>
+	    快捷： <a href="javascript:void(0)" @click="open('./?_c=trans&_a=table&table='+tableName)">生成_slim</a> <a href="javascript:void(0)" @click="open('slim',tableName)">生成graphQL</a>
+	    <table class="table" border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="80%" align=center>
 	      <tr>
 	        <td bgcolor="#868786" width=200><b><font color=white>字段名</font></b></td>
 	        <td bgcolor="#868786" width=150><b><font color=white>类型</font></b></td>
 	        <td bgcolor="#868786" width=240><b><font color=white>说明</font></b></td>
 	        <td bgcolor="#868786" width=*><b><font color=white>详细</font></b></td>
 	      </tr>    
-	      <tr class="table_data" d_table="163_city_order" d_column="id" d_all="0" onmouseover="this.style.backgroundColor='#EDEDFD';" onmouseout="this.style.backgroundColor='#FFFFFF';">
-	        <td class="table_column" valign=middle><font color=#666666><b>id</b></font></td>
-	        <td valign=middle><span onmouseover="show_help('&lt;b&gt;int11&lt;/b&gt;&lt;br&gt;null:NO&lt;br&gt;key:&lt;b&gt;PRI&lt;/b&gt;&lt;br&gt;default:&lt;b&gt;&lt;/b&gt;&lt;br&gt;auto_increment',event);" onmouseout="show_help('',event);">int() </span></td>
-	        <td class="table_doc " valign=middle></td>
-			<td class="table_help"></td>
+	      <tr v-for="(col, k) in table.list" key="k" class="table_data" onmouseover="this.style.backgroundColor='#EDEDFD';" onmouseout="this.style.backgroundColor='#FFFFFF';">
+	        <td class="table_column" valign=middle><font color=#666666><b>{{col.name}}</b></font></td>
+	        <td valign=middle>{{col.type}}</td>
+	        <td class="table_doc " valign=middle @dbclick="edit(tableName, col.name)">{{db_info[tableName].content[col.name]|db_all[tableName][col.name].content}}</td>
+			<td class="table_help" @dbclick="edit(tableName, col.name)">{{db_info[tableName].remark[col.name]|db_all[tableName][col.name].remark}}</td>
 		  </tr>    
-		  <tr class="table_data" d_table="163_city_order" d_column="city" d_all="0" onmouseover="this.style.backgroundColor='#EDEDFD';" onmouseout="this.style.backgroundColor='#FFFFFF';">
-	        <td class="table_column" valign=middle><font color=#666666><b>city</b></font></td>
-	        <td valign=middle><span onmouseover="show_help('&lt;b&gt;varchar200&lt;/b&gt;&lt;br&gt;null:NO&lt;br&gt;key:&lt;b&gt;&lt;/b&gt;&lt;br&gt;default:&lt;b&gt;&lt;/b&gt;&lt;br&gt;',event);" onmouseout="show_help('',event);">varchar() </span></td>
-	        <td class="table_doc " valign=middle></td>
-			<td class="table_help"></td>
-		  </tr>
-		  <tr class="table_data" d_table="163_city_order" d_column="number" d_all="0" onmouseover="this.style.backgroundColor='#EDEDFD';" onmouseout="this.style.backgroundColor='#FFFFFF';">
-	        <td class="table_column" valign=middle><font color=#666666><b>number</b></font></td>
-	        <td valign=middle><span onmouseover="show_help('&lt;b&gt;int11&lt;/b&gt;&lt;br&gt;null:NO&lt;br&gt;key:&lt;b&gt;&lt;/b&gt;&lt;br&gt;default:&lt;b&gt;&lt;/b&gt;&lt;br&gt;',event);" onmouseout="show_help('',event);">int() </span></td>
-	        <td class="table_doc " valign=middle></td>
-			<td class="table_help"></td>
-		  </tr>
 		</table>
 		<br><br>
 	</div>
-</template>
+</div>
 
 <hr size=1>
 <p>
@@ -69,25 +53,24 @@ showhead("数据库文档 - vue版");
 <br/>
 
 <div id="dialog" style="margin: 20px;display: none">
-	<input id="dialog_table_name" type=hidden>
-	<input id="dialog_table_column" type=hidden>
-	说明：<input id="dialog_doc" size=36> <input type=checkbox id="dialog_all">默认<br/>
+	说明：<input size=36 :val="form.content"> <input type=checkbox :val="form.all">默认<br/>
 	详细：<br/>
-	<textarea id="dialog_help" rows=10 cols=48></textarea><br/>
-	<button id="dialog_close">确定</button>
+	<textarea rows=10 cols=48>{{form.remark}}</textarea><br/>
+	<button @click="editClose">确定</button>
 </div>
 <div id="dialog2" style="margin: 20px;display: none">
-	<input id="dialog_table_name2" type=hidden>
 	说明：<input id="dialog_doc2" size=36><br/>
-	<button id="dialog_close2">确定</button>
+	<button @click="close">确定</button>
 </div>
-
+</body>
 <script>
 var vm = new Vue({
 	el: '#app',
 	data: {
 		err_msg: '',
 		db_info: {},
+		db_all: {},
+		form: {}
 	},
 	computed: {},
 	watch: {},
@@ -98,15 +81,62 @@ var vm = new Vue({
 				if(re.msg) self.err_msg = re.msg
 				else self.err_msg = JSON.stringfy(re)
 			}else{
-				self.table_index = re.data.table_index
-				self.table_list = re.table_list
+				self.db_info = re.data.db_info
+				self.db_all = re.data.db_all
 			}
 		}, 'JSON');
 	},
 	created: function(){
 	},
-	method: {
-		
+	methods: {
+		goAnchor: function(name){
+			var anchor = this.$el.querySelector('#'+name)
+			document.documentElement.scrollTop = 1000
+		},
+		open: function(action, tableName){
+			$.post("./?_c=trans&_a=" + action,{ajax:true, table: tableName}, function(re){
+				layer.open({
+					  type: 1,
+					  title: false,
+					  closeBtn: 1,
+					  shadeClose: true,
+					  area: ['460px','320px'],
+					  content: re
+				});
+			}, 'HTML');
+		},
+		close: function(){
+			layer.closeAll();
+		},
+		edit: funciton(tableName, colName){
+			this.form = {
+					tableName: tableName,
+					colName: colName,
+					content: this.db_info[tableName].content[col.name]?this.db_info[tableName].content[col.name]:this.db_all[tableName][col.name].content,
+					remark: this.db_info[tableName].remark[col.name]?this.db_info[tableName].remark[col.name]:this.db_all[tableName][col.name].remark
+			}
+			
+			layer.open({
+			  type: 1,
+			  title: false,
+			  closeBtn: 1,
+			  shadeClose: true,
+			  area: ['460px','320px'],
+			  content: $("#dialog")
+			});					
+		},
+		editClose: function(){
+			var self = this
+			$.post("./?_a=edit", this.form, function(re){
+				if(re.success){
+					self.db_info[tableName].content[col.name] = form.content
+					self.db_info[tableName].remark[col.name] = form.remark
+				}else{
+					alert(re.msg);
+				}
+			},'JSON');
+			layer.closeAll();
+		}
 	}
 })
 
@@ -127,9 +157,6 @@ $(".table_doc").dblclick(function(){
 	$("#dialog_help").val($(this).parent('.table_data').find(".table_help").text());
 	$("#dialog_table_name").val($(this).parent('.table_data').attr('d_table'));
 	$("#dialog_table_column").val($(this).parent('.table_data').find(".table_column").text());
-	//防止误操作，全部为“非默认”
-	//if($(this).parent('.table_data').attr('d_all') == 1)$("#dialog_all").prop("checked", "checked");
-	//else $("#dialog_all").prop("checked", false);
 	
 	layer.open({
 	  type: 1,
