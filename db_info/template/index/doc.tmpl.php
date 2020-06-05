@@ -68,35 +68,7 @@ var vm = new Vue({
 		db_all: {},
 		form: {}
 	},
-	computed: {
-		isAll(tableName, colName){
-			try{
-				if(this.db_info[tableName].list[colName].content) return '';
-			}catch(e){}
-			try{
-				if(this.db_all[tableName][colName].content) return 'all';
-			}catch(e){}
-			return ''
-		},
-		content(tableName, colName){
-			try{
-				return this.db_info[tableName].list[colName].content
-			}catch(e){}
-			try{
-				return this.db_all[tableName][colName].content
-			}catch(e){}
-			return ''
-		},
-		remark(tableName, colName){
-			try{
-				return this.db_info[tableName].list[colName].remark
-			}catch(e){}
-			try{
-				return this.db_all[tableName][colName].remark
-			}catch(e){}
-			return ''
-		}
-	},
+	computed: {},
 	watch: {},
 	mounted: function(){
 		var self = this;
@@ -121,6 +93,15 @@ var vm = new Vue({
 	},
 	created: function(){},
 	methods: {
+		isAll(tableName, colName){
+			try{
+				if(this.db_info[tableName].list[colName].content) return '';
+			}catch(e){}
+			try{
+				if(this.db_all[tableName][colName].content) return 'all';
+			}catch(e){}
+			return ''
+		},
 		content(tableName, colName){
 			try{
 				return this.db_info[tableName].list[colName].content
