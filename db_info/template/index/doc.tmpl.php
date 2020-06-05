@@ -101,7 +101,7 @@ var vm = new Vue({
 				}
 			}catch(e){}
 			try{
-				if(this.db_all[tableName][colName].content) {
+				if(this.db_all[colName].content) {
 					consol.log(tableName + ':' + colName + ' is all');
 					return 'all';
 				}
