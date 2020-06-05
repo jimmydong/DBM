@@ -24,27 +24,7 @@ showhead("数据库文档 - vue版");
 	</div>
 	
 	<div v-if="err_msg" class=boxb>{{err_msg}}</div>    
-	
-	<div v-for="(table, tableName) in db_info" key="tableName">	
-		<div :id="tableName"></div>
-	    <h3><a href=#top>↑</a>数据表【{{tableName}}】 - <span class="table_comment" data="">&gt;&gt;{{table.comment}}</span>(数据量:{{table.rows}})</h3>
-	    快捷： <a href="javascript:void(0)" @click="open('./?_c=trans&_a=table&table='+tableName)">生成_slim</a> <a href="javascript:void(0)" @click="open('slim',tableName)">生成graphQL</a>
-	    <table class="table" border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="80%" align=center>
-	      <tr>
-	        <td bgcolor="#868786" width=200><b><font color=white>字段名</font></b></td>
-	        <td bgcolor="#868786" width=150><b><font color=white>类型</font></b></td>
-	        <td bgcolor="#868786" width=240><b><font color=white>说明</font></b></td>
-	        <td bgcolor="#868786" width=*><b><font color=white>详细</font></b></td>
-	      </tr>    
-	      <tr v-for="(col, k) in table.list" key="k" class="table_data" onmouseover="this.style.backgroundColor='#EDEDFD';" onmouseout="this.style.backgroundColor='#FFFFFF';">
-	        <td class="table_column" valign=middle><font color=#666666><b>{{col.name}}</b></font></td>
-	        <td valign=middle>{{col.type}}</td>
-	        <td class="table_doc " valign=middle @dbclick="edit(tableName, col.name)">{{db_info[tableName].content[col.name]|db_all[tableName][col.name].content}}</td>
-			<td class="table_help" @dbclick="edit(tableName, col.name)">{{db_info[tableName].remark[col.name]|db_all[tableName][col.name].remark}}</td>
-		  </tr>    
-		</table>
-		<br><br>
-	</div>
+
 </div>
 
 <hr size=1>
@@ -72,7 +52,18 @@ var vm = new Vue({
 		db_all: {},
 		form: {}
 	},
-	computed: {},
+	computed: {
+		content(tableName, colName){
+			if(this.db_info[tableName].content[colName]) return this.db_info[tableName].content[colName]
+			if(this.db_all[tableName][colName]) return this.db_all[tableName][colName].content
+			return ''
+		},
+		remark(tableName, colName){
+			if(this.db_info[tableName].remark[colName]) return this.db_info[tableName].remark[colName]
+			if(this.db_all[tableName][colName]) return this.db_all[tableName][colName].remark
+			return ''
+		}
+	},
 	watch: {},
 	mounted: function(){
 		var self = this;
