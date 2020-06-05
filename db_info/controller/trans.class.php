@@ -73,57 +73,59 @@ class Trans extends Base {
 		$re = gbk2utf8($re);
 		foreach($re as $k=>$v){
 			if(in_array($k, ['create_time','update_time','remark','del_flag'])) continue;
-			if(! $v) $out[] = "'{$k}' => ['title'=>'未标注']";
-			else{
-				//类型处理
-				$type = '';				
-				if(preg_match('/json/', $k)){
-					//特殊字段
-					$type = ", 'type'=>" . self::TYPE_JSON;
-				}else{
-					//按mysql定义
-					switch($ftype[$k]){
-						case 'datetime': 
-							$type = ", 'type'=>" . self::TYPE_DATETIME;
-							break;
-						case 'date':
-							$type = ", 'type'=>" . self::TYPE_DATE;
-							break;
-						case 'timestamp':
-							$type = ", 'type'=>" . self::TYPE_TIMESTAMP;
-							break;
-						case 'year':
-						case 'time':
-						case 'tinyint':
-						case 'smallint':
-						case 'mediumint':
-						case 'int':
-						case 'bigint':
-							$type = ", 'type'=>" . self::TYPE_INT;
-							break;
-						case 'float':
-						case 'double':
-						case 'decimal':
-							$type = ", 'type'=>" . self::TYPE_FLOAT;
-							break;
-						case 'char':
-						case 'varchar':
-						case 'tinyblob':
-						case 'tinytext':
-						case 'blob':
-						case 'text':
-						case 'mediumblob':
-						case 'longblob':
-						case 'longtext':
-							$type = ", 'type'=>" . self::TYPE_STRING;
-							break;
-						default:
-							$type = ", 'type'=>" . self::TYPE_NONE;
-							break;
-					}
+			
+			//类型处理
+			$type = '';
+			if(preg_match('/json/', $k)){
+				//特殊字段
+				$type = ", 'type'=>" . self::TYPE_JSON;
+			}else{
+				//按mysql定义
+				switch($ftype[$k]){
+					case 'datetime':
+						$type = ", 'type'=>" . self::TYPE_DATETIME;
+						break;
+					case 'date':
+						$type = ", 'type'=>" . self::TYPE_DATE;
+						break;
+					case 'timestamp':
+						$type = ", 'type'=>" . self::TYPE_TIMESTAMP;
+						break;
+					case 'year':
+					case 'time':
+					case 'tinyint':
+					case 'smallint':
+					case 'mediumint':
+					case 'int':
+					case 'bigint':
+						$type = ", 'type'=>" . self::TYPE_INT;
+						break;
+					case 'float':
+					case 'double':
+					case 'decimal':
+						$type = ", 'type'=>" . self::TYPE_FLOAT;
+						break;
+					case 'char':
+					case 'varchar':
+					case 'tinyblob':
+					case 'tinytext':
+					case 'blob':
+					case 'text':
+					case 'mediumblob':
+					case 'longblob':
+					case 'longtext':
+						$type = ", 'type'=>" . self::TYPE_STRING;
+						break;
+					default:
+						$type = ", 'type'=>" . self::TYPE_NONE;
+						break;
 				}
+			}
 				
-				
+			if(! $v){
+				//未作定义
+				$out[] = "'{$k}' => ['filter'=>0, title'=>'{$k}', {$type}],";
+			}else{				
 				//自动转义定义
 				$trans = '';
 				if(preg_match('/\'referer\'=>/', $v['remark'])){

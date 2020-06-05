@@ -28,7 +28,7 @@ showhead("数据库文档 - vue版");
 	<div v-for="(table, tableName) in db_info" key="tableName">	
 		<div :id="tableName"></div>
 	    <h3><a href=#top>↑</a>数据表【{{tableName}}】 - <span class="table_comment" data="">&gt;&gt;{{table.comment}}</span>(数据量:{{table.rows}})</h3>
-	    快捷： <a href="javascript:void(0)" @click="open('./?_c=trans&_a=table&table='+tableName)">生成_slim</a> <a href="javascript:void(0)" @click="open('slim',tableName)">生成graphQL</a>
+	    快捷： <a href="javascript:void(0)" @click="open('./?_c=trans&_a=table&table='+tableName)">[slim]</a> <a href="javascript:void(0)" @click="open('slim',tableName)">[graphQL]</a>
 	    <table class="table" border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="80%" align=center>
 	      <tr>
 	        <td bgcolor="#868786" width=200><b><font color=white>字段名</font></b></td>
@@ -39,8 +39,8 @@ showhead("数据库文档 - vue版");
 	      <tr v-for="(col, k) in table.list" key="k" class="table_data" onmouseover="this.style.backgroundColor='#EDEDFD';" onmouseout="this.style.backgroundColor='#FFFFFF';">
 	        <td class="table_column" valign=middle><font color=#666666><b>{{col.name}}</b></font></td>
 	        <td valign=middle>{{col.type}}</td>
-	        <td class="table_doc " valign=middle @dbclick="edit(tableName, col.name)">{{content(tableName, col.name)}}</td>
-			<td class="table_help" @dbclick="edit(tableName, col.name)">{{remark(tableName, col.name)}}</td>
+	        <td class="table_doc " valign=middle @dblclick="edit(tableName, col.name)">{{content(tableName, col.name)}}</td>
+			<td class="table_help" @dblclick="edit(tableName, col.name)">{{remark(tableName, col.name)}}</td>
 		  </tr>    
 		</table>
 		<br><br>
@@ -96,7 +96,6 @@ var vm = new Vue({
 	mounted: function(){
 		var self = this;
 		$.post('./?_a=ajax', {}, function(re){
-			self.err_msg = JSON.stringify(re)
 			if(! re.success){
 				if(re.msg) self.err_msg = re.msg
 				else self.err_msg = JSON.stringfy(re)
@@ -138,7 +137,7 @@ var vm = new Vue({
 					  title: false,
 					  closeBtn: 1,
 					  shadeClose: true,
-					  area: ['460px','320px'],
+					  area: ['640px','480px'],
 					  content: re
 				});
 			}, 'HTML');
