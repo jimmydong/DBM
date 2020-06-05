@@ -101,8 +101,7 @@ var vm = new Vue({
 			}
 		}, 'JSON');
 	},
-	created: function(){
-	},
+	created: function(){},
 	methods: {
 		content(tableName, colName){
 			try{
