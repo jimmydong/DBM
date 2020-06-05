@@ -85,10 +85,10 @@ var vm = new Vue({
 		remark(tableName, colName){
 			try{
 				return this.db_info[tableName].list[colName].remark
-			}catch(){}
+			}catch(e){}
 			try{
 				return this.db_all[tableName][colName].remark
-			}catch(){}
+			}catch(e){}
 			return ''
 		}
 	},
