@@ -49,10 +49,10 @@ catch (\Exception $err)
 
 
 /*-------------------------------------- funcitons -------------------------------------------*/
-function showhead($title="")
+function showhead($title="", $charset="GBK")
 {
 	if($title) $title="$title";
-	print <<< end_of_print
+	$re = <<< end_of_print
 <!DOCTYPE html>
 <html>
 <head>
@@ -61,13 +61,17 @@ function showhead($title="")
 	<META HTTP-EQUIV="Last-Modified" CONTENT="0">
 	<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
 	<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
-	<meta http-equiv="Content-Type" content="text/html; charset=GBK">
+	<meta http-equiv="Content-Type" content="text/html; charset={$charset}">
 	<link rel="stylesheet" href="func.css" type="text/css">
 	<script language=javascript src="func.js"></script>
 </head>
 <body bgcolor="#FFFFFF" text="#000000" topmargin="10" >
 	<p><a href=./>返回首页</a></p>
 end_of_print;
+	if($charset == 'utf-8'){
+		$re = iconv('GBK', 'utf-8', $re);
+	}
+	echo $re;
 }
 function showhelp($showdoc,$helpdoc,$markflag='')
 {

@@ -1,5 +1,5 @@
 <?php
-showhead("数据库文档 - vue版");
+showhead("数据库文档 - vue版", "utf-8");
 ?>
 <script src="http://mcdn.yishengdaojia.cn/media/js/jquery-2.1.3.min.js"></script>
 <script src="http://mcdn.yishengdaojia.cn/media/tableExport/mybase64.js"></script>
@@ -45,17 +45,12 @@ showhead("数据库文档 - vue版");
 		</table>
 		<br><br>
 	</div>
-
-	<div id="dialog" style="margin: 20px;display: none">
-		说明：<input size=36 :val="form.content"> <input type=checkbox :val="form.all">默认<br/>
-		详细：<br/>
-		<textarea rows=10 cols=48>{{form.remark}}</textarea><br/>
-		<button @click="editClose">确定</button>
-	</div>
-	<div id="dialog2" style="margin: 20px;display: none">
-		说明：<input id="dialog_doc2" size=36><br/>
-		<button @click="close">确定</button>
-	</div>
+</div>
+<div id="dialog" style="margin: 20px;display: none">
+	说明：<input size=36 :val="form.content"> <input type=checkbox :val="form.all">默认<br/>
+	详细：<br/>
+	<textarea rows=10 cols=48>{{form.remark}}</textarea><br/>
+	<button @click="editClose">确定</button>
 </div>
 
 <hr size=1>
@@ -153,6 +148,7 @@ var vm = new Vue({
 					content: this.content(tableName, colName),
 					remark: this.remark(tableName, colName)
 			}
+			vmDialog.$data.form = this.form
 			
 			layer.open({
 			  type: 1,
@@ -162,13 +158,20 @@ var vm = new Vue({
 			  area: ['460px','320px'],
 			  content: $("#dialog")
 			});					
-		},
+		}
+	}
+})
+var vmDialog = new Vue({
+	data: {
+		form: {}
+	},
+	method: {
 		editClose: function(){
 			var self = this
 			$.post("./?_a=edit", this.form, function(re){
 				if(re.success){
-					self.db_info[self.form.tableName].list[self.form.colName].content = form.content
-					self.db_info[self.form.tableName].list[self.form.colName].remark = form.remark
+					vm.$data.db_info[self.form.tableName].list[self.form.colName].content = form.content
+					vm.$data.db_info[self.form.tableName].list[self.form.colName].remark = form.remark
 				}else{
 					alert(re.msg);
 				}
@@ -177,99 +180,5 @@ var vm = new Vue({
 		}
 	}
 })
-
-$(function(){
-	$.fn.center = function(){
-		var top = ($(window).height() - this.height())/2;
-		var left = ($(window).width() - this.width())/2;
-		var scrollTop = $(document).scrollTop();
-		var scrollLeft = $(document).scrollLeft();
-		return this.css( { position : 'absolute', 'top' : top + scrollTop, left : left + scrollLeft } ).show();
-	}
-});
-var obj;
-$(".table_doc").dblclick(function(){
-	obj = this;
-	
-	$("#dialog_doc").val($(this).text());
-	$("#dialog_help").val($(this).parent('.table_data').find(".table_help").text());
-	$("#dialog_table_name").val($(this).parent('.table_data').attr('d_table'));
-	$("#dialog_table_column").val($(this).parent('.table_data').find(".table_column").text());
-	
-	layer.open({
-	  type: 1,
-	  title: false,
-	  closeBtn: 1,
-	  shadeClose: true,
-	  area: ['460px','320px'],
-	  content: $("#dialog")
-	});
-		
-});
-$(".table_comment").dblclick(function(){
-	obj = this;
-	$("#dialog_table_name2").val($(this).attr('data'));
-	$("#dialog_doc2").val($(this).html());
-	
-	layer.open({
-	  type: 1,
-	  title: false,
-	  closeBtn: 1,
-	  shadeClose: true,
-	  area: ['460px','320px'],
-	  content: $("#dialog2")
-	});
-		
-});
-$("#dialog_close").click(function(){
-	$.post("./?_a=edit",{
-		table_name:$("#dialog_table_name").val(),
-		table_column:$("#dialog_table_column").val(),
-		doc:$("#dialog_doc").val(),
-		help:$("#dialog_help").val(),
-		all:$("#dialog_all").prop("checked")?1:0
-	},function(re){
-		if(re.success){
-			$(obj).html($("#dialog_doc").val());
-			$(obj).parent('.table_data').find(".table_help").html($("#dialog_help").val());
-		}else{
-			alert(re.msg);
-		}
-	},'JSON');
-	layer.closeAll();
-});
-$("#dialog_close2").click(function(){
-	$.post("./?_a=comment",{
-		table_name:$("#dialog_table_name2").val(),
-		doc:$("#dialog_doc2").val()
-	},function(re){
-		if(re.success){
-			$(obj).html($("#dialog_doc2").val());
-		}else{
-			alert(re.msg);
-		}
-	},'JSON');
-	layer.closeAll();
-});
-$(".table_help").dblclick(function(){
-	if($(this).text() == ''){
-		$(this).parent('.table_data').find(".table_doc").trigger('dblclick');
-	}else{
-		$.post("./?_c=trans&_a=toArray",{ajax:1, code:$(this).text()},function(re){
-			if(re.success){
-					layer.open({
-					  type: 1,
-					  title: false,
-					  closeBtn: 1,
-					  shadeClose: true,
-					  area: ['400px','300px'],
-					  content: re.data
-					});
-			}else{
-				alert(re.msg);
-			}
-		},'JSON');
-	}
-});
 </script>
 </html>
