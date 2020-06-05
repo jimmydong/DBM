@@ -74,13 +74,21 @@ var vm = new Vue({
 	},
 	computed: {
 		content(tableName, colName){
-			if(typeof this.db_info[tableName].list[colName].content != 'undefined') return this.db_info[tableName].list[colName].content
-			if(typeof this.db_all[tableName][colName].content != 'undefined') return this.db_all[tableName][colName].content
+			try{
+				return this.db_info[tableName].list[colName].content
+			}catch(){}
+			try{
+				return this.db_all[tableName][colName].content
+			}catch(){}
 			return ''
 		},
 		remark(tableName, colName){
-			if(typeof this.db_info[tableName].list[colName].remark != 'undefined') return this.db_info[tableName].list[colName].remark
-			if(typeof this.db_all[tableName][colName].remark != 'undefined') return this.db_all[tableName][colName].remark
+			try{
+				return this.db_info[tableName].list[colName].remark
+			}catch(){}
+			try{
+				return this.db_all[tableName][colName].remark
+			}catch(){}
 			return ''
 		}
 	},
