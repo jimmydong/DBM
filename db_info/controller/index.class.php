@@ -239,54 +239,20 @@ class Index extends Base {
 			$q->query("SELECT * FROM _system__doc");
 			while($q->next_record())
 			{
+				$content = iconv('gbk', 'utf-8', $q->f('content'));
+				$remark = iconv('gbk','utf-8', $q->f('remark'));
 				if ($q->f('table')=='' || $q->f('field')=='') continue;
 				if ($q->f('table')=='_all'){
 					$db_all[$q->f('field')] = [
-							'content'	=> $q->f('content'),
-							'remark'	=> $q->f('remark')
+							'content'	=> $content,
+							'remark'	=> $remark
 					];
 				}else{
-					$db_info[$q->f('table')]['list'][$q->f('field')]['content'] = $q->f('content');
-					$db_info[$q->f('table')]['list'][$q->f('field')]['remark'] = $q->f('remark');
+					$db_info[$q->f('table')]['list'][$q->f('field')]['content'] = $content;
+					$db_info[$q->f('table')]['list'][$q->f('field')]['remark'] = $remark;
 				}
 			}
 		}
-		foreach($db_info as $table_name=>$table_info)
-		{
-			$log = showhelp($doc_content[$table_name][_log],$doc_content[$table_name][_log]);
-			$log .= "<a href=./php?_a=log&table={$table_name}>newlog&raquo;</a><br>";
-		
-			if($doc_content[$table_name][_remark])
-			{
-				$remark = showhelp($doc_content[$table_name][_remark],$doc_remark[$table_name][_remark]);
-				$remark .= "<a href=./php?_a=remark&table={$table_name}>newremark&raquo;</a>";
-			}
-			else
-			{
-				$remark = '';
-				$remark .= "<a href=./php?_a=remark&table={$table_name}>addremark&raquo;</a>";
-			}
-			if($db_comment[$table_name] == '')$db_comment[$table_name] = '&gt;&gt;';
-		
-// 		    foreach($table_info as $key=>$val)
-// 	        {
-// 	        	$showdoc=$doc_content[$table_name][$val[name]];
-// 	        	if($showdoc=='' && $doc_content[_all][$val[name]]){
-// 	        		//使用通用注释
-// 	        		$all_class = 'all';
-// 	        		$showdoc= $doc_content[_all][$val[name]];
-// 	        		$use_all = 1;
-// 	        	}else{
-// 	        		$all_class = '';
-// 	        		$use_all = 0;
-// 	        	}
-// 	        	$helpdoc=$doc_remark[$table_name][$val[name]]?:$doc_remark[_all][$val[name]];
-// 	        	$height = 22 * count(explode("\n", $helpdoc)) + 22;
-// 	       		$type = showhelp("{$val[type]}({$val[len]})","<b>".$val[type].implode(' ',$val[args])."</b><br>null:".$val['null']."<br>key:<b>".$val[key]."</b><br>default:<b>".$val['default']."</b><br>".$val[extra]);
-// 	        }
-
-			return $this->json_ok($msg, ['db_info'=>$db_info, 'db_all'=>$db_all]);
-			
-		}		
+		return $this->json_ok($msg, ['db_info'=>$db_info, 'db_all'=>$db_all]);
 	}
 }
