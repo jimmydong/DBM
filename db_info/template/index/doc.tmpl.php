@@ -96,6 +96,7 @@ var vm = new Vue({
 	mounted: function(){
 		var self = this;
 		$.post('./?_a=ajax', {}, function(re){
+			self.err_msg = JSON.stringify(re)
 			if(! re.success){
 				if(re.msg) self.err_msg = re.msg
 				else self.err_msg = JSON.stringfy(re)
