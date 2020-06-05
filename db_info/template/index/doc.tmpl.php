@@ -107,6 +107,15 @@ var vm = new Vue({
 			}else{
 				self.db_info = re.data.db_info
 				self.db_all = re.data.db_all
+				window.setTimeout(function(){
+					$.fn.center = function(){
+						var top = ($(window).height() - this.height())/2;
+						var left = ($(window).width() - this.width())/2;
+						var scrollTop = $(document).scrollTop();
+						var scrollLeft = $(document).scrollLeft();
+						return this.css( { position : 'absolute', 'top' : top + scrollTop, left : left + scrollLeft } ).show();
+					}
+				}, 200)
 			}
 		}, 'JSON');
 	},
