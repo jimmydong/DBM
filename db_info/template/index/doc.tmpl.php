@@ -23,7 +23,7 @@ showhead("数据库文档 - vue版");
 	</table>
 	</div>
 	
-	<div v-if="err_msg" class=boxb>{{err_msg}}</div>    
+	<div v-if="err_msg" class=boxb>{{err_msg}}{{JSON.stringify(form)}}</div>    
 	
 	<div v-for="(table, tableName) in db_info" key="tableName">	
 		<div :id="tableName"></div>

@@ -101,7 +101,7 @@ class Index extends Base {
 		$this->display($response);
 	}
 	public function edit($request, $response){
-		$table = $request->table_name?:$requset->tableName;
+		$table = $request->table_name?:$request->tableName;
 		$field = $request->table_column?:$request->colName;
 		if($table == '' || $field == '') return $this->json_fail('参数不正确');
 		
