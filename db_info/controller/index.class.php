@@ -235,6 +235,7 @@ class Index extends Base {
 			$msg = "未找到内容介绍文档结构。<a href=?_c=index&_a=createdoc>创建文档结构</a>";
 		}else{
 			//读出DOC表内容
+			$q->query("SET NAMES UTF8");
 			$q->query("SELECT * FROM _system__doc");
 			while($q->next_record())
 			{
@@ -283,8 +284,7 @@ class Index extends Base {
 // 	        	$height = 22 * count(explode("\n", $helpdoc)) + 22;
 // 	       		$type = showhelp("{$val[type]}({$val[len]})","<b>".$val[type].implode(' ',$val[args])."</b><br>null:".$val['null']."<br>key:<b>".$val[key]."</b><br>default:<b>".$val['default']."</b><br>".$val[extra]);
 // 	        }
-	        $db_info = \lib\UtilArray::iconv($db_info, 'gbk', 'utf-8');
-	        $db_all = \lib\UtilArray::iconv($db_all, 'gbk', 'utf-8');
+
 			return $this->json_ok($msg, ['db_info'=>$db_info, 'db_all'=>$db_all]);
 			
 		}		
