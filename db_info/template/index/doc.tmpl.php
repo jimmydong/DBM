@@ -112,8 +112,8 @@ var vm = new Vue({
 			this.form = {
 					tableName: tableName,
 					colName: colName,
-					content: this.db_info[tableName].content[col.name]?this.db_info[tableName].content[col.name]:this.db_all[tableName][col.name].content,
-					remark: this.db_info[tableName].remark[col.name]?this.db_info[tableName].remark[col.name]:this.db_all[tableName][col.name].remark
+					content: this.db_info[tableName].content[colName]?this.db_info[tableName].content[colName]:this.db_all[tableName][colName].content,
+					remark: this.db_info[tableName].remark[colName]?this.db_info[tableName].remark[colName]:this.db_all[tableName][colName].remark
 			}
 			
 			layer.open({
@@ -129,8 +129,8 @@ var vm = new Vue({
 			var self = this
 			$.post("./?_a=edit", this.form, function(re){
 				if(re.success){
-					self.db_info[tableName].content[col.name] = form.content
-					self.db_info[tableName].remark[col.name] = form.remark
+					self.db_info[self.form.tableName].content[self.form.colName] = form.content
+					self.db_info[self.form.tableName].remark[self.form.colName] = form.remark
 				}else{
 					alert(re.msg);
 				}
