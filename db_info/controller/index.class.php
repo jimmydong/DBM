@@ -283,7 +283,8 @@ class Index extends Base {
 // 	        	$height = 22 * count(explode("\n", $helpdoc)) + 22;
 // 	       		$type = showhelp("{$val[type]}({$val[len]})","<b>".$val[type].implode(' ',$val[args])."</b><br>null:".$val['null']."<br>key:<b>".$val[key]."</b><br>default:<b>".$val['default']."</b><br>".$val[extra]);
 // 	        }
-	        
+	        $db_info = \lib\UtilArray::iconv($db_info, 'gbk', 'utf-8');
+	        $db_all = \lib\UtilArray::iconv($db_all, 'gbk', 'utf-8');
 			return $this->json_ok($msg, ['db_info'=>$db_info, 'db_all'=>$db_all]);
 			
 		}		
