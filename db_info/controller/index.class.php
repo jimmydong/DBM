@@ -209,10 +209,17 @@ class Index extends Base {
 			{
 				//获取表字段信息
 				$comment = $table[Comment]; if(preg_match('/InnoDB/',$comment))$comment = '';
+				$t = $q2->get_fullfields($table['Name']);
+				$list = [];
+				foreach($t as $v){
+					$v['content'] = '';
+					$v['remark'] = '';
+					$list[$v['name']] = $v;
+				}
 				$db_info[$table[Name]] = [
 						'comment' => $comment,
 						'rows'	=> $table['Rows'],
-						'list' => $q2->get_fullfields($table['Name'])
+						'list' => $list
 				];
 			}
 		}
@@ -238,8 +245,8 @@ class Index extends Base {
 							'remark'	=> $q->f('remark')
 					];
 				}else{
-					$db_info[$q->f('table')]['content'][$q->f('field')] = $q->f('content');
-					$db_info[$q->f('table')]['remark'][$q->f('field')] = $q->f('remark');
+					$db_info[$q->f('table')]['list'][$q->f('field')]['content'] = $q->f('content');
+					$db_info[$q->f('table')]['list'][$q->f('field')]['remark'] = $q->f('remark');
 				}
 			}
 		}

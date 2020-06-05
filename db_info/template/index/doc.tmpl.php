@@ -74,12 +74,12 @@ var vm = new Vue({
 	},
 	computed: {
 		content(tableName, colName){
-			if(this.db_info[tableName].content[colName]) return this.db_info[tableName].content[colName]
+			if(this.db_info[tableName].list[colName].content) return this.db_info[tableName].list[colName].content
 			if(this.db_all[tableName][colName]) return this.db_all[tableName][colName].content
 			return ''
 		},
 		remark(tableName, colName){
-			if(this.db_info[tableName].remark[colName]) return this.db_info[tableName].remark[colName]
+			if(this.db_info[tableName].list[colName].remark) return this.db_info[tableName].list[colName].remark
 			if(this.db_all[tableName][colName]) return this.db_all[tableName][colName].remark
 			return ''
 		}
@@ -123,8 +123,8 @@ var vm = new Vue({
 			this.form = {
 					tableName: tableName,
 					colName: colName,
-					content: this.db_info[tableName].content[colName]?this.db_info[tableName].content[colName]:this.db_all[tableName][colName].content,
-					remark: this.db_info[tableName].remark[colName]?this.db_info[tableName].remark[colName]:this.db_all[tableName][colName].remark
+					content: this.content(tableName, colName),
+					remark: this.remark(tableName, colName)
 			}
 			
 			layer.open({
@@ -140,8 +140,8 @@ var vm = new Vue({
 			var self = this
 			$.post("./?_a=edit", this.form, function(re){
 				if(re.success){
-					self.db_info[self.form.tableName].content[self.form.colName] = form.content
-					self.db_info[self.form.tableName].remark[self.form.colName] = form.remark
+					self.db_info[self.form.tableName].list[self.form.colName].content = form.content
+					self.db_info[self.form.tableName].list[self.form.colName].remark = form.remark
 				}else{
 					alert(re.msg);
 				}
