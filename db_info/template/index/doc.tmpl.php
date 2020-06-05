@@ -108,7 +108,7 @@ var vm = new Vue({
 				return this.db_info[tableName].list[colName].content
 			}catch(e){}
 			try{
-				return this.db_all[tableName][colName].content
+				return this.db_all[colName].content
 			}catch(e){}
 			return ''
 		},
@@ -117,7 +117,7 @@ var vm = new Vue({
 				return this.db_info[tableName].list[colName].remark
 			}catch(e){}
 			try{
-				return this.db_all[tableName][colName].remark
+				return this.db_all[colName].remark
 			}catch(e){}
 			return ''
 		},
