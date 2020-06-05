@@ -24,6 +24,7 @@ showhead("数据库文档 - vue版");
 	</div>
 	
 	<div v-if="err_msg" class=boxb>{{err_msg}}</div>    
+	
 
 </div>
 
@@ -99,7 +100,7 @@ var vm = new Vue({
 		close: function(){
 			layer.closeAll();
 		},
-		edit: funciton(tableName, colName){
+		edit: function(tableName, colName){
 			this.form = {
 					tableName: tableName,
 					colName: colName,
