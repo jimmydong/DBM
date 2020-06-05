@@ -7,7 +7,7 @@ print <<< end_of_print
 <script src="http://acdn.yishengdaojia.cn/media/layer/layer.js"></script>
 <h1>$response->h1</h1>
 <hr size=1>
-<p>使用说明： 双击“说明”进行修改，双击“详细”生成映射  <a href='/?_a=doc' style='color:red'>新版</a></p>
+<p>使用说明： 双击“说明”进行修改，双击“详细”生成映射  <a href='./?_a=doc' style='color:red'>新版</a></p>
 <hr size=1>
 {$response->re}
 end_of_print;
