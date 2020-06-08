@@ -22,8 +22,8 @@ showhead("数据库文档 - vue版", "utf-8");
 	</tr>
 	</table>
 	</div>
-	
-	<div v-if="err_msg" class=boxb>{{err_msg}}{{JSON.stringify(form)}}</div>    
+	<div class=boxb>{{JSON.stringify(form)}}</div>
+	<div v-if="err_msg" class=boxb>{{err_msg}}</div>    
 	
 	<div v-for="(table, tableName) in db_info" key="tableName">	
 		<div :id="tableName"></div>
@@ -45,13 +45,14 @@ showhead("数据库文档 - vue版", "utf-8");
 		</table>
 		<br><br>
 	</div>
-</div>
-<div id="dialog" style="margin: 20px;display: none">
+	<div id="dialog" style="margin: 20px;display: none">
 	说明：<input size=36 :val="form.content"> <input type=checkbox :val="form.all">默认<br/>
 	详细：<br/>
 	<textarea rows=10 cols=48>{{form.remark}}</textarea><br/>
 	<button @click="editClose">确定</button>
 </div>
+</div>
+
 
 <hr size=1>
 <p>
@@ -153,7 +154,7 @@ var vm = new Vue({
 					content: this.content(tableName, colName),
 					remark: this.remark(tableName, colName)
 			}
-			vmDialog.$data.form = this.form
+			//vmDialog.$data.form = this.form
 			
 			layer.open({
 			  type: 1,
@@ -166,24 +167,24 @@ var vm = new Vue({
 		}
 	}
 })
-var vmDialog = new Vue({
-	data: {
-		form: {}
-	},
-	method: {
-		editClose: function(){
-			var self = this
-			$.post("./?_a=edit", this.form, function(re){
-				if(re.success){
-					vm.$data.db_info[self.form.tableName].list[self.form.colName].content = form.content
-					vm.$data.db_info[self.form.tableName].list[self.form.colName].remark = form.remark
-				}else{
-					alert(re.msg);
-				}
-			},'JSON');
-			layer.closeAll();
-		}
-	}
-})
+// var vmDialog = new Vue({
+// 	data: {
+// 		form: {}
+// 	},
+// 	method: {
+// 		editClose: function(){
+// 			var self = this
+// 			$.post("./?_a=edit", this.form, function(re){
+// 				if(re.success){
+// 					vm.$data.db_info[self.form.tableName].list[self.form.colName].content = form.content
+// 					vm.$data.db_info[self.form.tableName].list[self.form.colName].remark = form.remark
+// 				}else{
+// 					alert(re.msg);
+// 				}
+// 			},'JSON');
+// 			layer.closeAll();
+// 		}
+// 	}
+// })
 </script>
 </html>
