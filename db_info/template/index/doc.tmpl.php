@@ -46,9 +46,9 @@ showhead("数据库文档 - vue版", "utf-8");
 		<br><br>
 	</div>
 	<div id="dialog" style="margin: 20px;display: none">
-	说明：<input size=36 :val="form.content"> <input type=checkbox :val="form.all">默认<br/>
+	说明：<input id="dialog_content" size=36 val=""> <input id="dialog_all" type=checkbox val="1">默认<br/>
 	详细：<br/>
-	<textarea rows=10 cols=48>{{form.remark}}</textarea><br/>
+	<textarea id="dialog_remark" rows=10 cols=48></textarea><br/>
 	<button @click="editClose">确定</button>
 </div>
 </div>
@@ -148,13 +148,14 @@ var vm = new Vue({
 			layer.closeAll();
 		},
 		edit: function(tableName, colName){
+			var self = this
 			this.form = {
 					tableName: tableName,
 					colName: colName,
-					content: this.content(tableName, colName),
-					remark: this.remark(tableName, colName)
 			}
-			//vmDialog.$data.form = this.form
+			$("#dialog_content").val(this.content(tableName, colName))
+			$("#dialog_remark").val(this.remark(tableName, colName))
+			$("#dialog_all").prop("checked", this.isAll(tableName, colName))
 			
 			layer.open({
 			  type: 1,
@@ -163,7 +164,19 @@ var vm = new Vue({
 			  shadeClose: true,
 			  area: ['460px','320px'],
 			  content: $("#dialog")
-			});					
+			})					
+		},
+		editClose: function(){
+			var self = this
+			$.post("./?_a=edit", this.form, function(re){
+				if(re.success){
+					self.db_info[self.form.tableName].list[self.form.colName].content = form.content
+					self.db_info[self.form.tableName].list[self.form.colName].remark = form.remark
+				}else{
+					alert(re.msg);
+				}
+			},'JSON');
+			layer.closeAll();
 		}
 	}
 })
@@ -172,18 +185,7 @@ var vm = new Vue({
 // 		form: {}
 // 	},
 // 	method: {
-// 		editClose: function(){
-// 			var self = this
-// 			$.post("./?_a=edit", this.form, function(re){
-// 				if(re.success){
-// 					vm.$data.db_info[self.form.tableName].list[self.form.colName].content = form.content
-// 					vm.$data.db_info[self.form.tableName].list[self.form.colName].remark = form.remark
-// 				}else{
-// 					alert(re.msg);
-// 				}
-// 			},'JSON');
-// 			layer.closeAll();
-// 		}
+
 // 	}
 // })
 </script>
