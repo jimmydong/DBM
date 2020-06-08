@@ -226,8 +226,7 @@ class Index extends Base {
 		if(count($db_info) == 0) {
 			return $this->json_fail("当前库中没有可显示的表结构");
 		}
-		asort($db_info);
-	
+		
 		$msg = '';
 		$db_all = [];
 		$q->query("SELECT table_name FROM information_schema.TABLES WHERE table_schema='{$database}' and table_name ='_system__doc'");
@@ -253,7 +252,7 @@ class Index extends Base {
 				}
 			}
 		}
-		asort($db_info);
+		ksort($db_info);
 		return $this->json_ok($msg, ['db_info'=>$db_info, 'db_all'=>$db_all]);
 	}
 }
