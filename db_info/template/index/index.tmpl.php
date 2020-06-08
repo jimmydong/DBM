@@ -23,7 +23,7 @@ if(!$response->step){
 	echo "<input type=hidden name=step value=1><input type=submit value=NEXT></form>";
 }else{
 	print <<< end_of_print
-	第二步：选择需要操作的数据库：<br><form name=form1 id=form1 method=post action="index.php?_a=show">
+	第二步：选择需要操作的数据库：<br><form name=form1 id=form1 method=post action="index.php?_a=doc">
 	<input type=hidden name=step value=1>
 	<input type=hidden name=serverid value={$response->serverid}>
 	<select name=database><option value=''>--select database--</option>

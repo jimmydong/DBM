@@ -156,7 +156,7 @@ class Index extends Base {
 	}
 	public function comment($request, $response){
 		$table_name = $request->table_name;
-		$doc = iconv('utf-8','gbk',$request->doc);
+		$doc = iconv('utf-8','gbk',$request->doc?:'comment');
 		
 		if(! $table_name || ! $doc) return $this->json_fail('请填写内容');
 		
