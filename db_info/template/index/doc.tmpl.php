@@ -9,7 +9,7 @@ showhead("数据库文档 - vue版", "utf-8");
 <h1><?php echo $response->h1;?></h1>
 
 <hr size=1>
-<p>使用说明： 双击表名、字段说明进行修改</p>
+<p>使用说明： 双击表名、字段说明进行修改 <a href='./?_a=show' style='color:red'>返回旧版</a></p>
 
 <div id="app">
 	<hr size=1>
@@ -197,7 +197,7 @@ var vm = new Vue({
 			  title: false,
 			  closeBtn: 1,
 			  shadeClose: true,
-			  area: ['480px','320px'],
+			  area: ['480px','240px'],
 			  content: $("#dialogTable")
 			})	
 		},
