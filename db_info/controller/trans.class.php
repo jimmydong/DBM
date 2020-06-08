@@ -125,15 +125,15 @@ class Trans extends Base {
 			if(! $v){
 				//未作定义
 				$out[] = "'{$k}' => ['filter'=>0, title'=>'{$k}', {$type}],";
-			}else{				
+			}else{
 				//自动转义定义
 				$trans = '';
 				if(preg_match('/\'referer\'=>/', $v['remark'])){
 					//自动引用（格式：'referer'=>["\\YsConfig","platform_des"]）
-					$trans = $v['remark'];			
+					$trans = ', ' . $v['remark'];			
 				}elseif(preg_match('/\'func\'=>/', $v['remark'])){
 					//自动计算（格式：'func'=>["\\model\\User","getNameById"]）
-					$trans = $v['remark'];
+					$trans = ',' . $v['remark'];
 				}elseif(preg_match('/(0|1)[ ]?(:|：)/', $v['remark']) || preg_match('/(0|1)[ ]?=>/', $v['remark'])){
 					//数值映射（格式：0:正常,1:锁定  或 0=>'正常',1=>'锁定' 或 [0=>'正常',1=>'锁定']）
 					$tmp = $this->_trans($v['remark']);
@@ -141,7 +141,7 @@ class Trans extends Base {
 						$trans = ", 'map'=>" . $tmp;
 					}
 				}
-				$out[] = "'{$k}' => ['filter'=>0, title'=>'{$v['content']}'{$map}{$type}],";
+				$out[] = "'{$k}' => ['filter'=>0, 'title'=>'{$v['content']}'{$type}{$trans}],";
 			}
 		}
 		$response->out = "public static \$define_slim = [\n	" . implode("\n	", $out) . "\n];";
