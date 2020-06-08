@@ -9,7 +9,7 @@ showhead("数据库文档 - vue版", "utf-8");
 <h1><?php echo $response->h1;?></h1>
 
 <hr size=1>
-<p>使用说明： 双击“说明”进行修改，双击“详细”生成映射</p>
+<p>使用说明： 双击表名、字段说明进行修改</p>
 
 <div id="app">
 	<hr size=1>
@@ -26,7 +26,7 @@ showhead("数据库文档 - vue版", "utf-8");
 	
 	<div v-for="(table, tableName) in db_info" key="tableName">	
 		<div :id="tableName"></div>
-	    <h3><a href=#top>↑</a>数据表【{{tableName}}】 - <span class="table_comment" data="">&gt;&gt;{{table.comment}}</span>(数据量:{{table.rows}})</h3>
+	    <h3><a href=#top>↑</a><span @dblclick="comment(tableName, table.comment)">数据表【{{tableName}}】</span> - <span class="table_comment"  @dblclick="comment(tableName, table.comment)">&gt;&gt;{{table.comment}}</span>(数据量:{{table.rows}})</h3>
 	    快捷： <a href="javascript:void(0)" @click="open('./?_c=trans&_a=table&table='+tableName)">[slim]</a> <a href="javascript:void(0)" @click="open('slim',tableName)">[graphQL]</a>
 	    <table class="table" border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="80%" align=center>
 	      <tr>
@@ -49,7 +49,11 @@ showhead("数据库文档 - vue版", "utf-8");
 	详细：<br/>
 	<textarea id="dialog_remark" rows=10 cols=48></textarea><br/>
 	<button @click="editClose">确定</button>
-</div>
+	</div>
+	<div id="dialogTable" style="margin: 20px;display: none">
+	表说明：<input id="dialog_comment" size=36 val="">
+	<button @click="commentClose">确定</button>
+	</div>
 </div>
 
 
@@ -96,17 +100,14 @@ var vm = new Vue({
 		isAll(tableName, colName){
 			try{
 				if(this.db_info[tableName].list[colName].content){
-					console.log(tableName + ':' + colName + ' not all');
 					return '';
 				}
 			}catch(e){}
 			try{
 				if(this.db_all[colName].content) {
-					console.log(tableName + ':' + colName + ' is all');
 					return 'all';
 				}
 			}catch(e){}
-			console.log(tableName + ':' + colName + ' is null');
 			return ''
 		},
 		content(tableName, colName){
@@ -167,10 +168,6 @@ var vm = new Vue({
 		},
 		editClose: function(){
 			var self = this
-			self.form.content = $("#dialog_content").val()
-			self.form.remark = $("#dialog_remark").val()
-			self.form.all = $("#dialog_all").prop("checked")?1:0
-			
 			$.post("./?_a=edit", self.form, function(re){
 				if(re.success){
 					if(self.form.all){
@@ -182,6 +179,34 @@ var vm = new Vue({
 						self.db_info[self.form.tableName].list[self.form.colName].content = self.form.content
 						self.db_info[self.form.tableName].list[self.form.colName].remark = self.form.remark
 					}
+				}else{
+					alert(re.msg);
+				}
+			},'JSON');
+			layer.closeAll();
+		},
+		comment: function(tableName, comment){
+			var self = this
+			this.form = {
+					tableName: tableName,
+			}
+			$("#dialog_comment").val(comment))
+			
+			layer.open({
+			  type: 1,
+			  title: false,
+			  closeBtn: 1,
+			  shadeClose: true,
+			  area: ['480px','320px'],
+			  content: $("#dialogTable")
+			})	
+		},
+		commentClose: function(){
+			var self = this
+			var comment = $("#dialog_comment").val()
+			$.post("./?_a=comment", {table_name: self.form.tableName, comment: comment}, function(re){
+				if(re.success){
+					self.db_info[self.form.tableName].comment = comment
 				}else{
 					alert(re.msg);
 				}
