@@ -190,7 +190,7 @@ var vm = new Vue({
 			this.form = {
 					tableName: tableName,
 			}
-			$("#dialog_comment").val(comment))
+			$("#dialog_comment").val(comment)
 			
 			layer.open({
 			  type: 1,
