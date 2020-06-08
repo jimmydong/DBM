@@ -68,7 +68,11 @@ var vm = new Vue({
 	el: '#app',
 	data: {
 		err_msg: '',
-		db_info: {},
+		db_info: {
+			'loading...': {
+				comment: '数据加载中,请耐心等候'
+			}
+		},
 		db_all: {},
 		form: {}
 	},
