@@ -13,9 +13,9 @@ showhead("数据库文档 - vue版", "utf-8");
 
 <div id="app">
 	<hr size=1>
-	<a name=top></a><div class=boxh>表索引</div>
+	<a name=top></a><div class=boxh @dblclick="foldIndex">表索引 (双击可折叠)</div>
 	<div class=boxb>
-	<table border=0>
+	<table v-if="showIndex" border=0>
 	<tr v-for="(table, tableName) in db_info" key="tableName">
 		<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;· <a href="javascript:void(0)" @click="goAnchor(tableName)">{{tableName}}</a> </td>
 		<td> <i>...{{table.comment}}</i></td>
@@ -74,7 +74,8 @@ var vm = new Vue({
 			}
 		},
 		db_all: {},
-		form: {}
+		form: {},
+		showIndex: true
 	},
 	computed: {},
 	watch: {},
@@ -135,6 +136,10 @@ var vm = new Vue({
 		goAnchor: function(name){
 			var anchor = this.$el.querySelector('#'+name)
 			document.documentElement.scrollTop = 1000
+		},
+		foldIndex: function(){
+			if(this.showIndex) this.showIndex = false
+			else this.showIndex = true
 		},
 		open: function(action, tableName){
 			$.post("./?_c=trans&_a=" + action,{ajax:true, table: tableName}, function(re){
