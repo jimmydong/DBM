@@ -174,10 +174,10 @@ var vm = new Vue({
 			$.post("./?_a=edit", self.form, function(re){
 				if(re.success){
 					if(self.form.all){
-						self.db_all[self.form.colName] = {
+						Vue.set(self.db_all, self.form.colName,{
 								content: self.form.content,
 								remark: self.form.remark
-						}
+						})
 					}else{
 						self.db_info[self.form.tableName].list[self.form.colName].content = self.form.content
 						self.db_info[self.form.tableName].list[self.form.colName].remark = self.form.remark
