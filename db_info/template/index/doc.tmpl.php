@@ -22,7 +22,6 @@ showhead("数据库文档 - vue版", "utf-8");
 	</tr>
 	</table>
 	</div>
-	<div class=boxb>{{JSON.stringify(form)}}</div>
 	<div v-if="err_msg" class=boxb>{{err_msg}}</div>    
 	
 	<div v-for="(table, tableName) in db_info" key="tableName">	
@@ -175,8 +174,10 @@ var vm = new Vue({
 			$.post("./?_a=edit", self.form, function(re){
 				if(re.success){
 					if(self.form.all){
-						self.db_all[self.form.colName].content = self.form.content
-						self.db_all[self.form.colName].remark = self.form.remark
+						self.db_all[self.form.colName] = {
+								content: self.form.content,
+								remark: self.form.remark
+						}
 					}else{
 						self.db_info[self.form.tableName].list[self.form.colName].content = self.form.content
 						self.db_info[self.form.tableName].list[self.form.colName].remark = self.form.remark
