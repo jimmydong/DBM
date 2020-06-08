@@ -253,6 +253,7 @@ class Index extends Base {
 				}
 			}
 		}
+		asort($db_info);
 		return $this->json_ok($msg, ['db_info'=>$db_info, 'db_all'=>$db_all]);
 	}
 }
