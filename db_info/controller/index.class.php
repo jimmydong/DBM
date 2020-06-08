@@ -246,6 +246,9 @@ class Index extends Base {
 							'content'	=> $content,
 							'remark'	=> $remark
 					];
+				}elseif(! is_set($db_info[$q->f('table')]['list'][$q->f('field')])){
+					//已被删除的字段，忽略
+					continue;
 				}else{
 					$db_info[$q->f('table')]['list'][$q->f('field')]['content'] = $content;
 					$db_info[$q->f('table')]['list'][$q->f('field')]['remark'] = $remark;
