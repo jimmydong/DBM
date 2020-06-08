@@ -135,7 +135,8 @@ var vm = new Vue({
 		},
 		goAnchor: function(name){
 			var anchor = this.$el.querySelector('#'+name)
-			document.documentElement.scrollTop = 1000
+			document.body.scrollTop = anchor.offsetTop
+			document.documentElement.scrollTop = anchor.offsetTop
 		},
 		foldIndex: function(){
 			if(this.showIndex) this.showIndex = false
