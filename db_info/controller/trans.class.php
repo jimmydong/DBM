@@ -158,7 +158,7 @@ class Trans extends Base {
 	 */
 	public function _trans($code){
 		$code = str_replace('：', ':', $code);
-		$code = str_replace([',', '，', '　', '  ', "'", '"'], '', $code);
+		$code = str_replace([',', '，', '　', ' ', '  ', "'", '"'], '', $code);
 		$code = str_replace("（", '(', $code);
 		$code = str_replace('）', ')', $code);
 		preg_match_all('/(-?[0-9]+)\s?(\:|=>)\s?([^\s]+[\)]?)/', $code, $reg, PREG_SET_ORDER);
