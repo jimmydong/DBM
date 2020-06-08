@@ -169,7 +169,10 @@ class Trans extends Base {
 			$re[$v[1]] = $v[3];
 		}
 		$re = var_export($re, true);
-		$re = str_replace(',)',']',str_replace('array(','[',str_replace(array(" ","　","\t","\n","\r"), '', $re)));
+		$re = str_replace([" ","　","\t","\n","\r"], '', $re);
+		if(preg_match('/^array\((.*)\)$/', $re, $reg)){
+			$re = "[".$reg[1]."]";
+		}
 		return $re;
 	}
 }
