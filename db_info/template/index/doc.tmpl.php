@@ -162,16 +162,25 @@ var vm = new Vue({
 			  title: false,
 			  closeBtn: 1,
 			  shadeClose: true,
-			  area: ['460px','320px'],
+			  area: ['480px','320px'],
 			  content: $("#dialog")
 			})					
 		},
 		editClose: function(){
 			var self = this
-			$.post("./?_a=edit", this.form, function(re){
+			self.form.content = $("#dialog_content").val()
+			self.form.remark = $("#dialog_remark").val()
+			self.form.all = $("#dialog_all").prop("checked")?1:0
+			
+			$.post("./?_a=edit", self.form, function(re){
 				if(re.success){
-					self.db_info[self.form.tableName].list[self.form.colName].content = form.content
-					self.db_info[self.form.tableName].list[self.form.colName].remark = form.remark
+					if(self.form.all){
+						self.db_all[self.form.colName].content = form.content
+						self.db_all[self.form.colName].remark = form.remark
+					}else{
+						self.db_info[self.form.tableName].list[self.form.colName].content = form.content
+						self.db_info[self.form.tableName].list[self.form.colName].remark = form.remark
+					}
 				}else{
 					alert(re.msg);
 				}
