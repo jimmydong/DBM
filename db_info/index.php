@@ -34,6 +34,18 @@ if (strpos($path.PATH_SEPARATOR, $autoPath.PATH_SEPARATOR) === false) set_includ
 spl_autoload_extensions('.class.php');
 spl_autoload_register('spl_autoload');
 
+//YEPF(如果不需要DEBUG，可以不加载YEPF)
+if(!defined('YEPF_PATH')){
+	if($_SERVER['YEPF_PATH_3']) define('YEPF_PATH',$_SERVER['YEPF_PATH_3']);
+	else{
+		if(file_exists('/WORK/HTML/YEPF3')) define('YEPF_PATH', '/WORK/HTML/YEPF3');
+		elseif(file_exists(dirname(__FILE__) . '/YEPF3')) define('YEPF_PATH', dirname(__FILE__) . '/YEPF3');
+		elseif(file_exists(dirname(__FILE__) . '/../YEPF3')) define('YEPF_PATH', dirname(__FILE__) . '/../YEPF3');
+		else die("Can't find YEPF3");
+	}
+}
+include YEPF_PATH . '/global.inc.php';
+
 //最小MVC
 $request = lib\Request::getInstance();
 try
