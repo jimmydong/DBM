@@ -209,7 +209,7 @@ class Index extends Base {
 			{
 				//获取表字段信息
 				$comment = $table['Comment']; if(preg_match('/InnoDB/',$comment))$comment = '';
-				$t = $q2->get_fullfields($table['Name']);
+				$t = gbk2utf8($q2->get_fullfields($table['Name']));
 				$list = [];
 				foreach($t as $v){
 					$v['content'] = '';
