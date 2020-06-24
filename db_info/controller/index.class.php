@@ -258,4 +258,9 @@ class Index extends Base {
 		ksort($db_info);
 		return $this->json_ok($msg, ['db_info'=>$db_info, 'db_all'=>$db_all]);
 	}
+	public function test($request, $response){
+		var_dump(\yoka\Debug::$open);
+		\yoka\Debug::start('yoka-inc4');
+		echo 'Test';
+	}
 }
