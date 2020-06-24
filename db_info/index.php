@@ -35,6 +35,7 @@ spl_autoload_extensions('.class.php');
 spl_autoload_register('spl_autoload');
 
 //YEPF(如果不需要DEBUG，可以不加载YEPF)
+if(!defined('YEPF_IS_DEBUG')) define('YEPF_IS_DEBUG', 'yoka-inc4');
 if(!defined('YEPF_PATH')){
 	if($_SERVER['YEPF_PATH_3']) define('YEPF_PATH',$_SERVER['YEPF_PATH_3']);
 	else{
