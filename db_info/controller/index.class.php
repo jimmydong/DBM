@@ -259,7 +259,8 @@ class Index extends Base {
 		return $this->json_ok($msg, ['db_info'=>$db_info, 'db_all'=>$db_all]);
 	}
 	public function test($request, $response){
-		$q=new \DB_glb;
+		$t = new \DB_Mysql;
+		$q = new \DB_glb;
 		$q->query("SELECT * FROM _system__doc");
 		while($record = $q->next_record()){
 			var_dump($record);
