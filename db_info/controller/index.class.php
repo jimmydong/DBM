@@ -208,7 +208,7 @@ class Index extends Base {
 			if($table['Name']!="_system__doc")
 			{
 				//获取表字段信息
-				$comment = $table[Comment]; if(preg_match('/InnoDB/',$comment))$comment = '';
+				$comment = $table['Comment']; if(preg_match('/InnoDB/',$comment))$comment = '';
 				$t = $q2->get_fullfields($table['Name']);
 				$list = [];
 				foreach($t as $v){
