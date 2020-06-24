@@ -262,7 +262,7 @@ class Index extends Base {
 		$serverid = $_SESSION['serverid'];
 		$database = $_SESSION['database'];
 		self::init_db($serverid, $database);
-		$t = new \DB_Mysql;
+
 		$q = new \DB_glb;
 		$q->query("SELECT * FROM _system__doc");
 		while($record = $q->next_record()){
