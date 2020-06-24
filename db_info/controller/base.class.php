@@ -125,10 +125,10 @@ class Base extends \lib\Controller {
 			$serverinfo=self::$cfg['Servers'][$serverid];
 			$tmp_str = "
 			class DB_glb extends \lib\DB_Mysql {
-			var \$Host     = '{$serverinfo[host]}:{$serverinfo[port]}';
+			var \$Host     = '{$serverinfo['host']}:{$serverinfo['port']}';
 			var \$Database = '{$database}';
-			var \$User     = '{$serverinfo[user]}';
-			var \$Password = '{$serverinfo[password]}';
+			var \$User     = '{$serverinfo['user']}';
+			var \$Password = '{$serverinfo['password']}';
 		}
 		";
 			eval($tmp_str);
