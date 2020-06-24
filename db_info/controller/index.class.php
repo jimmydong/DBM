@@ -259,6 +259,9 @@ class Index extends Base {
 		return $this->json_ok($msg, ['db_info'=>$db_info, 'db_all'=>$db_all]);
 	}
 	public function test($request, $response){
+		$serverid = $_SESSION['serverid'];
+		$database = $_SESSION['database'];
+		self::init_db($serverid, $database);
 		$t = new \DB_Mysql;
 		$q = new \DB_glb;
 		$q->query("SELECT * FROM _system__doc");
