@@ -2,7 +2,10 @@
 namespace controller;
 
 class Trans extends Base {
-	//注意： 与 BaseModel 中的定义要保持一致
+	/*
+	 * 数据类型定义
+	 * 【注意】与 BaseModel 中的定义要保持一致
+	 */
 	const TYPE_NONE = 0;	//未定义
 	const TYPE_INT = 1;		//整数
 	const TYPE_STRING = 2;	//字符串
@@ -12,6 +15,15 @@ class Trans extends Base {
 	const TYPE_DATETIME = 6;	//日期时间
 	const TYPE_TIMESTAMP = 7;	//时间戳整数
 	//const TYPE_LIST = 8;  //逗号分隔的
+	
+	/*
+	 * 数据保护类型
+	 * 【注意】与 BaseModel 中的处理要保持一致
+	 */
+	const PROTECT_NONE = 0;
+	const PROTECT_MOBILE = 1;
+	const PROTECT_LIGHT = 2;
+	const PROTECT_DEEP = 3;
 	
 	public function __construct($request, $response){
 		parent::__construct($request, $response);
@@ -73,6 +85,10 @@ class Trans extends Base {
 		$re = gbk2utf8($re);
 		foreach($re as $k=>$v){
 			if(in_array($k, ['create_time','update_time','remark','del_flag'])) continue;
+			
+			//保护处理
+			//TODO::自动检查mobile、user_name、true_name等
+			$protect = ", 'protect' => 0";
 			
 			//类型处理
 			$type = '';
