@@ -178,9 +178,12 @@ var vm = new Vue({
 		},
 		editClose: function(){
 			var self = this
+			self.form.content = $("#dialog_content").val();
+			self.form.remark = $("#dialog_remark").val();
+			self.form.all = $("#dialog_all").prop("checked");
 			$.post("./?_a=edit", self.form, function(re){
 				if(re.success){
-					if(self.form.all){
+					if($("#dialog_all").prop("checked")){
 						Vue.set(self.db_all, self.form.colName,{
 								content: self.form.content,
 								remark: self.form.remark

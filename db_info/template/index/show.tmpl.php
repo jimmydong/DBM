@@ -149,13 +149,13 @@ $("#dialog_close").click(function(){
 	$.post("./?_a=edit",{
 		table_name:$("#dialog_table_name").val(),
 		table_column:$("#dialog_table_column").val(),
-		doc:$("#dialog_content").val(),
-		help:$("#dialog_remark").val(),
+		doc:$("#dialog_doc").val(),
+		help:$("#dialog_help").val(),
 		all:$("#dialog_all").prop("checked")?1:0
 	},function(re){
 		if(re.success){
-			$(obj).html($("#dialog_content").val());
-			$(obj).parent('.table_data').find(".table_remark").html($("#dialog_help").val());
+			$(obj).html($("#dialog_doc").val());
+			$(obj).parent('.table_data').find(".table_help").html($("#dialog_help").val());
 		}else{
 			alert(re.msg);
 		}
