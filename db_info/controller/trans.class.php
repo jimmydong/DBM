@@ -144,15 +144,16 @@ class Trans extends Base {
 			}else{
 				//自动转义定义
 				$trans = '';
-				if(preg_match('/\'referer\'=>/', $v['remark'])){
+				$remark = stripslashes(trim($v['remark']));
+				if(preg_match('/\'referer\'=>/', $remark)){
 					//自动引用（格式：'referer'=>["\\YsConfig","platform_des"]）
-					$trans = ', ' . $v['remark'];			
-				}elseif(preg_match('/\'func\'=>/', $v['remark'])){
+					$trans = ', ' . $remark;			
+				}elseif(preg_match('/\'func\'=>/', $remark)){
 					//自动计算（格式：'func'=>["\\model\\User","getNameById"]）
-					$trans = ',' . $v['remark'];
-				}elseif(preg_match('/(0|1)[ ]?(:|：)/', $v['remark']) || preg_match('/(0|1)[ ]?=>/', $v['remark'])){
+					$trans = ',' . $remark;
+				}elseif(preg_match('/(0|1)[ ]?(:|：)/', $remark) || preg_match('/(0|1)[ ]?=>/', $remark)){
 					//数值映射（格式：0:正常,1:锁定  或 0=>'正常',1=>'锁定' 或 [0=>'正常',1=>'锁定']）
-					$tmp = $this->_trans($v['remark']);
+					$tmp = $this->_trans($remark);
 					if($tmp){
 						$trans = ", 'map'=>" . $tmp;
 					}
