@@ -147,7 +147,7 @@ class Trans extends Base {
 				$trans = '';
 				$remark = stripslashes(trim($v['remark']));
 				if(preg_match('/\'referer\'=>/', $remark)){
-					//自动引用（格式：'referer'=>["\\YsConfig","platform_des"]）
+					//自动引用（格式：'referer'=>["\\YsConfig","sex_des"]）
 					$trans = ', ' . $remark;			
 				}elseif(preg_match('/\'func\'=>/', $remark)){
 					//自动计算（格式：'func'=>["\\model\\User","getNameById"]）

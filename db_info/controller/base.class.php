@@ -124,13 +124,14 @@ class Base extends \lib\Controller {
 		if($serverid && $database && self::$cfg['Servers'][$serverid]){
 			$serverinfo=self::$cfg['Servers'][$serverid];
 			$tmp_str = "
-			class DB_glb extends \lib\DB_Mysql {
-			var \$Host     = '{$serverinfo['host']}:{$serverinfo['port']}';
-			var \$Database = '{$database}';
-			var \$User     = '{$serverinfo['user']}';
-			var \$Password = '{$serverinfo['password']}';
-		}
-		";
+				class DB_glb extends \lib\DB_Mysql {
+				var \$Host     = '{$serverinfo['host']}:{$serverinfo['port']}';
+				var \$Database = '{$database}';
+				var \$User     = '{$serverinfo['user']}';
+				var \$Password = '{$serverinfo['password']}';
+			}
+			";
+			\yoka\Debug::log('db', $tmp_str);
 			eval($tmp_str);
 			return $serverinfo;
 		}else{
