@@ -111,7 +111,7 @@ class Index extends Base {
 		$content = addslashes(utf82gbk($request->doc?:$request->content));
 		$remark = addslashes(utf82gbk($request->help?:$request->remark));
 		if($request->all==1)$table="_all";
-		$sql = "REPLACE _system__doc SET `table`='$table', `field`='$field', `content`='$content', `remark`='$remark'";
+		$sql = "REPLACE INTO _system__doc SET `table`='$table', `field`='$field', `content`='$content', `remark`='$remark'";
 		if ($q->query($sql))
 		{
 			return $this->json_ok('ok');
