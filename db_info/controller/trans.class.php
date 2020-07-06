@@ -97,7 +97,8 @@ class Trans extends Base {
 				$type = ", 'type'=>" . self::TYPE_JSON;
 			}else{
 				//按mysql定义
-				switch($ftype[$k]){
+				$t = preg_match('/(.*)\(.*\)/', $ftype[$k], $reg);
+				switch($t[1]){
 					case 'datetime':
 						$type = ", 'type'=>" . self::TYPE_DATETIME;
 						break;
