@@ -100,13 +100,13 @@ class Trans extends Base {
 				preg_match('/(.*)\(.*\)/', $ftype[$k], $reg);
 				switch($reg[1]){
 					case 'datetime':
-						$type = ", 'type'=>" . self::TYPE_DATETIME;
+						$type = "'type'=>" . self::TYPE_DATETIME;
 						break;
 					case 'date':
-						$type = ", 'type'=>" . self::TYPE_DATE;
+						$type = "'type'=>" . self::TYPE_DATE;
 						break;
 					case 'timestamp':
-						$type = ", 'type'=>" . self::TYPE_TIMESTAMP;
+						$type = "'type'=>" . self::TYPE_TIMESTAMP;
 						break;
 					case 'year':
 					case 'time':
@@ -115,12 +115,12 @@ class Trans extends Base {
 					case 'mediumint':
 					case 'int':
 					case 'bigint':
-						$type = ", 'type'=>" . self::TYPE_INT;
+						$type = "'type'=>" . self::TYPE_INT;
 						break;
 					case 'float':
 					case 'double':
 					case 'decimal':
-						$type = ", 'type'=>" . self::TYPE_FLOAT;
+						$type = "'type'=>" . self::TYPE_FLOAT;
 						break;
 					case 'char':
 					case 'varchar':
@@ -131,35 +131,35 @@ class Trans extends Base {
 					case 'mediumblob':
 					case 'longblob':
 					case 'longtext':
-						$type = ", 'type'=>" . self::TYPE_STRING;
+						$type = "'type'=>" . self::TYPE_STRING;
 						break;
 					default:
-						$type = ", 'type'=>" . self::TYPE_NONE;
+						$type = "'type'=>" . self::TYPE_NONE;
 						break;
 				}
 			}
 				
 			if(! $v){
 				//未作定义
-				$out[] = "'{$k}' => ['filter'=>0, title'=>'{$k}', {$type}],";
+				$out[] = "\t'{$k}' \t\t=> ['filter'=>0, \t'title'=>'{$k}', \t{$type}],";
 			}else{
 				//自动转义定义
 				$trans = '';
 				$remark = stripslashes(trim($v['remark']));
 				if(preg_match('/\'referer\'=>/', $remark)){
 					//自动引用（格式：'referer'=>["\\YsConfig","sex_des"]）
-					$trans = ', ' . $remark;			
+					$trans = ', \t' . $remark;			
 				}elseif(preg_match('/\'func\'=>/', $remark)){
 					//自动计算（格式：'func'=>["\\model\\User","getNameById"]）
-					$trans = ',' . $remark;
+					$trans = ', \t' . $remark;
 				}elseif(preg_match('/(0|1)[ ]?(:|：)/', $remark) || preg_match('/(0|1)[ ]?=>/', $remark)){
 					//数值映射（格式：0:正常,1:锁定  或 0=>'正常',1=>'锁定' 或 [0=>'正常',1=>'锁定']）
 					$tmp = $this->_trans($remark);
 					if($tmp){
-						$trans = ", 'map'=>" . $tmp;
+						$trans = ", \t'map'=>" . $tmp;
 					}
 				}
-				$out[] = "'{$k}' => ['filter'=>0, 'title'=>'{$v['content']}'{$type}{$trans}],";
+				$out[] = "\t'{$k}' \t\t=> ['filter'=>0, \t'title'=>'{$v['content']}', \t{$type} {$trans}],";
 			}
 		}
 		$response->out = "public static \$define_slim = [\n	" . implode("\n	", $out) . "\n];";
