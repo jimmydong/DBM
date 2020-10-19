@@ -163,7 +163,7 @@ class Trans extends Base {
 			}
 		}
 		$response->out = "public static \$define_slim = [\n	" . implode("\n	", $out) . "\n];";
-		
+
 		if($request->ajax){
 			echo "<pre>" . $response->out . "</pre>";
 		}else{
